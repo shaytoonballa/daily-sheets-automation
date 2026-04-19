@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Darius Daily">
+<meta name="theme-color" content="#1a1a1a">
+<title>Darius's Daily Activity Sheet</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:#f5f0e8;color:#1a1a1a;padding:1.5rem;line-height:1.6;-webkit-font-smoothing:antialiased}
+
+/* SCREEN CONTROLS */
+.screen-controls{max-width:900px;margin:0 auto 1rem;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.btn{background:#1a1a1a;color:#fff;border:none;padding:9px 16px;font-family:'Inter',sans-serif;font-size:12.5px;font-weight:500;border-radius:6px;cursor:pointer;letter-spacing:.03em}
+.btn-outline{background:transparent;color:#1a1a1a;border:1.5px solid #1a1a1a}
+.btn-gold{background:#c9973a;color:#1a1a1a}
+.btn:hover{opacity:.85}
+.status-chip{margin-left:auto;font-size:11px;padding:4px 10px;border-radius:12px;background:#fff;border:1px solid #ddd;color:#666}
+.status-chip.ok{background:#eef8f2;border-color:#bcd9c5;color:#1a7a4a}
+.status-chip.err{background:#fef4ed;border-color:#f0997b;color:#993c1d}
+
+/* MODAL */
+.modal-bg{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.55);display:flex;align-items:center;justify-content:center;z-index:100;padding:1rem}
+.modal-bg.hidden{display:none}
+.modal{background:#fff;border-radius:10px;padding:28px 30px;max-width:500px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,0.35)}
+.modal h2{font-family:'Playfair Display',serif;font-size:22px;margin-bottom:8px}
+.modal p{font-size:13px;color:#555;margin-bottom:14px;line-height:1.55}
+.modal input{width:100%;padding:10px 12px;border:1.5px solid #ddd;border-radius:6px;font-family:monospace;font-size:12px;margin-bottom:12px}
+.modal input:focus{outline:none;border-color:#c9973a}
+.modal-btns{display:flex;gap:10px;justify-content:flex-end}
+.modal-help{font-size:11px;color:#888;margin-top:10px;padding:10px 12px;background:#faf8f2;border-radius:6px;border-left:3px solid #c9973a;line-height:1.5}
+.modal-help a{color:#1a5bbf}
+
+.page{max-width:900px;margin:0 auto;background:#fff;border:1px solid #ddd;box-shadow:0 2px 12px rgba(0,0,0,.08);border-radius:10px;overflow:hidden}
+
+@media print{
+  body{background:#fff;padding:0}
+  .screen-controls,.modal-bg,.reset-corner,.install-prompt{display:none!important}
+  .page{box-shadow:none;border:none;max-width:100%;border-radius:0}
+  @page{margin:.55in .55in;size:letter}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .page-break{page-break-before:always}
+}
+
+.sheet{padding:26px 30px 22px}
+
+/* HEADER */
+.hdr{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:2px solid #1a1a1a;padding-bottom:10px;margin-bottom:14px;flex-wrap:wrap;gap:10px}
+.hdr-left h1{font-family:'Playfair Display',serif;font-size:24px;font-weight:700;letter-spacing:.01em;line-height:1}
+.hdr-left .name-tag{display:inline-block;font-size:10px;color:#c9973a;font-weight:600;text-transform:uppercase;letter-spacing:.16em;margin-top:4px}
+.hdr-left p{font-size:10px;color:#666;margin-top:3px;text-transform:uppercase;letter-spacing:.12em}
+.hdr-right{display:flex;gap:20px;align-items:flex-end}
+.hdr-stats{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.hdr-stat{background:#f0ebe1;padding:4px 10px;border-radius:6px;text-align:center;min-width:58px}
+.hdr-stat-val{font-size:14px;font-weight:600;color:#1a1a1a;line-height:1}
+.hdr-stat-lbl{font-size:8px;color:#666;text-transform:uppercase;letter-spacing:.08em;margin-top:2px}
+.hdr-field{display:flex;flex-direction:column;align-items:flex-end;gap:3px}
+.hdr-field label{font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:#888}
+.hdr-date{font-size:11px;font-weight:600;letter-spacing:.04em;min-width:130px;text-align:right}
+
+/* SECTION TITLES */
+.sec-title{font-family:'Playfair Display',serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:#1a1a1a;background:#f0ebe1;padding:4px 10px;margin-bottom:8px;border-left:3px solid #c9973a;display:flex;align-items:center;gap:8px}
+.sec-title .sec-meta{margin-left:auto;font-weight:400;color:#888;font-size:9px;letter-spacing:.04em;text-transform:none}
+
+/* MORNING ROUTINE */
+.routine-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:6px;margin-bottom:12px}
+.ritem{display:flex;align-items:center;gap:7px;font-size:11.5px;padding:3px 5px;border-radius:4px;cursor:pointer;user-select:none;transition:background 0.1s}
+.ritem:hover{background:#f9f7f2}
+.ritem .cb{width:13px;height:13px;border:1.5px solid #555;border-radius:3px;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all 0.15s}
+.ritem.done .cb{background:#c9973a;border-color:#c9973a}
+.ritem.done .cb::after{content:"✓";color:#1a1a1a;font-size:9px;font-weight:900}
+.ritem.done span{color:#888;text-decoration:line-through}
+
+/* BRAIN FUEL / SUPPLEMENTS */
+.supp-callout{background:linear-gradient(to right,#eef8f2,#f5fbf7);border:1px solid #bcd9c5;border-radius:6px;padding:10px 13px;margin-bottom:12px}
+.supp-header{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.supp-icon{font-size:18px}
+.supp-label{font-size:8.5px;font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:#1a7a4a}
+.supp-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:8px;margin-top:4px}
+.supp-item{background:#fff;border:1px solid #c9e3d1;border-radius:5px;padding:8px 10px;cursor:pointer;user-select:none;transition:all 0.1s}
+.supp-item:hover{border-color:#5dcaa5}
+.supp-item.done{background:#eef8f2;border-color:#5dcaa5}
+.supp-name{font-size:10.5px;font-weight:600;color:#1a1a1a;margin-bottom:1px;display:flex;align-items:center;gap:5px}
+.supp-cb{width:12px;height:12px;border:1.5px solid #555;border-radius:2px;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.15s}
+.supp-item.done .supp-cb{background:#1a7a4a;border-color:#1a7a4a}
+.supp-item.done .supp-cb::after{content:"✓";color:#fff;font-size:9px;font-weight:900}
+.supp-dose{font-size:9px;color:#1a7a4a;font-weight:600;margin-bottom:3px}
+.supp-how{font-size:8.5px;color:#555;line-height:1.4}
+.supp-note{font-size:8.5px;color:#555;margin-top:6px;padding:6px 10px;background:#fff;border-radius:4px;border:1px solid #c9e3d1;line-height:1.5}
+.supp-note strong{color:#1a7a4a}
+
+/* ACTIVITIES */
+.act-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:8px;margin-bottom:10px}
+.act-card{border:1px solid #e0d8cc;border-radius:6px;padding:10px 12px;background:#fff;cursor:pointer;user-select:none;transition:all 0.1s}
+.act-card:hover{border-color:#c9973a}
+.act-card.done{background:#fffcf5;border-color:#c9973a}
+.act-header{display:flex;align-items:center;gap:7px;margin-bottom:4px}
+.act-cb{width:14px;height:14px;border:1.5px solid #555;border-radius:3px;flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;transition:all 0.15s}
+.act-card.done .act-cb{background:#c9973a;border-color:#c9973a}
+.act-card.done .act-cb::after{content:"✓";color:#1a1a1a;font-size:10px;font-weight:900}
+.act-name{font-size:12.5px;font-weight:600;flex:1}
+.time-badge{background:#f0ebe1;color:#8b6914;font-size:9px;font-weight:600;padding:2px 7px;border-radius:10px;letter-spacing:.04em}
+.act-daily-content{background:#faf8f2;border-radius:4px;padding:6px 8px;font-size:10px;color:#333;line-height:1.5;margin-top:6px;min-height:30px;font-style:italic;border-left:2px solid #c9973a}
+.act-daily-content.loading{color:#aaa}
+
+/* BOOK TRACKER */
+.book-card{grid-column:1/-1;background:linear-gradient(135deg,#fafaf7 0%,#fffaed 100%);border:1px solid #e0cf9a;border-radius:6px;padding:12px 16px}
+.book-header{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.book-prompt{background:#fff;border:1px solid #e0cf9a;border-radius:4px;padding:8px 12px;margin-bottom:10px;font-size:10.5px;font-style:italic;color:#5b4a1a;line-height:1.55;min-height:38px;border-left:3px solid #c9973a}
+.book-prompt.loading{color:#aaa}
+.book-controls{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.book-field{background:#fff;border:1px solid #e0d8cc;border-radius:5px;padding:7px 10px;text-align:center}
+.book-field-label{font-size:9px;text-transform:uppercase;letter-spacing:.08em;color:#666;margin-bottom:4px}
+.book-field-val{font-size:20px;font-weight:600;color:#1a1a1a;line-height:1}
+.book-field-input{width:100%;border:none;text-align:center;font-size:20px;font-weight:600;font-family:'Inter',sans-serif;color:#1a1a1a;padding:0}
+.book-field-input:focus{outline:none}
+.book-field-sub{font-size:9px;color:#999;margin-top:2px}
+.book-field-btns{display:flex;gap:4px;justify-content:center;margin-top:4px}
+.book-field-btn{padding:3px 10px;border:1px solid #ddd;border-radius:4px;background:#fff;cursor:pointer;font-size:12px;color:#666}
+.book-field-btn:hover{background:#c9973a;color:#1a1a1a;border-color:#c9973a}
+
+/* 4 LANGUAGES */
+.langs-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:8px;margin-bottom:12px}
+.lang-card{border:1px solid #e0d8cc;border-radius:6px;padding:9px 11px;background:#fff}
+.lang-header{display:flex;align-items:center;gap:6px;margin-bottom:4px}
+.lang-flag{font-size:16px}
+.lang-title{font-size:11.5px;font-weight:600}
+.lang-theme{font-size:8.5px;color:#888;margin-bottom:6px;padding-bottom:5px;border-bottom:1px dotted #ece5d8}
+.phrase{padding:4px 0;border-bottom:1px dashed #ece5d8;cursor:pointer;display:flex;gap:6px;align-items:flex-start}
+.phrase:last-child{border-bottom:none}
+.phrase-cb{width:11px;height:11px;border:1.5px solid #bbb;border-radius:2px;flex-shrink:0;margin-top:3px;transition:all 0.15s}
+.phrase.done .phrase-cb{background:#c9973a;border-color:#c9973a}
+.phrase-content{flex:1;font-size:9.5px;line-height:1.4}
+.phrase-en{color:#1a1a1a;font-weight:500;font-size:10px}
+.phrase-tl{display:block;color:#1a5bbf;font-weight:600;font-size:10px;margin-top:1px}
+.lang-card[data-code="it"] .phrase-tl{color:#1a7a4a}
+.lang-card[data-code="ko"] .phrase-tl{color:#6b4f9e}
+.lang-card[data-code="zh"] .phrase-tl{color:#b5451a}
+.phrase-pron{display:block;color:#888;font-size:8px;font-style:italic;margin-top:1px}
+
+/* 7 PRINCIPLES */
+.principles{background:linear-gradient(135deg,#1a1a1a 0%,#2d2416 100%);color:#f5f0e8;border-radius:8px;padding:16px 20px;margin-bottom:14px;position:relative;overflow:hidden}
+.principles::before{content:"";position:absolute;top:-20px;right:-20px;width:120px;height:120px;background:radial-gradient(circle,rgba(201,151,58,0.15) 0%,transparent 70%);pointer-events:none}
+.principles-hdr{display:flex;align-items:center;gap:10px;margin-bottom:6px;position:relative}
+.principles-icon{font-size:22px}
+.principles-label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.16em;color:#c9973a}
+.principles-title{font-family:'Playfair Display',serif;font-size:17px;font-weight:600;color:#f5f0e8;margin-top:1px}
+.principles-intro{font-size:9.5px;color:#bdb09a;font-style:italic;margin-bottom:12px;line-height:1.5;padding-bottom:8px;border-bottom:1px solid rgba(201,151,58,0.25)}
+.principles-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:8px 18px}
+.principle-item{display:flex;gap:9px;align-items:flex-start;font-size:10px;line-height:1.5;color:#ece4d1;cursor:pointer;padding:3px 4px;border-radius:4px;transition:background 0.1s}
+.principle-item:hover{background:rgba(201,151,58,0.08)}
+.principle-item.done .principle-num{background:#1a7a4a;color:#fff}
+.principle-item.done .principle-text strong::after{content:" ✓";color:#5dcaa5}
+.principle-num{flex-shrink:0;width:22px;height:22px;background:#c9973a;color:#1a1a1a;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;margin-top:1px;transition:all 0.15s}
+.principle-text strong{color:#f5f0e8;font-weight:600;display:block;margin-bottom:2px;font-size:11px}
+.principles-closer{margin-top:11px;padding-top:10px;border-top:1px solid rgba(201,151,58,0.25);font-family:'Playfair Display',serif;font-size:11px;font-style:italic;color:#c9973a;text-align:center;line-height:1.5}
+
+/* FACTOID / QUOTE */
+.fq-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:10px;margin-bottom:12px}
+.fq-box{border:1px solid #e0d8cc;border-radius:6px;padding:10px 13px;background:#fff;min-height:80px}
+.fq-label{font-size:8.5px;font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:#c9973a;margin-bottom:4px}
+.fq-content{font-size:11px;line-height:1.55;color:#222;min-height:30px}
+.fq-content.loading{color:#aaa;font-style:italic}
+.fq-content.serif{font-family:'Playfair Display',serif;font-style:italic;font-size:12px}
+.fq-attr{font-size:9.5px;color:#888;margin-top:4px}
+
+/* NOTES */
+.notes-area{width:100%;min-height:80px;padding:8px 10px;border:1px solid #e0d8cc;border-radius:6px;font-family:'Inter',sans-serif;font-size:11.5px;line-height:1.6;resize:vertical}
+.notes-area:focus{outline:none;border-color:#c9973a}
+
+/* RESET & TOAST */
+.reset-corner{position:fixed;bottom:14px;right:14px;font-size:10px;color:#aaa;cursor:pointer;padding:4px 8px;background:rgba(255,255,255,0.9);border-radius:4px;z-index:50}
+.reset-corner:hover{color:#993c1d}
+.toast{position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#1a1a1a;color:#f5f0e8;padding:10px 18px;border-radius:6px;font-size:12.5px;z-index:200;opacity:0;transition:opacity 0.3s;pointer-events:none;box-shadow:0 4px 14px rgba(0,0,0,0.25)}
+.toast.show{opacity:1}
+
+.divider{border:none;border-top:1px solid #e0d8cc;margin:10px 0}
+</style>
+</head>
+<body>
+
+<!-- API KEY MODAL -->
+<div class="modal-bg" id="apiKeyModal">
+  <div class="modal">
+    <h2>Welcome, Darius.</h2>
+    <p>Your personal daily sheet uses the Anthropic API for fresh daily content — language lessons, writing prompts, factoids, quotes. Paste your API key below. It stays on your device only.</p>
+    <input type="password" id="apiKeyInput" placeholder="sk-ant-api03-..." autocomplete="off"/>
+    <div class="modal-btns">
+      <button class="btn btn-outline" onclick="skipApiKey()">Skip (fallback library)</button>
+      <button class="btn btn-gold" onclick="saveApiKey()">Save &amp; Start</button>
+    </div>
+    <div class="modal-help">
+      Get your key at <a href="https://console.anthropic.com/settings/keys" target="_blank">console.anthropic.com/settings/keys</a>. Your key never leaves this browser.
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<div class="screen-controls">
+  <button class="btn" onclick="window.print()">🖨 Print</button>
+  <button class="btn btn-outline" onclick="refreshContent()">↻ New Content</button>
+  <button class="btn btn-outline" onclick="openSettings()">⚙ Settings</button>
+  <span class="status-chip" id="apiStatus">No API Key</span>
+</div>
+
+<div class="page">
+
+<!-- PAGE 1 -->
+<div class="sheet">
+
+  <div class="hdr">
+    <div class="hdr-left">
+      <h1>Daily Activity Sheet</h1>
+      <div class="name-tag">Darius · Personal Edition</div>
+      <p>Discipline · Depth · Direction</p>
+    </div>
+    <div class="hdr-right">
+      <div class="hdr-stats">
+        <div class="hdr-stat"><div class="hdr-stat-val" id="streakVal">0</div><div class="hdr-stat-lbl">🔥 Streak</div></div>
+        <div class="hdr-stat"><div class="hdr-stat-val" id="bookStreakVal">0</div><div class="hdr-stat-lbl">✍️ Book</div></div>
+        <div class="hdr-stat"><div class="hdr-stat-val" id="totalWordsVal">0</div><div class="hdr-stat-lbl">Words</div></div>
+      </div>
+      <div class="hdr-field"><label>Date</label><div id="dateDisplay" class="hdr-date"></div></div>
+    </div>
+  </div>
+
+  <!-- 7 PRINCIPLES (moved from son's sheet) -->
+  <div class="principles">
+    <div class="principles-hdr">
+      <span class="principles-icon">⚡</span>
+      <div>
+        <div class="principles-label">7 Principles — 7 Days to Change</div>
+        <div class="principles-title">Disciplined Habits That Transform You</div>
+      </div>
+    </div>
+    <div class="principles-intro">
+      Real change doesn't always require years. Sometimes, it requires only one week of consistent discipline. Click each principle as you honor it today.
+    </div>
+    <div class="principles-grid" id="principlesGrid"></div>
+    <div class="principles-closer">"Start today. Commit to the process. Watch your life shift."</div>
+  </div>
+
+  <!-- MORNING ROUTINE -->
+  <div class="sec-title">☀️ Morning Routine<span class="sec-meta" id="morningProgress">0/6</span></div>
+  <div class="routine-grid" id="morningGrid"></div>
+
+  <!-- BRAIN FUEL / SUPPLEMENTS -->
+  <div class="supp-callout">
+    <div class="supp-header">
+      <span class="supp-icon">🧠💊</span>
+      <span class="supp-label">Brain Fuel — Daily Supplements</span>
+    </div>
+    <div class="supp-grid" id="suppGrid"></div>
+    <div class="supp-note">
+      <strong>Physician's notes:</strong>
+      <br>• <strong>Timing:</strong> Omega-3 &amp; D3 with a fat-containing meal (↑ absorption up to 50%). Creatine &amp; Mg any time, consistently.
+      <br>• <strong>🧊 Omega-3:</strong> PUFAs oxidize rapidly. <strong>Refrigerate always.</strong> IFOS 5-star certified. Smell before taking — discard if fishy.
+      <br>• <strong>Vitamin D3:</strong> Lichen-sourced (vegetarian) · Liposomal for 5× bioavailability.
+      <br>• <strong>Creatine:</strong> NSF Certified + Creapure® (AlzChem Germany). Stress/poor-sleep protocol: 20–25 g × 5–7 days.
+      <br>• <strong>Magnesium:</strong> L-Threonate (Magtein®) AM for brain; Glycinate PM for sleep.
+      <br>• <strong>Labs:</strong> 25(OH)D q6mo · Omega-3 Index q4-6mo · RBC Mg annually.
+    </div>
+  </div>
+
+</div>
+
+<!-- PAGE 2 -->
+<div class="sheet page-break">
+
+  <!-- ACTIVITIES -->
+  <div class="sec-title">🎯 Today's Focus</div>
+  <div class="act-grid">
+
+    <!-- WORK ON BOOK (full accountability) -->
+    <div class="book-card">
+      <div class="book-header">
+        <span style="font-size:16px">✍️</span>
+        <span style="font-size:13px;font-weight:600;flex:1">Work on Book</span>
+        <span class="time-badge" id="bookTimeBadge">⏱ 0 min</span>
+        <span style="font-size:10px;color:#888">Streak: <strong id="bookStreakInline">0</strong> days</span>
+      </div>
+      <div class="book-prompt loading" id="bookPrompt">Generating today's writing prompt...</div>
+      <div class="book-controls">
+        <div class="book-field">
+          <div class="book-field-label">Words Written</div>
+          <input type="number" class="book-field-input" id="wordsInput" min="0" placeholder="0" oninput="updateWords()"/>
+          <div class="book-field-sub">Today</div>
+        </div>
+        <div class="book-field">
+          <div class="book-field-label">Minutes Spent</div>
+          <div class="book-field-val" id="minutesVal">0</div>
+          <div class="book-field-btns">
+            <button class="book-field-btn" onclick="adjustMinutes(-15)">−15</button>
+            <button class="book-field-btn" onclick="adjustMinutes(-5)">−5</button>
+            <button class="book-field-btn" onclick="adjustMinutes(5)">+5</button>
+            <button class="book-field-btn" onclick="adjustMinutes(15)">+15</button>
+          </div>
+        </div>
+        <div class="book-field">
+          <div class="book-field-label">Lifetime</div>
+          <div class="book-field-val" id="lifetimeWords">0</div>
+          <div class="book-field-sub">total words</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Other activities -->
+    <div class="act-card" onclick="toggleActivity('exercise')" id="act-exercise">
+      <div class="act-header">
+        <div class="act-cb"></div>
+        <span class="act-name">🏃 Exercise</span>
+        <span class="time-badge">30–45 min</span>
+      </div>
+      <div style="font-size:10px;color:#666;margin-top:4px">Resistance training or cardio · Grows brain cells (BDNF) · Protects memory for life</div>
+    </div>
+
+    <div class="act-card" onclick="toggleActivity('meditate')" id="act-meditate">
+      <div class="act-header">
+        <div class="act-cb"></div>
+        <span class="act-name">🧘 Meditate</span>
+        <span class="time-badge">15 min</span>
+      </div>
+      <div class="act-daily-content loading" id="meditFocus">Generating today's focus...</div>
+    </div>
+
+    <div class="act-card" onclick="toggleActivity('reading')" id="act-reading">
+      <div class="act-header">
+        <div class="act-cb"></div>
+        <span class="act-name">📚 Reading</span>
+        <span class="time-badge">30 min</span>
+      </div>
+      <div style="font-size:10px;color:#666;margin-top:4px">10+ pages of meaningful knowledge · Feed your mind wisdom, not distractions</div>
+    </div>
+
+    <div class="act-card" onclick="toggleActivity('financereview')" id="act-financereview">
+      <div class="act-header">
+        <div class="act-cb"></div>
+        <span class="act-name">💰 Finance Review</span>
+        <span class="time-badge">10 min</span>
+      </div>
+      <div style="font-size:10px;color:#666;margin-top:4px">Portfolio · Spending · Caspian's Roth IRA log · One money decision</div>
+    </div>
+
+    <div class="act-card" onclick="toggleActivity('cook')" id="act-cook">
+      <div class="act-header">
+        <div class="act-cb"></div>
+        <span class="act-name">🍳 Cook Today's Recipe</span>
+        <span class="time-badge">45 min</span>
+      </div>
+      <div style="font-size:10px;color:#666;margin-top:4px">Fuel over flavor · Real food from the earth · Prep for tomorrow</div>
+    </div>
+
+  </div>
+
+  <!-- 4 LANGUAGES (Spanish, Italian, Korean, Chinese — 2 phrases each) -->
+  <div class="sec-title">🌍 Language Practice — 2 phrases per language<span class="sec-meta">⏱ 10 min total</span></div>
+  <div class="langs-grid" id="langsGrid"></div>
+
+  <hr class="divider">
+
+  <!-- FACTOID + QUOTE -->
+  <div class="fq-grid">
+    <div class="fq-box">
+      <div class="fq-label">🔬 Today's Factoid</div>
+      <div class="fq-content loading" id="factoidText">Generating...</div>
+      <div class="fq-attr" id="factoidCat"></div>
+    </div>
+    <div class="fq-box" style="border-color:#c9973a;background:#fffcf5">
+      <div class="fq-label">✦ Today's Reflection</div>
+      <div class="fq-content serif loading" id="quoteText">Generating...</div>
+      <div class="fq-attr" id="quoteAttr"></div>
+    </div>
+  </div>
+
+  <!-- NOTES -->
+  <div class="sec-title">📝 Evening Reflection</div>
+  <div style="font-size:9.5px;color:#888;font-style:italic;margin-bottom:4px">What moved forward today? What was the single most important thing? What am I resolving to do tomorrow?</div>
+  <textarea class="notes-area" id="notesArea" placeholder="Tonight's reflection..." oninput="saveNotes()"></textarea>
+
+  <div style="margin-top:14px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid #e0d8cc;padding-top:8px;flex-wrap:wrap;gap:6px">
+    <span style="font-family:'Playfair Display',serif;font-size:10px;font-style:italic;color:#aaa">"Consistent effort compounds into character, and character into a life worth living."</span>
+    <span style="font-size:9px;color:#ccc" id="footerMeta"></span>
+  </div>
+</div>
+</div>
+
+<div class="reset-corner" onclick="confirmReset()">reset all data</div>
+
+<script>
+/* ═══════════ STATE ═══════════ */
+const LS_KEY = 'darius_personal_sheet_v1';
+const API_KEY_LS = 'darius_personal_anthropic_key';
+const TODAY = new Date().toISOString().split('T')[0];
+
+const defaultState = {
+  habits: {},        // { "2026-04-18": { makebed: true, ... } }
+  supplements: {},   // { "2026-04-18": { omega3: true, ... } }
+  activities: {},    // { "2026-04-18": { exercise: true, ... } }
+  principles: {},    // { "2026-04-18": { p1: true, ... } }
+  langPhrases: {},   // { "2026-04-18": { "es_0": true } }
+  dailyContent: {},  // { "2026-04-18": { ... } }
+  bookLog: {},       // { "2026-04-18": { words: 500, minutes: 30 } }
+  notes: {},
+  streak: 0,
+  bookStreak: 0,
+  stats: { totalWords: 0 }
+};
+let state = loadState();
+let apiKey = localStorage.getItem(API_KEY_LS) || '';
+
+function loadState(){
+  try{
+    const raw = localStorage.getItem(LS_KEY);
+    if(!raw) return structuredClone(defaultState);
+    return { ...structuredClone(defaultState), ...JSON.parse(raw) };
+  }catch(e){ return structuredClone(defaultState); }
+}
+function saveState(){
+  try{ localStorage.setItem(LS_KEY, JSON.stringify(state)); }
+  catch(e){ showToast('⚠️ Error saving'); }
+}
+
+/* ═══════════ MORNING ROUTINE ═══════════ */
+const MORNING = [
+  {id:'makebed',t:'Make bed'},
+  {id:'hydrate',t:'💧 Hydrate first'},
+  {id:'supplements',t:'🧠 Take supplements'},
+  {id:'nophone',t:'📵 No phone 1st hour'},
+  {id:'breakfast',t:'Eat breakfast'},
+  {id:'planday',t:'Plan the day'}
+];
+function renderMorning(){
+  const done = state.habits[TODAY] || {};
+  document.getElementById('morningGrid').innerHTML = MORNING.map(i=>`
+    <div class="ritem ${done[i.id]?'done':''}" onclick="toggleHabit('${i.id}')">
+      <div class="cb"></div><span>${i.t}</span>
+    </div>`).join('');
+  const n = MORNING.filter(i=>done[i.id]).length;
+  document.getElementById('morningProgress').textContent = `${n}/${MORNING.length}`;
+}
+function toggleHabit(id){
+  const t = state.habits[TODAY] || {};
+  t[id] = !t[id];
+  state.habits[TODAY] = t;
+  saveState(); renderMorning(); updateStreak();
+}
+
+/* ═══════════ SUPPLEMENTS ═══════════ */
+const SUPPLEMENTS = [
+  {id:'omega3', emoji:'🐟', name:'Omega-3 (EPA + DHA)', dose:'≥ 1000 mg/day · NSF · REFRIGERATE',
+   how:'30% of brain lipid structure. Neuron membranes, cerebral blood flow, anti-inflammatory.'},
+  {id:'d3', emoji:'☀️', name:'Vitamin D3', dose:'2,000 IU/day · Lichen · Liposomal',
+   how:'Hippocampal VDR · ↑ BDNF · Supports dopamine/serotonin · Executive function.'},
+  {id:'creatine', emoji:'💪', name:'Creatine Monohydrate', dose:'5 g/day · NSF + Creapure®',
+   how:'Brain ATP buffer · Memory & processing speed · Stress resilience · Neuroprotective.'},
+  {id:'mg_threo', emoji:'⚡', name:'Mg L-Threonate (AM)', dose:'2 g compound = 144 mg Mg',
+   how:'Only form that crosses the BBB · Memory, focus, synaptic density · MIT research.'},
+  {id:'mg_gly', emoji:'🌙', name:'Mg Glycinate (PM)', dose:'200-300 mg elemental',
+   how:'Calms nervous system · Sleep quality · Reduces cortisol · GABA support.'}
+];
+function renderSupplements(){
+  const done = state.supplements[TODAY] || {};
+  document.getElementById('suppGrid').innerHTML = SUPPLEMENTS.map(s=>`
+    <div class="supp-item ${done[s.id]?'done':''}" onclick="toggleSupp('${s.id}')">
+      <div class="supp-name"><div class="supp-cb"></div>${s.emoji} ${s.name}</div>
+      <div class="supp-dose">${s.dose}</div>
+      <div class="supp-how">${s.how}</div>
+    </div>`).join('');
+}
+function toggleSupp(id){
+  const t = state.supplements[TODAY] || {};
+  t[id] = !t[id];
+  state.supplements[TODAY] = t;
+  saveState(); renderSupplements(); updateStreak();
+}
+
+/* ═══════════ 7 PRINCIPLES ═══════════ */
+const PRINCIPLES = [
+  {id:'p1', t:'The Night Strategy', body:'Plan tomorrow before sleep. Clarity at night creates focus in the morning.'},
+  {id:'p2', t:'The Digital Fast', body:'First hour post-waking: no phone. Start with intention, not notification.'},
+  {id:'p3', t:'The Physical Tax', body:'Move your body every day. A strong mind grows in a strong body.'},
+  {id:'p4', t:'Fuel Over Flavor', body:'Eat what strengthens. Earth nourishes; factory drains.'},
+  {id:'p5', t:'Feed Your Mind', body:'10+ pages of meaningful reading daily. Thoughts = what you consume.'},
+  {id:'p6', t:'Radical Silence', body:'15 min alone — no phone, no music. Clarity begins in stillness.'},
+  {id:'p7', t:'Protect Your Sleep', body:'Recovery is as important as effort. Guard sleep carefully.'}
+];
+function renderPrinciples(){
+  const done = state.principles[TODAY] || {};
+  document.getElementById('principlesGrid').innerHTML = PRINCIPLES.map((p,i)=>`
+    <div class="principle-item ${done[p.id]?'done':''}" onclick="togglePrinciple('${p.id}')">
+      <div class="principle-num">${i+1}</div>
+      <div class="principle-text"><strong>${p.t}</strong>${p.body}</div>
+    </div>`).join('');
+}
+function togglePrinciple(id){
+  const t = state.principles[TODAY] || {};
+  t[id] = !t[id];
+  state.principles[TODAY] = t;
+  saveState(); renderPrinciples(); updateStreak();
+}
+
+/* ═══════════ ACTIVITIES ═══════════ */
+function toggleActivity(id){
+  const t = state.activities[TODAY] || {};
+  t[id] = !t[id];
+  state.activities[TODAY] = t;
+  saveState(); renderActivities(); updateStreak();
+}
+function renderActivities(){
+  const done = state.activities[TODAY] || {};
+  ['exercise','meditate','reading','financereview','cook'].forEach(id=>{
+    const el = document.getElementById('act-'+id);
+    if(el) el.classList.toggle('done', !!done[id]);
+  });
+}
+
+/* ═══════════ BOOK TRACKER ═══════════ */
+function renderBook(){
+  const today = state.bookLog[TODAY] || { words: 0, minutes: 0 };
+  document.getElementById('wordsInput').value = today.words || '';
+  document.getElementById('minutesVal').textContent = today.minutes || 0;
+  document.getElementById('bookTimeBadge').textContent = `⏱ ${today.minutes || 0} min`;
+  document.getElementById('lifetimeWords').textContent = (state.stats.totalWords || 0).toLocaleString();
+  document.getElementById('totalWordsVal').textContent = (state.stats.totalWords || 0).toLocaleString();
+  updateBookStreak();
+}
+function updateWords(){
+  const v = parseInt(document.getElementById('wordsInput').value) || 0;
+  const prev = (state.bookLog[TODAY] && state.bookLog[TODAY].words) || 0;
+  if(!state.bookLog[TODAY]) state.bookLog[TODAY] = { words: 0, minutes: 0 };
+  state.bookLog[TODAY].words = v;
+  state.stats.totalWords = (state.stats.totalWords || 0) + (v - prev);
+  saveState();
+  document.getElementById('lifetimeWords').textContent = (state.stats.totalWords || 0).toLocaleString();
+  document.getElementById('totalWordsVal').textContent = (state.stats.totalWords || 0).toLocaleString();
+  updateBookStreak();
+}
+function adjustMinutes(delta){
+  if(!state.bookLog[TODAY]) state.bookLog[TODAY] = { words: 0, minutes: 0 };
+  state.bookLog[TODAY].minutes = Math.max(0, (state.bookLog[TODAY].minutes || 0) + delta);
+  saveState(); renderBook();
+}
+function updateBookStreak(){
+  // Consecutive days with words > 0 OR minutes > 0
+  let s = 0;
+  const d = new Date();
+  for(let i = 0; i < 365; i++){
+    const ds = d.toISOString().split('T')[0];
+    const log = state.bookLog[ds];
+    if(log && (log.words > 0 || log.minutes > 0)){ s++; d.setDate(d.getDate() - 1); }
+    else break;
+  }
+  state.bookStreak = s;
+  saveState();
+  document.getElementById('bookStreakVal').textContent = s;
+  document.getElementById('bookStreakInline').textContent = s;
+}
+
+/* ═══════════ LANGUAGES ═══════════ */
+const LANGS = [
+  {code:'es', flag:'🇪🇸', name:'Spanish', altName:'Español'},
+  {code:'it', flag:'🇮🇹', name:'Italian', altName:'Italiano'},
+  {code:'ko', flag:'🇰🇷', name:'Korean', altName:'한국어'},
+  {code:'zh', flag:'🇨🇳', name:'Chinese', altName:'中文'}
+];
+function renderLangs(){
+  const dc = state.dailyContent[TODAY] || {};
+  const done = state.langPhrases[TODAY] || {};
+  document.getElementById('langsGrid').innerHTML = LANGS.map(l=>{
+    const data = dc['lang_'+l.code] || { theme: 'Loading...', phrases: [] };
+    const phrases = (data.phrases || []).slice(0, 2);
+    const phraseHtml = phrases.length > 0
+      ? phrases.map((p,i)=>{
+          const id = `${l.code}_${i}`;
+          const isDone = done[id];
+          return `<div class="phrase ${isDone?'done':''}" onclick="togglePhrase('${id}')">
+            <div class="phrase-cb"></div>
+            <div class="phrase-content">
+              <span class="phrase-en">${p.en}</span>
+              <span class="phrase-tl">${p.tl}</span>
+              <span class="phrase-pron">${p.pr||''}</span>
+            </div>
+          </div>`;
+        }).join('')
+      : '<div style="font-size:9px;color:#aaa;font-style:italic;padding:8px 0">Loading...</div>';
+    return `<div class="lang-card" data-code="${l.code}">
+      <div class="lang-header">
+        <span class="lang-flag">${l.flag}</span>
+        <span class="lang-title">${l.name}</span>
+      </div>
+      <div class="lang-theme">Theme: <strong>${data.theme || '—'}</strong></div>
+      ${phraseHtml}
+    </div>`;
+  }).join('');
+}
+function togglePhrase(id){
+  const t = state.langPhrases[TODAY] || {};
+  t[id] = !t[id];
+  state.langPhrases[TODAY] = t;
+  saveState(); renderLangs();
+}
+
+/* ═══════════ NOTES ═══════════ */
+function renderNotes(){ document.getElementById('notesArea').value = state.notes[TODAY] || ''; }
+let notesTimer;
+function saveNotes(){
+  clearTimeout(notesTimer);
+  notesTimer = setTimeout(()=>{
+    state.notes[TODAY] = document.getElementById('notesArea').value;
+    saveState();
+  }, 400);
+}
+
+/* ═══════════ STREAK ═══════════ */
+function hasAnyActivity(ds){
+  return [state.habits[ds], state.supplements[ds], state.activities[ds], state.principles[ds]]
+    .some(o => o && Object.values(o).some(v=>v));
+}
+function updateStreak(){
+  let s = 0;
+  const d = new Date();
+  for(let i = 0; i < 365; i++){
+    const ds = d.toISOString().split('T')[0];
+    if(hasAnyActivity(ds)){ s++; d.setDate(d.getDate() - 1); } else break;
+  }
+  state.streak = s;
+  saveState();
+  document.getElementById('streakVal').textContent = s;
+}
+
+/* ═══════════ AI CONTENT ═══════════ */
+async function fetchDailyContent(forceRefresh = false){
+  if(!apiKey){ renderFallback(); return; }
+  if(state.dailyContent[TODAY] && !forceRefresh){ renderContent(); return; }
+
+  document.getElementById('apiStatus').textContent = 'Generating...';
+  document.getElementById('apiStatus').className = 'status-chip';
+
+  const prompt = `Generate daily content for an adult physician's personal sheet. Today is ${TODAY}. Return ONLY valid JSON.
+
+{
+  "factoid": { "text": "a surprising intellectual fact from science/medicine/philosophy/history", "category": "e.g. Neuroscience" },
+  "quote": { "text": "a reflection-quality quote for an adult, preferably from philosophers, leaders, or scientists", "attr": "— Author" },
+  "meditFocus": "a 1-2 sentence advanced meditation focus (breath awareness, body scan, visualization, etc.)",
+  "writePrompt": "a specific writing prompt for a nonfiction book author to spark today's session (1-2 sentences)",
+  "lang_es": {
+    "theme": "a topic (e.g. Expressing Opinion, Weather, Negotiation)",
+    "phrases": [
+      {"en":"English", "tl":"Spanish", "pr":"pronunciation"},
+      {"en":"English", "tl":"Spanish", "pr":"pronunciation"}
+    ]
+  },
+  "lang_it": {
+    "theme": "topic",
+    "phrases": [
+      {"en":"English", "tl":"Italian", "pr":"pronunciation"},
+      {"en":"English", "tl":"Italian", "pr":"pronunciation"}
+    ]
+  },
+  "lang_ko": {
+    "theme": "topic",
+    "phrases": [
+      {"en":"English", "tl":"한국어 (romanization)", "pr":"easy pronunciation"},
+      {"en":"English", "tl":"한국어 (romanization)", "pr":"easy pronunciation"}
+    ]
+  },
+  "lang_zh": {
+    "theme": "topic",
+    "phrases": [
+      {"en":"English", "tl":"汉字 (pinyin)", "pr":"easy pronunciation"},
+      {"en":"English", "tl":"汉字 (pinyin)", "pr":"easy pronunciation"}
+    ]
+  }
+}
+
+Give exactly 2 phrases per language, intermediate-adult level (not tourist basics). Vary themes daily.`;
+
+  try{
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': apiKey,
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 2500,
+        messages: [{ role: 'user', content: prompt }]
+      })
+    });
+    if(!res.ok){ throw new Error(`API ${res.status}`); }
+    const data = await res.json();
+    let text = '';
+    for(const b of data.content || []){ if(b.type === 'text') text += b.text; }
+    text = text.replace(/```json|```/g, '').trim();
+    const content = JSON.parse(text);
+    state.dailyContent[TODAY] = content;
+    saveState();
+    renderContent();
+    document.getElementById('apiStatus').textContent = '✓ Fresh content';
+    document.getElementById('apiStatus').className = 'status-chip ok';
+  }catch(e){
+    console.error(e);
+    document.getElementById('apiStatus').textContent = '⚠ API error';
+    document.getElementById('apiStatus').className = 'status-chip err';
+    showToast('⚠️ Using fallback content');
+    renderFallback();
+  }
+}
+
+function renderContent(){
+  const dc = state.dailyContent[TODAY];
+  if(!dc){ renderFallback(); return; }
+  if(dc.factoid){
+    const el = document.getElementById('factoidText');
+    el.textContent = dc.factoid.text; el.classList.remove('loading');
+    document.getElementById('factoidCat').textContent = 'Category: ' + dc.factoid.category;
+  }
+  if(dc.quote){
+    const el = document.getElementById('quoteText');
+    el.textContent = '"' + dc.quote.text + '"'; el.classList.remove('loading');
+    document.getElementById('quoteAttr').textContent = dc.quote.attr;
+  }
+  if(dc.meditFocus){
+    const el = document.getElementById('meditFocus');
+    el.textContent = dc.meditFocus; el.classList.remove('loading');
+  }
+  if(dc.writePrompt){
+    const el = document.getElementById('bookPrompt');
+    el.textContent = '"' + dc.writePrompt + '"'; el.classList.remove('loading');
+  }
+  renderLangs();
+}
+
+const FALLBACK_FACTOIDS = [
+  {text:'The human brain contains about 86 billion neurons with ~100 trillion synapses — more connections than stars in the Milky Way.', category:'Neuroscience'},
+  {text:'Marcus Aurelius wrote Meditations as private notes to himself — never intended for publication. The "book" is literally one man\'s attempt to keep himself in line.', category:'Philosophy'},
+  {text:'A single teaspoon of soil contains more microorganisms than there are humans on Earth.', category:'Biology'},
+  {text:'The mitochondria in your cells have their own DNA, inherited only from your mother, essentially unchanged across thousands of generations.', category:'Genetics'},
+  {text:'Sleep deprivation for 24 hours reduces cognitive performance equivalent to a blood alcohol level of 0.10% — legally impaired in every state.', category:'Medicine'}
+];
+const FALLBACK_QUOTES = [
+  {text:'Waste no more time arguing what a good man should be. Be one.', attr:'— Marcus Aurelius'},
+  {text:'The best time to plant a tree was twenty years ago. The second best time is now.', attr:'— Chinese proverb'},
+  {text:'We suffer more often in imagination than in reality.', attr:'— Seneca'},
+  {text:'The obstacle is the way.', attr:'— Marcus Aurelius'},
+  {text:'Discipline equals freedom.', attr:'— Jocko Willink'}
+];
+function renderFallback(){
+  const day = new Date().getDate();
+  const f = FALLBACK_FACTOIDS[day % FALLBACK_FACTOIDS.length];
+  const q = FALLBACK_QUOTES[day % FALLBACK_QUOTES.length];
+  const el1 = document.getElementById('factoidText');
+  el1.textContent = f.text; el1.classList.remove('loading');
+  document.getElementById('factoidCat').textContent = 'Category: ' + f.category;
+  const el2 = document.getElementById('quoteText');
+  el2.textContent = '"' + q.text + '"'; el2.classList.remove('loading');
+  document.getElementById('quoteAttr').textContent = q.attr;
+  document.getElementById('meditFocus').textContent = 'Focus on your breath. Count 10 inhales. Notice when your mind wanders — gently return.';
+  document.getElementById('meditFocus').classList.remove('loading');
+  document.getElementById('bookPrompt').textContent = '"What single idea from your last chapter do you want to crystallize today? Write one clear paragraph that would convince a skeptical reader."';
+  document.getElementById('bookPrompt').classList.remove('loading');
+  document.getElementById('apiStatus').textContent = 'No API Key';
+  document.getElementById('apiStatus').className = 'status-chip';
+  renderLangs(); // renders empty language sections
+}
+
+/* ═══════════ API KEY MGMT ═══════════ */
+function saveApiKey(){
+  const key = document.getElementById('apiKeyInput').value.trim();
+  if(!key){ alert('Please enter a key or skip'); return; }
+  if(!key.startsWith('sk-ant') && !confirm('Doesn\'t look like an Anthropic key. Save anyway?')) return;
+  apiKey = key;
+  localStorage.setItem(API_KEY_LS, key);
+  document.getElementById('apiKeyModal').classList.add('hidden');
+  fetchDailyContent();
+}
+function skipApiKey(){
+  document.getElementById('apiKeyModal').classList.add('hidden');
+  localStorage.setItem(API_KEY_LS + '_skipped', 'true');
+  renderFallback();
+}
+function openSettings(){
+  document.getElementById('apiKeyInput').value = apiKey;
+  document.getElementById('apiKeyModal').classList.remove('hidden');
+}
+function refreshContent(){
+  if(!apiKey){ openSettings(); return; }
+  fetchDailyContent(true);
+}
+
+/* ═══════════ UTIL ═══════════ */
+function confirmReset(){
+  if(confirm('Reset ALL personal data? This deletes habits, book progress, notes, and all history. API key kept. Cannot be undone.')){
+    localStorage.removeItem(LS_KEY);
+    location.reload();
+  }
+}
+function showToast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 2500);
+}
+
+/* ═══════════ INIT ═══════════ */
+function init(){
+  document.getElementById('dateDisplay').textContent = new Date().toLocaleDateString('en-US', { weekday:'long', month:'long', day:'numeric', year:'numeric' });
+  document.getElementById('footerMeta').textContent = 'Last updated ' + new Date().toLocaleDateString('en-US');
+
+  renderMorning();
+  renderSupplements();
+  renderPrinciples();
+  renderActivities();
+  renderBook();
+  renderLangs();
+  renderNotes();
+  updateStreak();
+
+  if(apiKey){
+    document.getElementById('apiStatus').textContent = '✓ API key saved';
+    document.getElementById('apiStatus').className = 'status-chip ok';
+    fetchDailyContent();
+  } else if(localStorage.getItem(API_KEY_LS + '_skipped') === 'true'){
+    document.getElementById('apiKeyModal').classList.add('hidden');
+    renderFallback();
+  } else {
+    document.getElementById('apiKeyModal').classList.remove('hidden');
+    renderFallback();
+  }
+}
+init();
+</script>
+</body>
+</html>
