@@ -1,5 +1,4 @@
 const fs = require('fs');
-const fetch = require('node-fetch');
 
 const API_KEY = process.env.ANTHROPIC_API_KEY;
 const TODAY = new Date().toISOString().split('T')[0];
@@ -163,8 +162,3 @@ async function main() {
     
   } catch (error) {
     console.error('❌ Error updating content:', error);
-    process.exit(1);
-  }
-}
-
-main();
