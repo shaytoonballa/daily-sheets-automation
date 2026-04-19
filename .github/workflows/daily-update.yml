@@ -16,9 +16,9 @@ jobs:
         with:
           node-version: '18'
           
-      - name: Install dependencies
-        run: npm install node-fetch
-        
+      - name: Install dependecies 
+        run: echo "Using built-in fetch, no dependencies needed"
+                
       - name: Update daily content
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
