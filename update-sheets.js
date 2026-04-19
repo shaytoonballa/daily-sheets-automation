@@ -29,28 +29,34 @@ async function callAnthropicAPI(prompt) {
 }
 
 function updateHTMLFile(filename, content) {
-  const html = fs.readFileSync(filename, 'utf8');
-  const stateRegex = /(const defaultState = \{[\s\S]*?dailyContent: \{\},)/;
-  const updatedState = html.replace(stateRegex, (match) => {
-    return match.replace('dailyContent: {},', `dailyContent: { "${TODAY}": ${JSON.stringify(content)} },`);
-  });
-  fs.writeFileSync(filename, updatedState);
+  let html = fs.readFileSync(filename, 'utf8');
+  
+  // Replace the entire dailyContent object
+  const contentStr = JSON.stringify({ [TODAY]: content }, null, 2);
+  html = html.replace(
+    /dailyContent:\s*\{[^}]*\}/,
+    `dailyContent: ${contentStr}`
+  );
+  
+  fs.writeFileSync(filename, html);
   console.log(`✓ Updated ${filename} with fresh content for ${TODAY}`);
 }
 
 async function main() {
   if (!API_KEY) {
-    console.error('❌ ANTHROPIC_API_KEY not found in environment variables');
+    console.error('❌ ANTHROPIC_API_KEY not found');
     process.exit(1);
   }
 
   try {
-    console.log('🤖 Generating fresh daily content...');
+    console.log('🤖 Generating content...');
     
-    const dariusPrompt = `Generate daily content for an adult physician's personal sheet. Today is ${TODAY}. Return ONLY valid JSON: {"factoid":{"text":"a surprising intellectual fact from science/medicine/philosophy/history","category":"e.g. Neuroscience"},"quote":{"text":"a reflection-quality quote for an adult","attr":"— Author"},"meditFocus":"a 1-2 sentence advanced meditation focus","writePrompt":"a specific writing prompt for a nonfiction book author","lang_es":{"theme":"topic","phrases":[{"en":"English","tl":"Spanish","pr":"pronunciation"},{"en":"English","tl":"Spanish","pr":"pronunciation"}]},"lang_it":{"theme":"topic","phrases":[{"en":"English","tl":"Italian","pr":"pronunciation"},{"en":"English","tl":"Italian","pr":"pronunciation"}]},"lang_ko":{"theme":"topic","phrases":[{"en":"English","tl":"한국어","pr":"pronunciation"},{"en":"English","tl":"한국어","pr":"pronunciation"}]},"lang_zh":{"theme":"topic","phrases":[{"en":"English","tl":"中文","pr":"pronunciation"},{"en":"English","tl":"中文","pr":"pronunciation"}]}}`;
+    // Darius content
+    const dariusPrompt = `Generate JSON for adult daily sheet: {"factoid":{"text":"science/history fact","category":"Science"},"quote":{"text":"philosophical quote","attr":"— Author"},"meditFocus":"meditation instruction","writePrompt":"book writing prompt","lang_es":{"theme":"Spanish topic","phrases":[{"en":"Hello","tl":"Hola","pr":"OH-lah"},{"en":"Thank you","tl":"Gracias","pr":"GRAH-see-ahs"}]},"lang_it":{"theme":"Italian topic","phrases":[{"en":"Hello","tl":"Ciao","pr":"chow"},{"en":"Thank you","tl":"Grazie","pr":"GRAH-tsee-eh"}]},"lang_ko":{"theme":"Korean topic","phrases":[{"en":"Hello","tl":"안녕하세요","pr":"an-nyeong-ha-se-yo"},{"en":"Thank you","tl":"감사합니다","pr":"gam-sa-ham-ni-da"}]},"lang_zh":{"theme":"Chinese topic","phrases":[{"en":"Hello","tl":"你好","pr":"nee-how"},{"en":"Thank you","tl":"谢谢","pr":"sheh-sheh"}]}}`;
 
-    const caspianPrompt = `Generate fresh daily content for a 10-year-old's activity sheet. Today is ${TODAY}. Return ONLY valid JSON: {"wotd":{"word":"an interesting vocabulary word","pronunciation":"simple phonetic","partOfSpeech":"noun|verb|adjective|adverb","definition":"a clear kid-friendly definition","examples":["First example sentence","Second example sentence","Third example sentence"],"challenge":"a fun challenge"},"factoid":{"text":"a surprising true fact","category":"e.g. Biology"},"quote":{"text":"an inspiring confidence quote suitable for a child","attr":"— Author Name"},"finTopic":{"question":"engaging finance question","intro":"short explanation","resources":[{"tag":"yt","name":"YouTube resource","url":"youtube.com"},{"tag":"web","name":"website","url":"domain.com"}],"challenge":"concrete kid-fun challenge"},"spanish":{"theme":"topic","note":"cultural tip","phrases":[{"en":"English","tl":"Spanish","pr":"pronunciation"}]},"chinese":{"theme":"topic","note":"cultural tip","phrases":[{"en":"English","tl":"Chinese","pr":"pronunciation"}]},"stretches":"simple stretch routine","meditFocus":"meditation focus","artIdea":"art project idea"}`;
-    
+    // Caspian content  
+    const caspianPrompt = `Generate JSON for kid daily sheet: {"wotd":{"word":"curious","pronunciation":"KYUR-ee-us","partOfSpeech":"adjective","definition":"wanting to learn about something","examples":["I am curious about space","She asked curious questions","Be curious about the world"],"challenge":"Use this word today"},"factoid":{"text":"fun science fact for kids","category":"Science"},"quote":{"text":"inspiring quote for children","attr":"— Author"},"finTopic":{"question":"What is saving money?","intro":"Saving means keeping money for later","resources":[{"tag":"yt","name":"Kids money videos","url":"youtube.com"}],"challenge":"Save one coin today"},"spanish":{"theme":"Greetings","note":"Spanish tip","phrases":[{"en":"Hello","tl":"Hola","pr":"OH-lah"}]},"chinese":{"theme":"Greetings","note":"Chinese tip","phrases":[{"en":"Hello","tl":"你好","pr":"nee-how"}]},"stretches":"Do 5 arm circles","meditFocus":"Breathe slowly","artIdea":"Draw your favorite animal"}`;
+
     const [dariusContent, caspianContent] = await Promise.all([
       callAnthropicAPI(dariusPrompt),
       callAnthropicAPI(caspianPrompt)
@@ -59,10 +65,10 @@ async function main() {
     updateHTMLFile('darius_daily_sheet.html', dariusContent);
     updateHTMLFile('caspian_daily_sheet.html', caspianContent);
     
-    console.log('🎉 Daily content updated successfully!');
+    console.log('🎉 Success!');
     
   } catch (error) {
-    console.error('❌ Error updating content:', error);
+    console.error('❌ Error:', error);
     process.exit(1);
   }
 }
