@@ -976,7 +976,7 @@ function updateStreak(){
 /* ═══════════ AI CONTENT ═══════════ */
 async function fetchDailyContent(forceRefresh = false){
   if(!apiKey){ renderFallback(); return; }
-  if(state.dailyContent[TODAY] && !forceRefresh){ renderContent(); return; }
+  if(state.dailyContent[TODAY] && !forceRefresh){    console.log('Found existing content for', TODAY, state.dailyContent[TODAY]);    renderContent(); return;  }
 
   document.getElementById('apiStatus').textContent = 'Generating...';
   document.getElementById('apiStatus').className = 'status-chip';
