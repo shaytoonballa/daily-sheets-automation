@@ -31,15 +31,36 @@ async function callAnthropicAPI(prompt) {
 function updateHTMLFile(filename, content) {
   let html = fs.readFileSync(filename, 'utf8');
   
-  // Replace the entire dailyContent object
-  const contentStr = JSON.stringify({ [TODAY]: content }, null, 2);
-  html = html.replace(
-    /dailyContent:\s*\{[^}]*\}/,
-    `dailyContent: ${contentStr}`
-  );
+  console.log(`📂 Processing ${filename}`);
+  console.log(`📊 File size: ${html.length} characters`);
+  
+  // Look for the defaultState object
+  const stateMatch = html.match(/const defaultState = \{[\s\S]*?\};/);
+  if (stateMatch) {
+    console.log(`✓ Found defaultState in ${filename}`);
+    
+    // Extract the current dailyContent value
+    const dailyContentMatch = stateMatch[0].match(/dailyContent:\s*(\{[^}]*\})/);
+    if (dailyContentMatch) {
+      console.log(`✓ Current dailyContent: ${dailyContentMatch[1]}`);
+      
+      // Replace the entire defaultState with updated content
+      const newState = stateMatch[0].replace(
+        /dailyContent:\s*\{[^}]*\}/,
+        `dailyContent: { "${TODAY}": ${JSON.stringify(content)} }`
+      );
+      
+      html = html.replace(stateMatch[0], newState);
+      console.log(`✓ Updated dailyContent for ${TODAY}`);
+    } else {
+      console.log(`❌ Could not find dailyContent in defaultState`);
+    }
+  } else {
+    console.log(`❌ Could not find defaultState in ${filename}`);
+  }
   
   fs.writeFileSync(filename, html);
-  console.log(`✓ Updated ${filename} with fresh content for ${TODAY}`);
+  console.log(`✓ Saved ${filename}`);
 }
 
 async function main() {
@@ -51,21 +72,30 @@ async function main() {
   try {
     console.log('🤖 Generating content...');
     
-    // Darius content
-    const dariusPrompt = `Generate JSON for adult daily sheet: {"factoid":{"text":"science/history fact","category":"Science"},"quote":{"text":"philosophical quote","attr":"— Author"},"meditFocus":"meditation instruction","writePrompt":"book writing prompt","lang_es":{"theme":"Spanish topic","phrases":[{"en":"Hello","tl":"Hola","pr":"OH-lah"},{"en":"Thank you","tl":"Gracias","pr":"GRAH-see-ahs"}]},"lang_it":{"theme":"Italian topic","phrases":[{"en":"Hello","tl":"Ciao","pr":"chow"},{"en":"Thank you","tl":"Grazie","pr":"GRAH-tsee-eh"}]},"lang_ko":{"theme":"Korean topic","phrases":[{"en":"Hello","tl":"안녕하세요","pr":"an-nyeong-ha-se-yo"},{"en":"Thank you","tl":"감사합니다","pr":"gam-sa-ham-ni-da"}]},"lang_zh":{"theme":"Chinese topic","phrases":[{"en":"Hello","tl":"你好","pr":"nee-how"},{"en":"Thank you","tl":"谢谢","pr":"sheh-sheh"}]}}`;
+    // Simple test content first
+    const dariusContent = {
+      factoid: { text: "Test factoid for debugging", category: "Test" },
+      quote: { text: "This is a test quote", attr: "— Debug Author" },
+      meditFocus: "Test meditation focus",
+      writePrompt: "Test writing prompt"
+    };
 
-    // Caspian content  
-    const caspianPrompt = `Generate JSON for kid daily sheet: {"wotd":{"word":"curious","pronunciation":"KYUR-ee-us","partOfSpeech":"adjective","definition":"wanting to learn about something","examples":["I am curious about space","She asked curious questions","Be curious about the world"],"challenge":"Use this word today"},"factoid":{"text":"fun science fact for kids","category":"Science"},"quote":{"text":"inspiring quote for children","attr":"— Author"},"finTopic":{"question":"What is saving money?","intro":"Saving means keeping money for later","resources":[{"tag":"yt","name":"Kids money videos","url":"youtube.com"}],"challenge":"Save one coin today"},"spanish":{"theme":"Greetings","note":"Spanish tip","phrases":[{"en":"Hello","tl":"Hola","pr":"OH-lah"}]},"chinese":{"theme":"Greetings","note":"Chinese tip","phrases":[{"en":"Hello","tl":"你好","pr":"nee-how"}]},"stretches":"Do 5 arm circles","meditFocus":"Breathe slowly","artIdea":"Draw your favorite animal"}`;
-
-    const [dariusContent, caspianContent] = await Promise.all([
-      callAnthropicAPI(dariusPrompt),
-      callAnthropicAPI(caspianPrompt)
-    ]);
+    const caspianContent = {
+      wotd: { 
+        word: "debug", 
+        pronunciation: "dee-BUG",
+        partOfSpeech: "verb",
+        definition: "To find and fix problems",
+        examples: ["We need to debug this code", "Let's debug the issue", "Debugging helps us learn"],
+        challenge: "Use debug in a sentence today"
+      },
+      factoid: { text: "Test factoid for Caspian", category: "Test" }
+    };
     
     updateHTMLFile('darius_daily_sheet.html', dariusContent);
     updateHTMLFile('caspian_daily_sheet.html', caspianContent);
     
-    console.log('🎉 Success!');
+    console.log('🎉 Update complete!');
     
   } catch (error) {
     console.error('❌ Error:', error);
