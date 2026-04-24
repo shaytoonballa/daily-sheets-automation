@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Caspian Daily">
+<meta name="theme-color" content="#1a5bbf">
+<title>Caspian's Daily Activity Sheet</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Fredoka:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:#f5f0e8;color:#1a1a1a;padding:1.5rem;line-height:1.6;-webkit-font-smoothing:antialiased}
+
+.screen-controls{max-width:900px;margin:0 auto 1rem;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.btn{background:#1a1a1a;color:#fff;border:none;padding:9px 16px;font-family:'Inter',sans-serif;font-size:12.5px;font-weight:500;border-radius:6px;cursor:pointer;letter-spacing:.03em}
+.btn-outline{background:transparent;color:#1a1a1a;border:1.5px solid #1a1a1a}
+.btn-gold{background:#c9973a;color:#1a1a1a}
+.btn:hover{opacity:.85}
+.toggle-group{display:flex;border:1.5px solid #1a1a1a;border-radius:6px;overflow:hidden}
+.toggle-btn{background:transparent;color:#1a1a1a;border:none;padding:8px 14px;font-family:'Inter',sans-serif;font-size:12.5px;font-weight:500;cursor:pointer}
+.toggle-btn.active{background:#1a1a1a;color:#fff}
+.status-chip{margin-left:auto;font-size:11px;padding:4px 10px;border-radius:12px;background:#fff;border:1px solid #ddd;color:#666}
+.status-chip.ok{background:#eef8f2;border-color:#bcd9c5;color:#1a7a4a}
+.status-chip.err{background:#fef4ed;border-color:#f0997b;color:#993c1d}
+
+.modal-bg{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.55);display:flex;align-items:center;justify-content:center;z-index:100;padding:1rem}
+.modal-bg.hidden{display:none}
+.modal{background:#fff;border-radius:10px;padding:28px 30px;max-width:500px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,0.35)}
+.modal h2{font-family:'Playfair Display',serif;font-size:22px;margin-bottom:8px}
+.modal p{font-size:13px;color:#555;margin-bottom:14px;line-height:1.55}
+.modal input{width:100%;padding:10px 12px;border:1.5px solid #ddd;border-radius:6px;font-family:monospace;font-size:12px;margin-bottom:12px}
+.modal input:focus{outline:none;border-color:#c9973a}
+.modal-btns{display:flex;gap:10px;justify-content:flex-end}
+.modal-help{font-size:11px;color:#888;margin-top:10px;padding:10px 12px;background:#faf8f2;border-radius:6px;border-left:3px solid #c9973a;line-height:1.5}
+.modal-help a{color:#1a5bbf}
+
+.page{max-width:900px;margin:0 auto;background:#fff;border:1px solid #ddd;box-shadow:0 2px 12px rgba(0,0,0,.08);border-radius:10px;overflow:hidden}
+
+@media print{
+  body{background:#fff;padding:0}
+  .screen-controls,.modal-bg,.install-prompt,.reset-corner{display:none!important}
+  .page{box-shadow:none;border:none;max-width:100%;border-radius:0}
+  @page{margin:.55in .55in;size:letter}
+  .page-break{page-break-before:always}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .no-school-only{display:none!important}
+  .school-only{display:none!important}
+  body.school .school-only{display:flex!important}
+  body.noschool .no-school-only{display:flex!important}
+}
+
+.sheet{padding:26px 30px 22px}
+
+.hdr{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:2px solid #1a1a1a;padding-bottom:10px;margin-bottom:14px;flex-wrap:wrap;gap:10px}
+.hdr-left h1{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;letter-spacing:.02em;line-height:1}
+.hdr-left .name-tag{display:inline-block;font-size:10px;color:#1a5bbf;font-weight:600;text-transform:uppercase;letter-spacing:.16em;margin-top:4px}
+.hdr-left p{font-size:10px;color:#666;margin-top:3px;text-transform:uppercase;letter-spacing:.12em}
+.hdr-badge{font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;padding:3px 9px;border-radius:12px;margin-top:5px;display:inline-block}
+.badge-school{background:#e8f0fe;color:#1a5bbf}
+.badge-noschool{background:#fce8d5;color:#b5451a}
+.hdr-right{display:flex;gap:20px;align-items:flex-end}
+.hdr-stats{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.hdr-stat{background:#f0ebe1;padding:4px 10px;border-radius:6px;text-align:center;min-width:58px}
+.hdr-stat-val{font-size:14px;font-weight:600;color:#1a1a1a;line-height:1}
+.hdr-stat-lbl{font-size:8px;color:#666;text-transform:uppercase;letter-spacing:.08em;margin-top:2px}
+.hdr-field{display:flex;flex-direction:column;align-items:flex-end;gap:3px}
+.hdr-field label{font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:#888}
+.hdr-date{font-size:11px;font-weight:600;letter-spacing:.04em;min-width:130px;text-align:right}
+
+.sec-title{font-family:'Playfair Display',serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:#1a1a1a;background:#f0ebe1;padding:4px 10px;margin-bottom:8px;border-left:3px solid #c9973a;display:flex;align-items:center;gap:8px}
+.sec-title .sec-meta{margin-left:auto;font-weight:400;color:#888;font-size:9px;letter-spacing:.04em;text-transform:none}
+
+.routine-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:6px;margin-bottom:12px}
+.ritem{display:flex;align-items:center;gap:7px;font-size:11.5px;padding:3px 5px;border-radius:4px;cursor:pointer;user-select:none;transition:background 0.1s}
+.ritem:hover{background:#f9f7f2}
+.ritem .cb{width:13px;height:13px;border:1.5px solid #555;border-radius:3px;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all 0.15s}
+.ritem.done .cb{background:#c9973a;border-color:#c9973a}
+.ritem.done .cb::after{content:"✓";color:#1a1a1a;font-size:9px;font-weight:900}
+.ritem.done span{color:#888;text-decoration:line-through}
+
+.wotd-card{background:linear-gradient(135deg,#fff4db 0%,#ffe0d3 100%);border:2px solid #f0997b;border-radius:12px;padding:16px 20px;margin-bottom:14px;position:relative;overflow:hidden}
+.wotd-card::before{content:"📖";position:absolute;top:-10px;right:10px;font-size:90px;opacity:0.08;pointer-events:none}
+.wotd-header{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.wotd-label{font-family:'Fredoka',sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.16em;color:#b5451a;background:#fff;padding:3px 9px;border-radius:10px;border:1.5px solid #f0997b}
+.wotd-streak{margin-left:auto;font-size:10px;color:#b5451a;font-weight:500}
+.wotd-word-row{display:flex;align-items:baseline;gap:12px;margin-bottom:6px;flex-wrap:wrap}
+.wotd-word{font-family:'Fredoka',sans-serif;font-size:32px;font-weight:700;color:#993c1d;letter-spacing:-0.01em}
+.wotd-pronounce{font-size:13px;color:#b5451a;font-style:italic}
+.wotd-pos{font-size:10px;color:#fff;background:#b5451a;padding:2px 8px;border-radius:10px;text-transform:uppercase;letter-spacing:.06em;font-weight:600}
+.wotd-def{font-family:'Playfair Display',serif;font-size:14px;color:#5a1f0c;margin-bottom:10px;line-height:1.45;font-weight:500}
+.wotd-def.loading{color:#c9a08a}
+.wotd-examples{background:rgba(255,255,255,0.6);border-radius:8px;padding:10px 14px;border-left:3px solid #b5451a}
+.wotd-ex-label{font-size:9px;text-transform:uppercase;letter-spacing:.12em;color:#b5451a;font-weight:700;margin-bottom:4px}
+.wotd-ex-list{list-style:none}
+.wotd-ex-list li{font-size:11.5px;color:#5a1f0c;line-height:1.55;padding:3px 0;display:flex;gap:6px;align-items:flex-start}
+.wotd-ex-list li::before{content:"•";color:#f0997b;flex-shrink:0;font-weight:700}
+.wotd-challenge{margin-top:10px;padding:8px 12px;background:#fff;border-radius:6px;border:1.5px dashed #f0997b;font-size:11px;color:#5a1f0c;cursor:pointer;user-select:none;transition:all 0.15s}
+.wotd-challenge:hover{background:#fff9ef}
+.wotd-challenge.done{background:#eef8f2;border-color:#5dcaa5;border-style:solid}
+.wotd-challenge.done::before{content:"✓ ";color:#1a7a4a;font-weight:700}
+.wotd-challenge strong{color:#b5451a;text-transform:uppercase;font-size:9px;letter-spacing:.08em;margin-right:5px}
+
+.act-grid{display:grid;grid-template-columns:repeat(auto-fit,minWidth(260px,1fr));gap:8px;margin-bottom:10px}
+.act-card{border:1px solid #e0d8cc;border-radius:6px;padding:8px 10px;background:#fff;cursor:pointer;user-select:none;transition:all 0.1s}
+.act-card:hover{border-color:#c9973a}
+.act-card.done{background:#fffcf5;border-color:#c9973a}
+.act-header{display:flex;align-items:center;gap:7px;margin-bottom:4px}
+.act-cb{width:14px;height:14px;border:1.5px solid #555;border-radius:3px;flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;transition:all 0.15s}
+.act-card.done .act-cb{background:#c9973a;border-color:#c9973a}
+.act-card.done .act-cb::after{content:"✓";color:#1a1a1a;font-size:10px;font-weight:900}
+.act-name{font-size:12px;font-weight:600;flex:1}
+.time-badge{background:#f0ebe1;color:#8b6914;font-size:9px;font-weight:600;padding:2px 7px;border-radius:10px;letter-spacing:.04em}
+.act-daily-content{background:#faf8f2;border-radius:4px;padding:5px 7px;font-size:9.5px;color:#333;line-height:1.45;margin-top:4px;min-height:28px;font-style:italic;border-left:2px solid #c9973a}
+.act-daily-content.loading{color:#aaa}
+
+.brain-callout{background:linear-gradient(to right,#f3f0fa,#fbf5ff);border:1px solid #d4c4eb;border-radius:6px;padding:9px 13px;margin-bottom:10px;display:flex;gap:10px}
+.brain-icon{font-size:22px;flex-shrink:0;margin-top:1px}
+.brain-content{flex:1}
+.brain-label{font-size:8.5px;font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:#6b4f9e;margin-bottom:3px}
+.brain-text{font-size:9.5px;color:#333;line-height:1.5}
+.brain-text strong{color:#4a2f78}
+.brain-pills{display:flex;gap:6px;margin-top:5px;flex-wrap:wrap}
+.brain-pill{font-size:8.5px;background:#fff;border:1px solid #d4c4eb;color:#6b4f9e;padding:2px 8px;border-radius:10px;font-weight:500}
+
+.wide-card{grid-column:1/-1;background:linear-gradient(to right,#fefbf3,#fff);border:1px solid #e0d8cc;border-radius:6px;padding:9px 12px;margin-bottom:12px;cursor:pointer;user-select:none}
+.wide-card.done{background:#fffcf5;border-color:#c9973a}
+.play-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:4px}
+.play-item{font-size:9px;color:#555;line-height:1.4}
+.play-item strong{font-size:9.5px;color:#1a1a1a;display:block;margin-bottom:1px}
+.play-item .play-url{font-size:8px;color:#888}
+
+.lang-pair{display:grid;grid-template-columns:repeat(auto-fit,minWidth(300px,1fr));gap:10px;margin-bottom:12px}
+.lang-card{border:1px solid #e0d8cc;border-radius:6px;padding:10px 12px;background:#fff}
+.lang-flag{font-size:17px;margin-bottom:2px}
+.lang-title{font-size:13px;font-weight:600;margin-bottom:2px}
+.lang-theme{font-size:9px;color:#888;margin-bottom:7px;padding-bottom:6px;border-bottom:1px solid #ece5d8}
+.phrase-table{width:100%;border-collapse:collapse;font-size:9.5px}
+.phrase-table th{text-align:left;font-size:8px;text-transform:uppercase;letter-spacing:.08em;color:#888;font-weight:600;padding:3px 2px 3px 0;border-bottom:1px solid #ece5d8}
+.phrase-table td{padding:4px 2px 4px 0;vertical-align:top;border-bottom:1px dashed #ece5d8;line-height:1.35}
+.phrase-table tr:last-child td{border-bottom:none}
+.phrase-en{color:#1a1a1a;font-weight:500;font-size:9.5px}
+.phrase-tl{color:#1a5bbf;font-weight:600;font-size:10px}
+.phrase-cn{color:#b5451a;font-weight:600;font-size:10px}
+.phrase-pron{color:#888;font-size:8px;font-style:italic}
+.phrase-cb{width:11px;height:11px;border:1.5px solid #bbb;border-radius:2px;display:inline-block;margin-top:2px;cursor:pointer;transition:all 0.15s}
+.phrase-cb.done{background:#c9973a;border-color:#c9973a}
+.lang-note{font-size:8.5px;color:#666;font-style:italic;margin-top:6px;padding:5px 8px;background:#fafaf7;border-radius:4px;border:1px solid #ece5d8;line-height:1.4}
+
+.finance-hero{background:#fffcf5;border:1px solid #e0cf9a;border-radius:6px;padding:10px 14px;margin-bottom:10px}
+.fin-hero-label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:#c9973a;margin-bottom:3px}
+.fin-hero-q{font-family:'Playfair Display',serif;font-size:14px;font-weight:600;color:#1a1a1a;margin-bottom:4px;line-height:1.3}
+.fin-hero-intro{font-size:10px;color:#555;font-style:italic;line-height:1.5;margin-bottom:8px;min-height:40px}
+.fin-hero-intro.loading{color:#aaa}
+
+.notes-area{width:100%;min-height:100px;padding:8px 10px;border:1px solid #e0d8cc;border-radius:6px;font-family:'Inter',sans-serif;font-size:11px;line-height:1.6;resize:vertical}
+.notes-area:focus{outline:none;border-color:#c9973a}
+
+.school-only,.no-school-only{display:none}
+body.school .school-only{display:flex}
+body.noschool .no-school-only{display:flex}
+
+.divider{border:none;border-top:1px solid #e0d8cc;margin:10px 0}
+
+.reset-corner{position:fixed;bottom:14px;right:14px;font-size:10px;color:#aaa;cursor:pointer;padding:4px 8px;background:rgba(255,255,255,0.9);border-radius:4px;z-index:50}
+.reset-corner:hover{color:#993c1d}
+
+.toast{position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#1a1a1a;color:#f5f0e8;padding:10px 18px;border-radius:6px;font-size:12.5px;z-index:200;opacity:0;transition:opacity 0.3s;pointer-events:none;box-shadow:0 4px 14px rgba(0,0,0,0.25)}
+.toast.show{opacity:1}
+
+.fq-grid{display:grid;grid-template-columns:repeat(auto-fit,minWidth(240px,1fr));gap:10px;margin-bottom:12px}
+.fq-box{border:1px solid #e0d8cc;border-radius:6px;padding:10px 13px;background:#fff;min-height:80px}
+.fq-label{font-size:8.5px;font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:#c9973a;margin-bottom:4px}
+.fq-content{font-size:10.5px;line-height:1.5;color:#222;min-height:30px}
+.fq-content.loading{color:#aaa;font-style:italic}
+.fq-content.serif{font-family:'Playfair Display',serif;font-style:italic;font-size:11.5px}
+.fq-attr{font-size:9.5px;color:#888;margin-top:4px}
+</style>
+</head>
+<body class="school">
+
+<div class="modal-bg hidden" id="apiKeyModal">
+  <div class="modal">
+    <h2>Welcome, Caspian!</h2>
+    <p>This dashboard uses the Anthropic API for fresh daily content — a new word of the day, factoids, quotes, finance questions, language phrases. Paste your Anthropic API key below. It stays on your device.</p>
+    <input type="password" id="apiKeyInput" placeholder="sk-ant-api03-..." autocomplete="off"/>
+    <div class="modal-btns">
+      <button class="btn btn-outline" onclick="skipApiKey()">Skip (fallback library)</button>
+      <button class="btn btn-gold" onclick="saveApiKey()">Save &amp; Start</button>
+    </div>
+    <div class="modal-help">
+      Get your key at <a href="https://console.anthropic.com/settings/keys" target="_blank">console.anthropic.com/settings/keys</a>. Your key never leaves this browser.
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<div class="screen-controls">
+  <div class="toggle-group">
+    <button class="toggle-btn active" onclick="setMode('school',this)">📚 School Day</button>
+    <button class="toggle-btn" onclick="setMode('noschool',this)">☀️ No School Day</button>
+  </div>
+  <button class="btn" onclick="window.print()">🖨 Print</button>
+  <button class="btn btn-outline" onclick="refreshContent()">↻ New Content</button>
+  <button class="btn btn-outline" onclick="openSettings()">⚙ Settings</button>
+  <span class="status-chip" id="apiStatus">Ready</span>
+</div>
+
+<div class="page">
+
+<div class="sheet">
+
+  <div class="hdr">
+    <div class="hdr-left">
+      <h1>Daily Activity Sheet</h1>
+      <div class="name-tag">Caspian · Junior Edition</div>
+      <p>Learning · Growth · Fun · Discovery</p>
+      <span id="dayBadge" class="hdr-badge badge-school">School Day</span>
+    </div>
+    <div class="hdr-right">
+      <div class="hdr-stats">
+        <div class="hdr-stat"><div class="hdr-stat-val" id="streakVal">0</div><div class="hdr-stat-lbl">🔥 Streak</div></div>
+        <div class="hdr-stat"><div class="hdr-stat-val" id="wordsLearnedVal">0</div><div class="hdr-stat-lbl">📖 Words</div></div>
+        <div class="hdr-stat"><div class="hdr-stat-val" id="readPagesVal">0</div><div class="hdr-stat-lbl">📚 Pages</div></div>
+      </div>
+      <div class="hdr-field"><label>Date</label><div id="dateDisplay" class="hdr-date"></div></div>
+    </div>
+  </div>
+
+  <div class="wotd-card">
+    <div class="wotd-header">
+      <span class="wotd-label">📖 Word of the Day</span>
+      <span class="wotd-streak">Words mastered: <strong id="wotdStreakInline">0</strong></span>
+    </div>
+    <div class="wotd-word-row">
+      <span class="wotd-word" id="wotdWord">curious</span>
+      <span class="wotd-pronounce" id="wotdPronounce">/KYUR-ee-us/</span>
+      <span class="wotd-pos" id="wotdPos">adjective</span>
+    </div>
+    <div class="wotd-def" id="wotdDef">Eager to learn or know about something new.</div>
+    <div class="wotd-examples">
+      <div class="wotd-ex-label">📝 How to use it in a sentence:</div>
+      <ul class="wotd-ex-list" id="wotdExamples">
+        <li>I'm curious about how airplanes fly.</li>
+        <li>A curious cat looked at the mirror.</li>
+        <li>Being curious is the start of every discovery.</li>
+      </ul>
+    </div>
+    <div class="wotd-challenge" id="wotdChallenge" onclick="toggleWotdChallenge()">
+      <strong>🎯 Today's challenge:</strong> <span id="wotdChallengeText">Use today's word in a real conversation or in a sentence you write.</span>
+    </div>
+  </div>
+
+  <div class="sec-title">☀️ Morning Routine<span class="sec-meta" id="morningProgress">0/9</span></div>
+  <div class="routine-grid" id="morningGrid"></div>
+
+  <div class="sec-title">🎯 Today's Activities</div>
+  <div class="act-grid" id="actGrid"></div>
+
+  <div class="brain-callout">
+    <div class="brain-icon">🧠</div>
+    <div class="brain-content">
+      <div class="brain-label">Why these habits matter — for LIFE</div>
+      <div class="brain-text">
+        Research shows <strong>exercise, reading, and writing</strong> done consistently throughout life can reduce dementia risk by <strong>30–40%</strong>. Exercise grows new brain cells (neurogenesis). Reading builds neural connections. Writing strengthens memory. Starting young gives your brain a lifetime of protection. <strong>You're not just learning — you're building a stronger brain.</strong>
+        <div class="brain-pills">
+          <span class="brain-pill">🏃 Exercise → grows brain cells</span>
+          <span class="brain-pill">📚 Reading → builds connections</span>
+          <span class="brain-pill">✍️ Writing → strengthens memory</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wide-card" id="playCard" onclick="toggleActivity('play')">
+    <div class="act-header">
+      <div class="act-cb"></div>
+      <span class="act-name">🕹️ Computer Play &amp; Free Screen Time</span>
+      <span class="time-badge school-only" style="display:inline-block">30 min</span>
+      <span class="time-badge no-school-only" style="display:inline-block;background:#fce8d5;color:#b5451a">60 min</span>
+      <span style="font-size:8.5px;color:#888;font-style:italic;margin-left:auto">Fun is part of learning!</span>
+    </div>
+    <div class="play-grid">
+      <div class="play-item"><strong>🎮 Prodigy Math</strong>Math RPG adventure.<span class="play-url">prodigygame.com</span></div>
+      <div class="play-item"><strong>♟️ Lichess Kids</strong>Free chess &amp; puzzles.<span class="play-url">lichess.org</span></div>
+      <div class="play-item"><strong>🧱 Minecraft Education</strong>Build, create, code.<span class="play-url">education.minecraft.net</span></div>
+      <div class="play-item"><strong>🎯 Cool Math Games</strong>Strategy games.<span class="play-url">coolmathgames.com</span></div>
+      <div class="play-item"><strong>🦖 Tynker</strong>Code your own games.<span class="play-url">tynker.com</span></div>
+      <div class="play-item"><strong>🎨 Kahoot!</strong>Trivia on any topic.<span class="play-url">kahoot.com</span></div>
+    </div>
+  </div>
+
+  <div class="sec-title">🌍 Language Learning — Spanish &amp; Chinese<span class="sec-meta">⏱ 15 min total</span></div>
+  <div style="font-size:9px;color:#888;margin-bottom:6px;line-height:1.5">
+    <strong>Primary tools:</strong> Google Little Language Lessons<span style="color:#c9973a;font-size:8px;font-weight:700;margin-left:2px"> ★ FREE</span> · Duolingo · HelloTalk · Anki
+  </div>
+  <div class="lang-pair">
+    <div class="lang-card">
+      <div class="lang-flag">🇪🇸</div>
+      <div class="lang-title">Spanish — <span style="font-weight:400;color:#888;font-size:10px">Español</span></div>
+      <div class="lang-theme" id="spTheme">Theme: <strong>Basic Greetings</strong></div>
+      <table class="phrase-table">
+        <thead><tr><th style="width:35%">English</th><th style="width:47%">Spanish + pronunciation</th><th>Done</th></tr></thead>
+        <tbody id="spanishRows">
+          <tr><td class="phrase-en">Hello</td><td><span class="phrase-tl">Hola</span><br><span class="phrase-pron">(OH-lah)</span></td><td style="text-align:center"><div class="phrase-cb" onclick="togglePhrase('sp_0')"></div></td></tr>
+          <tr><td class="phrase-en">Thank you</td><td><span class="phrase-tl">Gracias</span><br><span class="phrase-pron">(GRAH-see-ahs)</span></td><td style="text-align:center"><div class="phrase-cb" onclick="togglePhrase('sp_1')"></div></td></tr>
+        </tbody>
+      </table>
+      <div class="lang-note" id="spanishNote">Spanish is spoken by 500 million people worldwide!</div>
+    </div>
+    <div class="lang-card">
+      <div class="lang-flag">🇨🇳</div>
+      <div class="lang-title">Chinese — <span style="font-weight:400;color:#888;font-size:10px">普通话 Pǔtōnghuà</span></div>
+      <div class="lang-theme" id="cnTheme">Theme: <strong>Basic Greetings</strong></div>
+      <table class="phrase-table">
+        <thead><tr><th style="width:35%">English</th><th style="width:47%">Chinese + pinyin</th><th>Done</th></tr></thead>
+        <tbody id="chineseRows">
+          <tr><td class="phrase-en">Hello</td><td><span class="phrase-cn">你好 nǐ hǎo</span><br><span class="phrase-pron">(nee-how)</span></td><td style="text-align:center"><div class="phrase-cb" onclick="togglePhrase('cn_0')"></div></td></tr>
+          <tr><td class="phrase-en">Thank you</td><td><span class="phrase-cn">谢谢 xiè xiè</span><br><span class="phrase-pron">(sheh-sheh)</span></td><td style="text-align:center"><div class="phrase-cb" onclick="togglePhrase('cn_1')"></div></td></tr>
+        </tbody>
+      </table>
+      <div class="lang-note" id="chineseNote">Chinese has four tones that change word meanings!</div>
+    </div>
+  </div>
+</div>
+
+<div class="sheet page-break">
+
+  <div class="sec-title">💰 Finance Learning<span class="sec-meta">⏱ 10–15 min</span></div>
+  <div class="finance-hero">
+    <div class="fin-hero-label">🔎 Today's Big Question</div>
+    <div class="fin-hero-q" id="finQ">What is saving money?</div>
+    <div class="fin-hero-intro" id="finIntro">Saving means keeping some money instead of spending it all. This helps you buy bigger things later or be ready for emergencies.</div>
+    <div style="background:#fff7e3;border-left:3px solid #c9973a;padding:6px 10px;font-size:9.5px;color:#5b4a1a;border-radius:0 4px 4px 0;margin-top:6px;line-height:1.4;min-height:36px">
+      <strong>🎯 Today's Challenge:</strong> Save one coin or dollar bill today instead of spending it.
+    </div>
+  </div>
+
+  <div class="sec-title">📖 Reading Tracker<span class="sec-meta">Updates streak</span></div>
+  <div style="background:#fff;border:1px solid #e0d8cc;border-radius:6px;padding:10px 12px;margin-bottom:12px">
+    <div style="font-size:11px;font-weight:600;margin-bottom:6px">Pages read today</div>
+    <div style="display:flex;align-items:center;gap:8px">
+      <button onclick="adjustReading(-1)" style="padding:4px 10px;border:1px solid #ccc;border-radius:4px;background:#fff;cursor:pointer;font-size:14px">−</button>
+      <span id="todayPages" style="font-size:20px;font-weight:600;min-width:40px;text-align:center">0</span>
+      <button onclick="adjustReading(1)" style="padding:4px 10px;border:1px solid #ccc;border-radius:4px;background:#fff;cursor:pointer;font-size:14px">+</button>
+      <span style="font-size:10px;color:#888;margin-left:6px">pages</span>
+    </div>
+    <div style="font-size:10px;color:#888;margin-top:6px">Lifetime: <strong id="totalPages">0</strong> pages · Goal: 10/day</div>
+  </div>
+
+  <hr class="divider">
+
+  <div class="sec-title">🌙 Evening Routine<span class="sec-meta" id="eveningProgress">0/8</span></div>
+  <div class="routine-grid" id="eveningGrid"></div>
+
+  <div class="fq-grid">
+    <div class="fq-box">
+      <div class="fq-label">🔬 Today's Factoid</div>
+      <div class="fq-content" id="factoidText">Octopuses have three hearts, blue blood, and nine brains — one central brain and one in each arm.</div>
+      <div class="fq-attr" id="factoidCat">Category: Biology</div>
+    </div>
+    <div class="fq-box" style="border-color:#c9973a;background:#fffcf5">
+      <div class="fq-label">✦ Confidence Quote</div>
+      <div class="fq-content serif" id="quoteText">"Believe you can and you're halfway there."</div>
+      <div class="fq-attr" id="quoteAttr">— Theodore Roosevelt</div>
+    </div>
+  </div>
+
+  <div class="sec-title">📝 Reflection</div>
+  <div style="font-size:9.5px;color:#888;font-style:italic;margin-bottom:4px">What did you learn? What are you proud of? What will you do better tomorrow?</div>
+  <textarea class="notes-area" id="notesArea" placeholder="Write a few sentences about today..." oninput="saveNotes()"></textarea>
+
+  <div style="margin-top:14px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid #e0d8cc;padding-top:8px;flex-wrap:wrap;gap:6px">
+    <span style="font-family:'Playfair Display',serif;font-size:10px;font-style:italic;color:#aaa">Consistent daily effort compounds into extraordinary results.</span>
+    <span style="font-size:9px;color:#ccc" id="footerMeta"></span>
+  </div>
+</div>
+</div>
+
+<div class="reset-corner" onclick="confirmReset()">reset all data</div>
+
+<script>
+const LS_KEY = 'caspian_dashboard_v3';
+const API_KEY_LS = 'caspian_anthropic_key';
+const TODAY = new Date().toISOString().split('T')[0];
+const YR = new Date().getFullYear();
+
+const defaultState = {
+  habits: {}, activities: {}, langPhrases: {}, 
+  dailyContent: { "2026-04-23": {"wotd":{"word":"debug","pronunciation":"dee-BUG","partOfSpeech":"verb","definition":"To find and fix problems","examples":["We need to debug this code","Let's debug the issue","Debugging helps us learn"],"challenge":"Use debug in a sentence today"},"factoid":{"text":"Test factoid for Caspian","category":"Test"}} },
+  readingLog: {}, notes: {}, wotdChallenges: {}, wotdMastered: [],
+  streak: 0, lastActiveDate: null, stats: { totalPages: 0 }
+};
+
+let state = loadState();
+let apiKey = localStorage.getItem(API_KEY_LS) || '';
+
+function loadState(){
+  try{
+    const raw = localStorage.getItem(LS_KEY);
+    if(!raw) return structuredClone(defaultState);
+    const loaded = JSON.parse(raw);
+    return { ...structuredClone(defaultState), ...loaded };
+  }catch(e){ return structuredClone(defaultState); }
+}
+function saveState(){
+  try{ localStorage.setItem(LS_KEY, JSON.stringify(state)); }
+  catch(e){ showToast('⚠️ Error saving'); }
+}
+
+const MORNING_SCHOOL = [
+  {id:'makebed',t:'Make bed'},{id:'brushteeth',t:'Brush teeth'},{id:'combhair',t:'Comb hair'},
+  {id:'washface',t:'Wash face'},{id:'getdressed',t:'Get dressed'},{id:'eatbreakfast',t:'Eat breakfast'},
+  {id:'supplements',t:'🧠 Take supplements'},{id:'packbag',t:'Pack school bag'},{id:'ontime',t:'Ready on time ✦'}
+];
+const MORNING_NOSCHOOL = [
+  {id:'makebed',t:'Make bed'},{id:'brushteeth',t:'Brush teeth'},{id:'combhair',t:'Comb hair'},
+  {id:'washface',t:'Wash face'},{id:'getdressed',t:'Get dressed'},{id:'eatbreakfast',t:'Eat breakfast'},
+  {id:'supplements',t:'🧠 Take supplements'},{id:'planday',t:'Plan the day'},{id:'waterfirst',t:'Drink water first'}
+];
+const EVENING_SCHOOL = [
+  {id:'tidyroom',t:'Tidy room'},{id:'homework',t:'Homework done'},{id:'clothestomorrow',t:'Set out clothes'},
+  {id:'screensoff',t:'Screens off 30 min early'},{id:'brushteethpm',t:'⭐ Brush teeth'},
+  {id:'washfacepm',t:'Wash face'},{id:'readpm',t:'Read 10–20 min'},{id:'lightsout',t:'Lights out on time'}
+];
+const EVENING_NOSCHOOL = [
+  {id:'tidyroom',t:'Tidy room'},{id:'tomorrowgoals',t:"Tomorrow's goals"},{id:'clothestomorrow',t:'Set out clothes'},
+  {id:'screensoff',t:'Screens off 30 min early'},{id:'brushteethpm',t:'⭐ Brush teeth'},
+  {id:'washfacepm',t:'Wash face'},{id:'readpm',t:'Read 10–20 min'},{id:'lightsout',t:'Lights out on time'}
+];
+
+let currentMode = 'school';
+function setMode(mode, btn){
+  currentMode = mode;
+  document.body.className = mode;
+  document.querySelectorAll('.toggle-btn').forEach(b=>b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  const badge = document.getElementById('dayBadge');
+  if(mode==='school'){ badge.textContent='School Day'; badge.className='hdr-badge badge-school'; }
+  else { badge.textContent='No School Day'; badge.className='hdr-badge badge-noschool'; }
+  renderMorning(); renderEvening();
+}
+function renderMorning(){
+  const items = currentMode === 'school' ? MORNING_SCHOOL : MORNING_NOSCHOOL;
+  const done = state.habits[TODAY] || {};
+  document.getElementById('morningGrid').innerHTML = items.map(i=>`
+    <div class="ritem ${done[i.id]?'done':''}" onclick="toggleHabit('${i.id}')">
+      <div class="cb"></div><span>${i.t}</span>
+    </div>`).join('');
+  const n = items.filter(i=>done[i.id]).length;
+  document.getElementById('morningProgress').textContent = `${n}/${items.length}`;
+}
+function renderEvening(){
+  const items = currentMode === 'school' ? EVENING_SCHOOL : EVENING_NOSCHOOL;
+  const done = state.habits[TODAY] || {};
+  document.getElementById('eveningGrid').innerHTML = items.map(i=>`
+    <div class="ritem ${done[i.id]?'done':''}" onclick="toggleHabit('${i.id}')">
+      <div class="cb"></div><span>${i.t}</span>
+    </div>`).join('');
+  const n = items.filter(i=>done[i.id]).length;
+  document.getElementById('eveningProgress').textContent = `${n}/${items.length}`;
+}
+function toggleHabit(id){
+  const t = state.habits[TODAY] || {};
+  t[id] = !t[id];
+  state.habits[TODAY] = t;
+  saveState(); renderMorning(); renderEvening(); updateStreak();
+}
+
+const ACTIVITIES = [
+  {id:'stretches', emoji:'🤸', name:'Stretches', time:'10 min', dynamicField:'stretches'},
+  {id:'meditate', emoji:'🧘', name:'Meditate', time:'5 min', dynamicField:'meditFocus'},
+  {id:'reading', emoji:'📚', name:'Reading', time:'20 min'},
+  {id:'art', emoji:'🎨', name:'Art & Craft', time:'20 min', dynamicField:'artIdea'},
+  {id:'coding', emoji:'💻', name:'Coding', time:'15 min'}
+];
+function renderActivities(){
+  const done = state.activities[TODAY] || {};
+  const dc = state.dailyContent[TODAY] || {};
+  document.getElementById('actGrid').innerHTML = ACTIVITIES.map(a=>`
+    <div class="act-card ${done[a.id]?'done':''}" onclick="toggleActivity('${a.id}')">
+      <div class="act-header">
+        <div class="act-cb"></div>
+        <span class="act-name">${a.emoji} ${a.name}</span>
+        <span class="time-badge">${a.time}</span>
+      </div>
+      ${a.dynamicField ? `<div class="act-daily-content">${dc[a.dynamicField] || (a.dynamicField === 'stretches' ? 'Do 5 arm circles and 5 leg swings' : a.dynamicField === 'meditFocus' ? 'Breathe slowly and count to 10' : 'Draw your favorite animal')}</div>` : ''}
+    </div>`).join('');
+}
+function toggleActivity(id){
+  const t = state.activities[TODAY] || {};
+  t[id] = !t[id];
+  state.activities[TODAY] = t;
+  saveState();
+  renderActivities();
+  document.getElementById('playCard').classList.toggle('done', !!t.play);
+  updateStreak();
+}
+
+function toggleWotdChallenge(){
+  state.wotdChallenges[TODAY] = !state.wotdChallenges[TODAY];
+  if(state.wotdChallenges[TODAY]){
+    const dc = state.dailyContent[TODAY];
+    if(dc && dc.wotd && dc.wotd.word && !state.wotdMastered.includes(dc.wotd.word)){
+      state.wotdMastered.push(dc.wotd.word);
+    }
+  }
+  saveState();
+  renderWotd();
+  updateStreak();
+}
+function renderWotd(){
+  const dc = state.dailyContent[TODAY];
+  const el = document.getElementById('wotdChallenge');
+  el.classList.toggle('done', !!state.wotdChallenges[TODAY]);
+  document.getElementById('wotdStreakInline').textContent = state.wotdMastered.length;
+  document.getElementById('wordsLearnedVal').textContent = state.wotdMastered.length;
+
+  if(dc && dc.wotd){
+    document.getElementById('wotdWord').textContent = dc.wotd.word;
+    document.getElementById('wotdPronounce').textContent = dc.wotd.pronunciation ? `/${dc.wotd.pronunciation}/` : '';
+    const pos = document.getElementById('wotdPos');
+    if(dc.wotd.partOfSpeech){ pos.textContent = dc.wotd.partOfSpeech; pos.style.display = 'inline-block'; }
+    document.getElementById('wotdDef').textContent = dc.wotd.definition || '';
+    const examples = dc.wotd.examples || [];
+    document.getElementById('wotdExamples').innerHTML = examples.map(ex=>`<li>${ex}</li>`).join('');
+    if(dc.wotd.challenge){
+      document.getElementById('wotdChallengeText').textContent = dc.wotd.challenge;
+    }
+  }
+}
+
+function renderReading(){
+  document.getElementById('todayPages').textContent = state.readingLog[TODAY] || 0;
+  document.getElementById('totalPages').textContent = state.stats.totalPages || 0;
+  document.getElementById('readPagesVal').textContent = state.readingLog[TODAY] || 0;
+}
+function adjustReading(delta){
+  const prev = state.readingLog[TODAY] || 0;
+  const next = Math.max(0, prev + delta);
+  state.readingLog[TODAY] = next;
+  state.stats.totalPages = (state.stats.totalPages || 0) + (next - prev);
+  saveState(); renderReading();
+}
+
+function renderNotes(){ document.getElementById('notesArea').value = state.notes[TODAY] || ''; }
+let notesTimer;
+function saveNotes(){
+  clearTimeout(notesTimer);
+  notesTimer = setTimeout(()=>{
+    state.notes[TODAY] = document.getElementById('notesArea').value;
+    saveState();
+  }, 400);
+}
+
+function hasAnyActivity(ds){
+  return [state.habits[ds], state.activities[ds]].some(o => o && Object.values(o).some(v=>v))
+    || !!state.wotdChallenges[ds];
+}
+function updateStreak(){
+  let s = 0;
+  const d = new Date();
+  for(let i = 0; i < 365; i++){
+    const ds = d.toISOString().split('T')[0];
+    if(hasAnyActivity(ds)){ s++; d.setDate(d.getDate() - 1); } else break;
+  }
+  state.streak = s;
+  saveState();
+  document.getElementById('streakVal').textContent = s;
+}
+
+function renderDailyContent(){
+  const dc = state.dailyContent[TODAY];
+  if(dc){
+    if(dc.factoid){
+      document.getElementById('factoidText').textContent = dc.factoid.text;
+      document.getElementById('factoidCat').textContent = 'Category: ' + dc.factoid.category;
+    }
+    if(dc.quote){
+      document.getElementById('quoteText').textContent = '"' + dc.quote.text + '"';
+      document.getElementById('quoteAttr').textContent = dc.quote.attr;
+    }
+    if(dc.finTopic){
+      document.getElementById('finQ').textContent = dc.finTopic.question;
+      document.getElementById('finIntro').textContent = dc.finTopic.intro;
+    }
+  }
+}
+
+function togglePhrase(id){
+  const t = state.langPhrases[TODAY] || {};
+  t[id] = !t[id];
+  state.langPhrases[TODAY] = t;
+  saveState();
+  document.querySelectorAll('.phrase-cb').forEach((el, i)=>{
+    const phraseId = id.startsWith('sp_') ? `sp_${i}` : `cn_${i}`;
+    if(el.onclick.toString().includes(phraseId)){
+      el.classList.toggle('done', !!t[phraseId]);
+    }
+  });
+}
+
+function skipApiKey(){ document.getElementById('apiKeyModal').classList.add('hidden'); }
+function openSettings(){ document.getElementById('apiKeyModal').classList.remove('hidden'); }
+function saveApiKey(){
+  apiKey = document.getElementById('apiKeyInput').value.trim();
+  localStorage.setItem(API_KEY_LS, apiKey);
+  document.getElementById('apiKeyModal').classList.add('hidden');
+}
+function refreshContent(){ /* Manual refresh disabled - content comes from automation */ }
+
+function confirmReset(){
+  if(confirm('Reset ALL data? This deletes all habits, reading logs, and notes. Cannot be undone.')){
+    localStorage.removeItem(LS_KEY);
+    location.reload();
+  }
+}
+function showToast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 2500);
+}
+
+function init(){
+  document.getElementById('dateDisplay').textContent = new Date().toLocaleDateString('en-US', { weekday:'long', month:'long', day:'numeric', year:'numeric' });
+  document.getElementById('footerMeta').textContent = 'Last updated ' + new Date().toLocaleDateString('en-US');
+
+  setMode('school', document.querySelector('.toggle-btn'));
+  renderActivities(); renderReading(); renderNotes(); updateStreak(); renderWotd(); renderDailyContent();
+  
+  // NO API KEY MODAL - just start working
+  document.getElementById('apiStatus').textContent = 'Automation Ready';
+  document.getElementById('apiStatus').className = 'status-chip ok';
+}
+init();
+</script>
+</body>
+</html>
