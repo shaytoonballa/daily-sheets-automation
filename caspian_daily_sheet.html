@@ -72,7 +72,6 @@ body{font-family:'Inter',sans-serif;background:#f5f0e8;color:#1a1a1a;padding:1.5
 .sec-title{font-family:'Playfair Display',serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:#1a1a1a;background:#f0ebe1;padding:4px 10px;margin-bottom:8px;border-left:3px solid #c9973a;display:flex;align-items:center;gap:8px}
 .sec-title .sec-meta{margin-left:auto;font-weight:400;color:#888;font-size:9px;letter-spacing:.04em;text-transform:none}
 
-/* ROUTINE */
 .routine-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:6px;margin-bottom:12px}
 .ritem{display:flex;align-items:center;gap:7px;font-size:11.5px;padding:3px 5px;border-radius:4px;cursor:pointer;user-select:none;transition:background 0.1s}
 .ritem:hover{background:#f9f7f2}
@@ -81,7 +80,6 @@ body{font-family:'Inter',sans-serif;background:#f5f0e8;color:#1a1a1a;padding:1.5
 .ritem.done .cb::after{content:"✓";color:#1a1a1a;font-size:9px;font-weight:900}
 .ritem.done span{color:#888;text-decoration:line-through}
 
-/* WORD OF DAY - FUN BIG STYLED SECTION */
 .wotd-card{background:linear-gradient(135deg,#fff4db 0%,#ffe0d3 100%);border:2px solid #f0997b;border-radius:12px;padding:16px 20px;margin-bottom:14px;position:relative;overflow:hidden}
 .wotd-card::before{content:"📖";position:absolute;top:-10px;right:10px;font-size:90px;opacity:0.08;pointer-events:none}
 .wotd-header{display:flex;align-items:center;gap:10px;margin-bottom:10px}
@@ -104,8 +102,7 @@ body{font-family:'Inter',sans-serif;background:#f5f0e8;color:#1a1a1a;padding:1.5
 .wotd-challenge.done::before{content:"✓ ";color:#1a7a4a;font-weight:700}
 .wotd-challenge strong{color:#b5451a;text-transform:uppercase;font-size:9px;letter-spacing:.08em;margin-right:5px}
 
-/* ACTIVITIES */
-.act-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:8px;margin-bottom:10px}
+.act-grid{display:grid;grid-template-columns:repeat(auto-fit,minWidth(260px,1fr));gap:8px;margin-bottom:10px}
 .act-card{border:1px solid #e0d8cc;border-radius:6px;padding:8px 10px;background:#fff;cursor:pointer;user-select:none;transition:all 0.1s}
 .act-card:hover{border-color:#c9973a}
 .act-card.done{background:#fffcf5;border-color:#c9973a}
@@ -117,14 +114,7 @@ body{font-family:'Inter',sans-serif;background:#f5f0e8;color:#1a1a1a;padding:1.5
 .time-badge{background:#f0ebe1;color:#8b6914;font-size:9px;font-weight:600;padding:2px 7px;border-radius:10px;letter-spacing:.04em}
 .act-daily-content{background:#faf8f2;border-radius:4px;padding:5px 7px;font-size:9.5px;color:#333;line-height:1.45;margin-top:4px;min-height:28px;font-style:italic;border-left:2px solid #c9973a}
 .act-daily-content.loading{color:#aaa}
-.res-label{font-size:8px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:#888;margin-bottom:3px;margin-top:5px}
-.res-list{list-style:none}
-.res-list li{font-size:9.5px;color:#444;line-height:1.5;display:flex;align-items:baseline;gap:4px}
-.res-list li::before{content:"›";color:#c9973a;font-weight:700;font-size:10px;flex-shrink:0}
-.res-url{color:#888;font-size:8.5px}
-.res-star{color:#c9973a;font-size:8px;font-weight:700;margin-left:2px}
 
-/* BRAIN CALLOUT */
 .brain-callout{background:linear-gradient(to right,#f3f0fa,#fbf5ff);border:1px solid #d4c4eb;border-radius:6px;padding:9px 13px;margin-bottom:10px;display:flex;gap:10px}
 .brain-icon{font-size:22px;flex-shrink:0;margin-top:1px}
 .brain-content{flex:1}
@@ -134,7 +124,6 @@ body{font-family:'Inter',sans-serif;background:#f5f0e8;color:#1a1a1a;padding:1.5
 .brain-pills{display:flex;gap:6px;margin-top:5px;flex-wrap:wrap}
 .brain-pill{font-size:8.5px;background:#fff;border:1px solid #d4c4eb;color:#6b4f9e;padding:2px 8px;border-radius:10px;font-weight:500}
 
-/* COMPUTER PLAY */
 .wide-card{grid-column:1/-1;background:linear-gradient(to right,#fefbf3,#fff);border:1px solid #e0d8cc;border-radius:6px;padding:9px 12px;margin-bottom:12px;cursor:pointer;user-select:none}
 .wide-card.done{background:#fffcf5;border-color:#c9973a}
 .play-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:4px}
@@ -142,8 +131,7 @@ body{font-family:'Inter',sans-serif;background:#f5f0e8;color:#1a1a1a;padding:1.5
 .play-item strong{font-size:9.5px;color:#1a1a1a;display:block;margin-bottom:1px}
 .play-item .play-url{font-size:8px;color:#888}
 
-/* LANGUAGES */
-.lang-pair{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:10px;margin-bottom:12px}
+.lang-pair{display:grid;grid-template-columns:repeat(auto-fit,minWidth(300px,1fr));gap:10px;margin-bottom:12px}
 .lang-card{border:1px solid #e0d8cc;border-radius:6px;padding:10px 12px;background:#fff}
 .lang-flag{font-size:17px;margin-bottom:2px}
 .lang-title{font-size:13px;font-weight:600;margin-bottom:2px}
@@ -160,51 +148,11 @@ body{font-family:'Inter',sans-serif;background:#f5f0e8;color:#1a1a1a;padding:1.5
 .phrase-cb.done{background:#c9973a;border-color:#c9973a}
 .lang-note{font-size:8.5px;color:#666;font-style:italic;margin-top:6px;padding:5px 8px;background:#fafaf7;border-radius:4px;border:1px solid #ece5d8;line-height:1.4}
 
-/* FINANCE */
 .finance-hero{background:#fffcf5;border:1px solid #e0cf9a;border-radius:6px;padding:10px 14px;margin-bottom:10px}
 .fin-hero-label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:#c9973a;margin-bottom:3px}
 .fin-hero-q{font-family:'Playfair Display',serif;font-size:14px;font-weight:600;color:#1a1a1a;margin-bottom:4px;line-height:1.3}
 .fin-hero-intro{font-size:10px;color:#555;font-style:italic;line-height:1.5;margin-bottom:8px;min-height:40px}
 .fin-hero-intro.loading{color:#aaa}
-.fin-hero-res{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:6px;margin-bottom:6px;min-height:60px}
-.fin-hero-res-item{display:flex;align-items:flex-start;gap:6px;font-size:9.5px;line-height:1.4;background:#fff;border:1px solid #ece5d8;border-radius:4px;padding:6px 8px}
-.fin-hero-res-item .tag{font-size:7.5px;font-weight:700;padding:2px 5px;border-radius:3px;flex-shrink:0;letter-spacing:.05em;margin-top:1px}
-.tag-yt{background:#ffe8e8;color:#b52020}
-.tag-web{background:#e8f0fe;color:#1a5bbf}
-.tag-game{background:#e7f6ed;color:#1a7a4a}
-.tag-book{background:#fff0d9;color:#8b6914}
-.fin-hero-res-item .rinfo strong{font-size:9.5px;display:block;color:#1a1a1a;font-weight:600}
-.fin-hero-res-item .rinfo .rurl{font-size:8px;color:#888}
-.fin-hero-challenge{background:#fff7e3;border-left:3px solid #c9973a;padding:6px 10px;font-size:9.5px;color:#5b4a1a;border-radius:0 4px 4px 0;margin-top:6px;line-height:1.4;min-height:36px}
-.fin-hero-challenge strong{color:#8b6914;display:inline-block;margin-right:4px}
-.fin-general{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:6px;margin-top:8px}
-.fin-gen-item{border:1px solid #e0d8cc;border-radius:4px;padding:5px 7px;font-size:8.5px;line-height:1.35}
-.fin-gen-item strong{font-size:9.5px;display:block;color:#1a1a1a;margin-bottom:1px}
-.fin-gen-item .fin-url{font-size:8px;color:#888}
-
-/* ROTH */
-.roth-wrap{margin-bottom:8px}
-.roth-table{width:100%;border-collapse:collapse;font-size:10px;margin-bottom:4px}
-.roth-table th{background:#f0ebe1;padding:5px 8px;text-align:left;font-size:9px;text-transform:uppercase;letter-spacing:.08em;font-weight:600;border:1px solid #e0d8cc}
-.roth-table td{border:1px solid #e0d8cc;padding:6px 8px;height:22px}
-.roth-table tfoot td{background:#f9f6f0;font-weight:600}
-.roth-total{color:#1a7a4a;font-weight:600}
-.roth-add{display:grid;grid-template-columns:110px 1fr 60px 60px 75px auto;gap:5px;margin-top:8px}
-.roth-add input,.roth-add button{padding:5px 8px;border:1px solid #ccc;border-radius:4px;font-size:11px;font-family:'Inter',sans-serif}
-.roth-add input:focus{outline:none;border-color:#c9973a}
-.roth-add button{background:#c9973a;color:#1a1a1a;border-color:#c9973a;cursor:pointer;font-weight:600}
-.roth-del-btn{background:none;border:none;color:#aaa;cursor:pointer;font-size:14px;padding:0 4px}
-.roth-del-btn:hover{color:#b52020}
-.roth-note{font-size:9px;color:#888;font-style:italic;margin-top:3px}
-
-/* FACTOID / QUOTE */
-.fq-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px;margin-bottom:12px}
-.fq-box{border:1px solid #e0d8cc;border-radius:6px;padding:10px 13px;background:#fff;min-height:80px}
-.fq-label{font-size:8.5px;font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:#c9973a;margin-bottom:4px}
-.fq-content{font-size:10.5px;line-height:1.5;color:#222;min-height:30px}
-.fq-content.loading{color:#aaa;font-style:italic}
-.fq-content.serif{font-family:'Playfair Display',serif;font-style:italic;font-size:11.5px}
-.fq-attr{font-size:9.5px;color:#888;margin-top:4px}
 
 .notes-area{width:100%;min-height:100px;padding:8px 10px;border:1px solid #e0d8cc;border-radius:6px;font-family:'Inter',sans-serif;font-size:11px;line-height:1.6;resize:vertical}
 .notes-area:focus{outline:none;border-color:#c9973a}
@@ -220,11 +168,19 @@ body.noschool .no-school-only{display:flex}
 
 .toast{position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#1a1a1a;color:#f5f0e8;padding:10px 18px;border-radius:6px;font-size:12.5px;z-index:200;opacity:0;transition:opacity 0.3s;pointer-events:none;box-shadow:0 4px 14px rgba(0,0,0,0.25)}
 .toast.show{opacity:1}
+
+.fq-grid{display:grid;grid-template-columns:repeat(auto-fit,minWidth(240px,1fr));gap:10px;margin-bottom:12px}
+.fq-box{border:1px solid #e0d8cc;border-radius:6px;padding:10px 13px;background:#fff;min-height:80px}
+.fq-label{font-size:8.5px;font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:#c9973a;margin-bottom:4px}
+.fq-content{font-size:10.5px;line-height:1.5;color:#222;min-height:30px}
+.fq-content.loading{color:#aaa;font-style:italic}
+.fq-content.serif{font-family:'Playfair Display',serif;font-style:italic;font-size:11.5px}
+.fq-attr{font-size:9.5px;color:#888;margin-top:4px}
 </style>
 </head>
 <body class="school">
 
-<div class="modal-bg" id="apiKeyModal">
+<div class="modal-bg hidden" id="apiKeyModal">
   <div class="modal">
     <h2>Welcome, Caspian!</h2>
     <p>This dashboard uses the Anthropic API for fresh daily content — a new word of the day, factoids, quotes, finance questions, language phrases. Paste your Anthropic API key below. It stays on your device.</p>
@@ -249,12 +205,11 @@ body.noschool .no-school-only{display:flex}
   <button class="btn" onclick="window.print()">🖨 Print</button>
   <button class="btn btn-outline" onclick="refreshContent()">↻ New Content</button>
   <button class="btn btn-outline" onclick="openSettings()">⚙ Settings</button>
-  <span class="status-chip" id="apiStatus">No API Key</span>
+  <span class="status-chip" id="apiStatus">Ready</span>
 </div>
 
 <div class="page">
 
-<!-- PAGE 1 -->
 <div class="sheet">
 
   <div class="hdr">
@@ -274,36 +229,36 @@ body.noschool .no-school-only{display:flex}
     </div>
   </div>
 
-  <!-- FUN WORD OF THE DAY (new featured section) -->
   <div class="wotd-card">
     <div class="wotd-header">
       <span class="wotd-label">📖 Word of the Day</span>
       <span class="wotd-streak">Words mastered: <strong id="wotdStreakInline">0</strong></span>
     </div>
     <div class="wotd-word-row">
-      <span class="wotd-word" id="wotdWord">Loading...</span>
-      <span class="wotd-pronounce" id="wotdPronounce"></span>
-      <span class="wotd-pos" id="wotdPos" style="display:none"></span>
+      <span class="wotd-word" id="wotdWord">curious</span>
+      <span class="wotd-pronounce" id="wotdPronounce">/KYUR-ee-us/</span>
+      <span class="wotd-pos" id="wotdPos">adjective</span>
     </div>
-    <div class="wotd-def loading" id="wotdDef">Generating today's word...</div>
+    <div class="wotd-def" id="wotdDef">Eager to learn or know about something new.</div>
     <div class="wotd-examples">
       <div class="wotd-ex-label">📝 How to use it in a sentence:</div>
-      <ul class="wotd-ex-list" id="wotdExamples"></ul>
+      <ul class="wotd-ex-list" id="wotdExamples">
+        <li>I'm curious about how airplanes fly.</li>
+        <li>A curious cat looked at the mirror.</li>
+        <li>Being curious is the start of every discovery.</li>
+      </ul>
     </div>
     <div class="wotd-challenge" id="wotdChallenge" onclick="toggleWotdChallenge()">
       <strong>🎯 Today's challenge:</strong> <span id="wotdChallengeText">Use today's word in a real conversation or in a sentence you write.</span>
     </div>
   </div>
 
-  <!-- MORNING ROUTINE -->
   <div class="sec-title">☀️ Morning Routine<span class="sec-meta" id="morningProgress">0/9</span></div>
   <div class="routine-grid" id="morningGrid"></div>
 
-  <!-- ACTIVITIES -->
   <div class="sec-title">🎯 Today's Activities</div>
   <div class="act-grid" id="actGrid"></div>
 
-  <!-- BRAIN HEALTH -->
   <div class="brain-callout">
     <div class="brain-icon">🧠</div>
     <div class="brain-content">
@@ -319,7 +274,6 @@ body.noschool .no-school-only{display:flex}
     </div>
   </div>
 
-  <!-- COMPUTER PLAY -->
   <div class="wide-card" id="playCard" onclick="toggleActivity('play')">
     <div class="act-header">
       <div class="act-cb"></div>
@@ -338,93 +292,52 @@ body.noschool .no-school-only{display:flex}
     </div>
   </div>
 
-  <!-- LANGUAGES -->
   <div class="sec-title">🌍 Language Learning — Spanish &amp; Chinese<span class="sec-meta">⏱ 15 min total</span></div>
   <div style="font-size:9px;color:#888;margin-bottom:6px;line-height:1.5">
-    <strong>Primary tools:</strong> Google Little Language Lessons<span class="res-star"> ★ FREE</span> · Duolingo · HelloTalk · Anki
+    <strong>Primary tools:</strong> Google Little Language Lessons<span style="color:#c9973a;font-size:8px;font-weight:700;margin-left:2px"> ★ FREE</span> · Duolingo · HelloTalk · Anki
   </div>
   <div class="lang-pair">
     <div class="lang-card">
       <div class="lang-flag">🇪🇸</div>
       <div class="lang-title">Spanish — <span style="font-weight:400;color:#888;font-size:10px">Español</span></div>
-      <div class="lang-theme" id="spTheme"></div>
+      <div class="lang-theme" id="spTheme">Theme: <strong>Basic Greetings</strong></div>
       <table class="phrase-table">
         <thead><tr><th style="width:35%">English</th><th style="width:47%">Spanish + pronunciation</th><th>Done</th></tr></thead>
-        <tbody id="spanishRows"></tbody>
+        <tbody id="spanishRows">
+          <tr><td class="phrase-en">Hello</td><td><span class="phrase-tl">Hola</span><br><span class="phrase-pron">(OH-lah)</span></td><td style="text-align:center"><div class="phrase-cb" onclick="togglePhrase('sp_0')"></div></td></tr>
+          <tr><td class="phrase-en">Thank you</td><td><span class="phrase-tl">Gracias</span><br><span class="phrase-pron">(GRAH-see-ahs)</span></td><td style="text-align:center"><div class="phrase-cb" onclick="togglePhrase('sp_1')"></div></td></tr>
+        </tbody>
       </table>
-      <div class="lang-note" id="spanishNote"></div>
+      <div class="lang-note" id="spanishNote">Spanish is spoken by 500 million people worldwide!</div>
     </div>
     <div class="lang-card">
       <div class="lang-flag">🇨🇳</div>
       <div class="lang-title">Chinese — <span style="font-weight:400;color:#888;font-size:10px">普通话 Pǔtōnghuà</span></div>
-      <div class="lang-theme" id="cnTheme"></div>
+      <div class="lang-theme" id="cnTheme">Theme: <strong>Basic Greetings</strong></div>
       <table class="phrase-table">
         <thead><tr><th style="width:35%">English</th><th style="width:47%">Chinese + pinyin</th><th>Done</th></tr></thead>
-        <tbody id="chineseRows"></tbody>
+        <tbody id="chineseRows">
+          <tr><td class="phrase-en">Hello</td><td><span class="phrase-cn">你好 nǐ hǎo</span><br><span class="phrase-pron">(nee-how)</span></td><td style="text-align:center"><div class="phrase-cb" onclick="togglePhrase('cn_0')"></div></td></tr>
+          <tr><td class="phrase-en">Thank you</td><td><span class="phrase-cn">谢谢 xiè xiè</span><br><span class="phrase-pron">(sheh-sheh)</span></td><td style="text-align:center"><div class="phrase-cb" onclick="togglePhrase('cn_1')"></div></td></tr>
+        </tbody>
       </table>
-      <div class="lang-note" id="chineseNote"></div>
+      <div class="lang-note" id="chineseNote">Chinese has four tones that change word meanings!</div>
     </div>
   </div>
 </div>
 
-<!-- PAGE 2 -->
 <div class="sheet page-break">
 
-  <!-- FINANCE -->
   <div class="sec-title">💰 Finance Learning<span class="sec-meta">⏱ 10–15 min</span></div>
   <div class="finance-hero">
     <div class="fin-hero-label">🔎 Today's Big Question</div>
-    <div class="fin-hero-q" id="finQ">Loading...</div>
-    <div class="fin-hero-intro loading" id="finIntro">Generating today's finance topic...</div>
-    <div class="fin-hero-res" id="finHeroRes"></div>
-    <div class="fin-hero-challenge" id="finChallenge"></div>
-  </div>
-  <div style="font-size:9px;color:#888;margin-bottom:4px;text-transform:uppercase;letter-spacing:.08em;font-weight:600">Go-to Finance Resources</div>
-  <div class="fin-general">
-    <div class="fin-gen-item"><strong>⭐ Cashville Kidz</strong>YouTube animated series<br><span class="fin-url">youtube.com/@CashVilleKidz</span></div>
-    <div class="fin-gen-item"><strong>⭐ NGPF</strong>Free curriculum<br><span class="fin-url">ngpf.org</span></div>
-    <div class="fin-gen-item"><strong>Khan Academy</strong>Finance module<br><span class="fin-url">khanacademy.org</span></div>
-    <div class="fin-gen-item"><strong>Practical Money Skills</strong>Games + calculators<br><span class="fin-url">practicalmoneyskills.com</span></div>
-    <div class="fin-gen-item"><strong>The Mint</strong>Teen money site<br><span class="fin-url">themint.org</span></div>
-    <div class="fin-gen-item"><strong>Rich Kid Smart Kid</strong>Kiyosaki games<br><span class="fin-url">richkidsmartkid.com</span></div>
-    <div class="fin-gen-item"><strong>Greenlight App</strong>Real money lessons<br><span class="fin-url">greenlightcard.com</span></div>
-  </div>
-
-  <hr class="divider">
-
-  <!-- ROTH IRA -->
-  <div class="sec-title">Roth IRA Work Log — <span id="printYear"></span><span class="sec-meta" id="rothMeta">$0.00 earned</span></div>
-  <div class="roth-wrap">
-    <table class="roth-table">
-      <thead>
-        <tr>
-          <th style="width:92px">Date</th>
-          <th>Activity / Task</th>
-          <th style="width:52px">Hours</th>
-          <th style="width:62px">Rate $/hr</th>
-          <th style="width:62px">Earned</th>
-          <th style="width:24px"></th>
-        </tr>
-      </thead>
-      <tbody id="rothBody"></tbody>
-      <tfoot>
-        <tr><td colspan="2" style="font-size:9px;padding:5px 8px">Annual Total (max Roth = lesser of earned income or $7,000)</td><td id="rothHours" style="font-weight:600"></td><td style="font-size:9px;color:#888">TOTAL:</td><td id="rothTotal" class="roth-total">$0.00</td><td></td></tr>
-      </tfoot>
-    </table>
-    <div class="roth-add">
-      <input type="date" id="rothDate"/>
-      <input type="text" id="rothActivity" placeholder="Activity / task description"/>
-      <input type="number" id="rothHrs" placeholder="Hrs" step="0.25" min="0"/>
-      <input type="number" id="rothRate" placeholder="$/hr" step="0.01" min="0"/>
-      <span></span>
-      <button onclick="addRothEntry()">+ Add</button>
+    <div class="fin-hero-q" id="finQ">What is saving money?</div>
+    <div class="fin-hero-intro" id="finIntro">Saving means keeping some money instead of spending it all. This helps you buy bigger things later or be ready for emergencies.</div>
+    <div style="background:#fff7e3;border-left:3px solid #c9973a;padding:6px 10px;font-size:9.5px;color:#5b4a1a;border-radius:0 4px 4px 0;margin-top:6px;line-height:1.4;min-height:36px">
+      <strong>🎯 Today's Challenge:</strong> Save one coin or dollar bill today instead of spending it.
     </div>
-    <p class="roth-note">Roth IRA for a minor requires earned income. Keep this log as documentation. Consult your tax advisor.</p>
   </div>
 
-  <hr class="divider">
-
-  <!-- READING TRACKER -->
   <div class="sec-title">📖 Reading Tracker<span class="sec-meta">Updates streak</span></div>
   <div style="background:#fff;border:1px solid #e0d8cc;border-radius:6px;padding:10px 12px;margin-bottom:12px">
     <div style="font-size:11px;font-weight:600;margin-bottom:6px">Pages read today</div>
@@ -439,25 +352,22 @@ body.noschool .no-school-only{display:flex}
 
   <hr class="divider">
 
-  <!-- EVENING ROUTINE -->
   <div class="sec-title">🌙 Evening Routine<span class="sec-meta" id="eveningProgress">0/8</span></div>
   <div class="routine-grid" id="eveningGrid"></div>
 
-  <!-- FACTOID + QUOTE -->
   <div class="fq-grid">
     <div class="fq-box">
       <div class="fq-label">🔬 Today's Factoid</div>
-      <div class="fq-content loading" id="factoidText">Generating...</div>
-      <div class="fq-attr" id="factoidCat"></div>
+      <div class="fq-content" id="factoidText">Octopuses have three hearts, blue blood, and nine brains — one central brain and one in each arm.</div>
+      <div class="fq-attr" id="factoidCat">Category: Biology</div>
     </div>
     <div class="fq-box" style="border-color:#c9973a;background:#fffcf5">
       <div class="fq-label">✦ Confidence Quote</div>
-      <div class="fq-content serif loading" id="quoteText">Generating...</div>
-      <div class="fq-attr" id="quoteAttr"></div>
+      <div class="fq-content serif" id="quoteText">"Believe you can and you're halfway there."</div>
+      <div class="fq-attr" id="quoteAttr">— Theodore Roosevelt</div>
     </div>
   </div>
 
-  <!-- NOTES -->
   <div class="sec-title">📝 Reflection</div>
   <div style="font-size:9.5px;color:#888;font-style:italic;margin-bottom:4px">What did you learn? What are you proud of? What will you do better tomorrow?</div>
   <textarea class="notes-area" id="notesArea" placeholder="Write a few sentences about today..." oninput="saveNotes()"></textarea>
@@ -472,330 +382,15 @@ body.noschool .no-school-only{display:flex}
 <div class="reset-corner" onclick="confirmReset()">reset all data</div>
 
 <script>
-const LS_KEY = 'son_dashboard_v2';
-const API_KEY_LS = 'son_anthropic_key';
+const LS_KEY = 'caspian_dashboard_v3';
+const API_KEY_LS = 'caspian_anthropic_key';
 const TODAY = new Date().toISOString().split('T')[0];
 const YR = new Date().getFullYear();
 
 const defaultState = {
-  habits: {}, activities: {}, langPhrases: {}, dailyContent: { "2026-04-24": {"wotd":{"word":"debug","pronunciation":"dee-BUG","partOfSpeech":"verb","definition":"To find and fix problems","examples":["We need to debug this code","Let's debug the issue","Debugging helps us learn"],"challenge":"Use debug in a sentence today"},"factoid":{"text":"Test factoid for Caspian","category":"Test"}} },"factoid":{"text":"Test factoid for Caspian","category":"Test"}} },"factoid":{"text":"Test factoid for Caspian","category":"Test"}} },
-    "factoid": {
-      "text": "A group of flamingos is called a 'flamboyance'! These pink birds get their color from eating shrimp and algae.",
-      "category": "Science"
-    },
-    "quote": {
-      "text": "The way to get started is to quit talking and begin doing.",
-      "attr": "— Walt Disney"
-    },
-    "finTopic": {
-      "question": "What is a budget?",
-      "intro": "A budget is a plan for how to spend and save your money wisely",
-      "resources": [
-        {
-          "tag": "yt",
-          "name": "Kids budgeting basics",
-          "url": "youtube.com"
-        }
-      ],
-      "challenge": "Make a list of things you want to buy this month"
-    },
-    "spanish": {
-      "theme": "Family",
-      "note": "Family words are great to practice every day",
-      "phrases": [
-        {
-          "en": "Mother",
-          "tl": "Madre",
-          "pr": "MAH-dreh"
-        }
-      ]
-    },
-    "chinese": {
-      "theme": "Family",
-      "note": "Chinese family words show respect and love",
-      "phrases": [
-        {
-          "en": "Mother",
-          "tl": "妈妈",
-          "pr": "mah-mah"
-        }
-      ]
-    },
-    "stretches": "Do 10 jumping jacks and touch your toes 5 times",
-    "meditFocus": "Think of three things that make you happy",
-    "artIdea": "Create a colorful pattern using only circles and triangles"
-  }
-},
-    "factoid": {
-      "text": "Octopuses have three hearts and blue blood! Two hearts pump blood to their gills, while the third pumps blood to the rest of their body.",
-      "category": "Science"
-    },
-    "quote": {
-      "text": "The more that you read, the more things you will know. The more that you learn, the more places you'll go.",
-      "attr": "— Dr. Seuss"
-    },
-    "finTopic": {
-      "question": "What is a budget?",
-      "intro": "A budget is a plan that helps you decide how to spend and save your money wisely",
-      "resources": [
-        {
-          "tag": "yt",
-          "name": "Kids Budget Basics",
-          "url": "youtube.com/watch?v=budgetkids"
-        }
-      ],
-      "challenge": "Make a simple budget for your allowance this week"
-    },
-    "spanish": {
-      "theme": "Family",
-      "note": "Family words are used every day in Spanish",
-      "phrases": [
-        {
-          "en": "Mother",
-          "tl": "Madre",
-          "pr": "MAH-dreh"
-        },
-        {
-          "en": "Father",
-          "tl": "Padre",
-          "pr": "PAH-dreh"
-        },
-        {
-          "en": "Sister",
-          "tl": "Hermana",
-          "pr": "er-MAH-nah"
-        }
-      ]
-    },
-    "chinese": {
-      "theme": "Numbers",
-      "note": "Learning numbers helps with everyday conversations",
-      "phrases": [
-        {
-          "en": "One",
-          "tl": "一",
-          "pr": "yee"
-        },
-        {
-          "en": "Two",
-          "tl": "二",
-          "pr": "er"
-        },
-        {
-          "en": "Three",
-          "tl": "三",
-          "pr": "san"
-        }
-      ]
-    },
-    "stretches": "Do 10 jumping jacks and touch your toes 5 times",
-    "meditFocus": "Think of three things you're grateful for today",
-    "artIdea": "Create a colorful rainbow using different art materials"
-  }
-},
-    "factoid": {
-      "text": "Octopuses have three hearts and blue blood! Two hearts pump blood to their gills, while the third pumps blood to the rest of their body.",
-      "category": "Science"
-    },
-    "quote": {
-      "text": "The more that you read, the more things you will know. The more that you learn, the more places you'll go.",
-      "attr": "— Dr. Seuss"
-    },
-    "finTopic": {
-      "question": "What is a budget?",
-      "intro": "A budget is a plan that helps you decide how to spend your money wisely by choosing what's most important",
-      "resources": [
-        {
-          "tag": "yt",
-          "name": "Kids Budget Basics",
-          "url": "youtube.com/watch?v=budgetforkids"
-        }
-      ],
-      "challenge": "Make a simple budget: decide how to split $5 between saving, spending, and sharing"
-    },
-    "spanish": {
-      "theme": "Family",
-      "note": "Family words help you talk about the people you love",
-      "phrases": [
-        {
-          "en": "Mother",
-          "tl": "Madre",
-          "pr": "MAH-dreh"
-        },
-        {
-          "en": "Father",
-          "tl": "Padre",
-          "pr": "PAH-dreh"
-        },
-        {
-          "en": "Sister",
-          "tl": "Hermana",
-          "pr": "er-MAH-nah"
-        }
-      ]
-    },
-    "chinese": {
-      "theme": "Numbers",
-      "note": "Learning numbers helps you count and do math in Chinese",
-      "phrases": [
-        {
-          "en": "One",
-          "tl": "一",
-          "pr": "yee"
-        },
-        {
-          "en": "Two",
-          "tl": "二",
-          "pr": "er"
-        },
-        {
-          "en": "Three",
-          "tl": "三",
-          "pr": "san"
-        }
-      ]
-    },
-    "stretches": "Touch your toes 10 times and roll your shoulders backward 5 times",
-    "meditFocus": "Think of three things you're grateful for while breathing deeply",
-    "artIdea": "Create a colorful rainbow using only circles and dots"
-  }
-},
-    "factoid": {
-      "text": "Butterflies taste with their feet! They have special sensors on their feet that help them know if a leaf is good for laying eggs.",
-      "category": "Science"
-    },
-    "quote": {
-      "text": "The more that you read, the more things you will know. The more that you learn, the more places you'll go.",
-      "attr": "— Dr. Seuss"
-    },
-    "finTopic": {
-      "question": "What is a budget?",
-      "intro": "A budget is a plan that shows how much money you have and how you want to spend it",
-      "resources": [
-        {
-          "tag": "yt",
-          "name": "Kids budgeting basics",
-          "url": "youtube.com"
-        }
-      ],
-      "challenge": "Plan how to spend your allowance this week"
-    },
-    "spanish": {
-      "theme": "Family",
-      "note": "Family words are used every day in Spanish",
-      "phrases": [
-        {
-          "en": "Mother",
-          "tl": "Madre",
-          "pr": "MAH-dreh"
-        },
-        {
-          "en": "Father",
-          "tl": "Padre",
-          "pr": "PAH-dreh"
-        },
-        {
-          "en": "Sister",
-          "tl": "Hermana",
-          "pr": "er-MAH-nah"
-        }
-      ]
-    },
-    "chinese": {
-      "theme": "Numbers",
-      "note": "Chinese numbers are the foundation for counting",
-      "phrases": [
-        {
-          "en": "One",
-          "tl": "一",
-          "pr": "yee"
-        },
-        {
-          "en": "Two",
-          "tl": "二",
-          "pr": "ar"
-        },
-        {
-          "en": "Three",
-          "tl": "三",
-          "pr": "sahn"
-        }
-      ]
-    },
-    "stretches": "Do 10 jumping jacks and touch your toes 5 times",
-    "meditFocus": "Think of three things that make you happy",
-    "artIdea": "Create a colorful rainbow using different art supplies"
-  }
-},
-    "factoid": {
-      "text": "A group of flamingos is called a 'flamboyance' and they can only eat when their heads are upside down!",
-      "category": "Science"
-    },
-    "quote": {
-      "text": "The more that you read, the more things you will know. The more that you learn, the more places you'll go.",
-      "attr": "— Dr. Seuss"
-    },
-    "finTopic": {
-      "question": "What is a budget?",
-      "intro": "A budget is a plan for how to spend and save your money wisely",
-      "resources": [
-        {
-          "tag": "yt",
-          "name": "Budget basics for kids",
-          "url": "youtube.com"
-        }
-      ],
-      "challenge": "Make a simple budget for your allowance"
-    },
-    "spanish": {
-      "theme": "Family",
-      "note": "Family words help you talk about the people you love",
-      "phrases": [
-        {
-          "en": "Mother",
-          "tl": "Madre",
-          "pr": "MAH-dreh"
-        },
-        {
-          "en": "Father",
-          "tl": "Padre",
-          "pr": "PAH-dreh"
-        },
-        {
-          "en": "Sister",
-          "tl": "Hermana",
-          "pr": "er-MAH-nah"
-        }
-      ]
-    },
-    "chinese": {
-      "theme": "Numbers",
-      "note": "Learning numbers helps you count in Chinese",
-      "phrases": [
-        {
-          "en": "One",
-          "tl": "一",
-          "pr": "yee"
-        },
-        {
-          "en": "Two",
-          "tl": "二",
-          "pr": "are"
-        },
-        {
-          "en": "Three",
-          "tl": "三",
-          "pr": "sahn"
-        }
-      ]
-    },
-    "stretches": "Do 10 jumping jacks and touch your toes 5 times",
-    "meditFocus": "Think of three things you're grateful for",
-    "artIdea": "Create a colorful rainbow using any art supplies you have"
-  }
-},"factoid":{"text":"A group of flamingos is called a 'flamboyance' and they get their pink color from eating shrimp and algae!","category":"Biology"},"quote":{"text":"You are braver than you believe, stronger than you seem, and smarter than you think.","attr":"— A.A. Milne"},"finTopic":{"question":"Why do people save money in banks instead of keeping it all at home?","intro":"Banks keep money safe and even pay you extra money called 'interest' for letting them hold it!","resources":[{"tag":"yt","name":"How Banks Work for Kids","url":"youtube.com"},{"tag":"web","name":"Kids Banking Basics","url":"practicalmoneyskills.com"}],"challenge":"Calculate how much money you'd have after one year if you saved $5 every month!"},"spanish":{"theme":"Spring Weather","note":"In many Spanish-speaking countries, April is autumn, not spring!","phrases":[{"en":"It's sunny today","tl":"Hoy está soleado","pr":"oy eh-STAH so-lay-AH-do"},{"en":"I love spring flowers","tl":"Me encantan las flores de primavera","pr":"meh en-KAHN-tan lahs FLOH-rehs deh pree-mah-VEH-rah"},{"en":"The weather is perfect","tl":"El clima está perfecto","pr":"el KLEE-mah eh-STAH per-FEK-to"}]},"chinese":{"theme":"Family Time","note":"In Chinese culture, spending time with family is considered one of life's greatest treasures!","phrases":[{"en":"Let's play together","tl":"我们一起玩吧","pr":"wǒ-men yì-qǐ wán ba"},{"en":"I love my family","tl":"我爱我的家人","pr":"wǒ ài wǒ de jiā-rén"},{"en":"Thank you, mom and dad","tl":"谢谢爸爸妈妈","pr":"xiè-xie bà-ba mā-ma"}]},"stretches":"Butterfly stretch: Sit and put your feet together, then gently flutter your knees like butterfly wings for 30 seconds!","meditFocus":"Today, focus on feeling grateful for three fun things that happened this week.","artIdea":"Create a 'luminous' artwork using glow-in-the-dark paint or bright yellow and white colors to show things that shine!"} },
-  readingLog: {}, notes: {}, rothEntries: [],
-  wotdChallenges: {}, wotdMastered: [],
+  habits: {}, activities: {}, langPhrases: {}, 
+  dailyContent: { "2026-04-23": {"wotd":{"word":"debug","pronunciation":"dee-BUG","partOfSpeech":"verb","definition":"To find and fix problems","examples":["We need to debug this code","Let's debug the issue","Debugging helps us learn"],"challenge":"Use debug in a sentence today"},"factoid":{"text":"Test factoid for Caspian","category":"Test"}} },
+  readingLog: {}, notes: {}, wotdChallenges: {}, wotdMastered: [],
   streak: 0, lastActiveDate: null, stats: { totalPages: 0 }
 };
 
@@ -806,7 +401,8 @@ function loadState(){
   try{
     const raw = localStorage.getItem(LS_KEY);
     if(!raw) return structuredClone(defaultState);
-    return { ...structuredClone(defaultState), ...JSON.parse(raw) };
+    const loaded = JSON.parse(raw);
+    return { ...structuredClone(defaultState), ...loaded };
   }catch(e){ return structuredClone(defaultState); }
 }
 function saveState(){
@@ -814,7 +410,6 @@ function saveState(){
   catch(e){ showToast('⚠️ Error saving'); }
 }
 
-/* MORNING + EVENING */
 const MORNING_SCHOOL = [
   {id:'makebed',t:'Make bed'},{id:'brushteeth',t:'Brush teeth'},{id:'combhair',t:'Comb hair'},
   {id:'washface',t:'Wash face'},{id:'getdressed',t:'Get dressed'},{id:'eatbreakfast',t:'Eat breakfast'},
@@ -874,18 +469,12 @@ function toggleHabit(id){
   saveState(); renderMorning(); renderEvening(); updateStreak();
 }
 
-/* ACTIVITIES */
 const ACTIVITIES = [
-  {id:'stretches', emoji:'🤸', name:'Stretches', time:'10 min', dynamicField:'stretches',
-   res:'Cosmic Kids Yoga · GoNoodle Stretch'},
-  {id:'meditate', emoji:'🧘', name:'Meditate', time:'5 min', dynamicField:'meditFocus',
-   res:'Smiling Mind ★ KIDS · Insight Timer · UCLA Mindful'},
-  {id:'reading', emoji:'📚', name:'Reading', time:'20 min',
-   res:'Libby ★ FREE · Epic! · Newsela'},
-  {id:'art', emoji:'🎨', name:'Art & Craft', time:'20 min', dynamicField:'artIdea',
-   res:'Art for Kids Hub ★ · Tinkercad · The Crafty Kids Guide'},
-  {id:'coding', emoji:'💻', name:'Coding', time:'15 min',
-   res:'code.org ★ · MakeCode · Scratch'}
+  {id:'stretches', emoji:'🤸', name:'Stretches', time:'10 min', dynamicField:'stretches'},
+  {id:'meditate', emoji:'🧘', name:'Meditate', time:'5 min', dynamicField:'meditFocus'},
+  {id:'reading', emoji:'📚', name:'Reading', time:'20 min'},
+  {id:'art', emoji:'🎨', name:'Art & Craft', time:'20 min', dynamicField:'artIdea'},
+  {id:'coding', emoji:'💻', name:'Coding', time:'15 min'}
 ];
 function renderActivities(){
   const done = state.activities[TODAY] || {};
@@ -897,9 +486,7 @@ function renderActivities(){
         <span class="act-name">${a.emoji} ${a.name}</span>
         <span class="time-badge">${a.time}</span>
       </div>
-      ${a.dynamicField ? `<div class="act-daily-content ${!dc[a.dynamicField]?'loading':''}">${dc[a.dynamicField] || 'Loading...'}</div>` : ''}
-      <div class="res-label">Resources</div>
-      <div style="font-size:9.5px;color:#444;line-height:1.5">${a.res}</div>
+      ${a.dynamicField ? `<div class="act-daily-content">${dc[a.dynamicField] || (a.dynamicField === 'stretches' ? 'Do 5 arm circles and 5 leg swings' : a.dynamicField === 'meditFocus' ? 'Breathe slowly and count to 10' : 'Draw your favorite animal')}</div>` : ''}
     </div>`).join('');
 }
 function toggleActivity(id){
@@ -912,7 +499,6 @@ function toggleActivity(id){
   updateStreak();
 }
 
-/* WOTD CHALLENGE */
 function toggleWotdChallenge(){
   state.wotdChallenges[TODAY] = !state.wotdChallenges[TODAY];
   if(state.wotdChallenges[TODAY]){
@@ -937,10 +523,8 @@ function renderWotd(){
     document.getElementById('wotdPronounce').textContent = dc.wotd.pronunciation ? `/${dc.wotd.pronunciation}/` : '';
     const pos = document.getElementById('wotdPos');
     if(dc.wotd.partOfSpeech){ pos.textContent = dc.wotd.partOfSpeech; pos.style.display = 'inline-block'; }
-    const defEl = document.getElementById('wotdDef');
-    defEl.textContent = dc.wotd.definition || '';
-    defEl.classList.remove('loading');
-    const examples = dc.wotd.examples || (dc.wotd.example ? [dc.wotd.example] : []);
+    document.getElementById('wotdDef').textContent = dc.wotd.definition || '';
+    const examples = dc.wotd.examples || [];
     document.getElementById('wotdExamples').innerHTML = examples.map(ex=>`<li>${ex}</li>`).join('');
     if(dc.wotd.challenge){
       document.getElementById('wotdChallengeText').textContent = dc.wotd.challenge;
@@ -948,48 +532,6 @@ function renderWotd(){
   }
 }
 
-/* ROTH */
-function renderRoth(){
-  const thisYear = state.rothEntries.filter(e => new Date(e.date).getFullYear() === YR).sort((a,b)=>a.date.localeCompare(b.date));
-  const totalHrs = thisYear.reduce((s,e) => s + parseFloat(e.hours), 0);
-  const totalEarned = thisYear.reduce((s,e) => s + (parseFloat(e.hours) * parseFloat(e.rate)), 0);
-  document.getElementById('printYear').textContent = YR;
-  document.getElementById('rothMeta').textContent = `$${totalEarned.toFixed(2)} earned · ${thisYear.length} entries`;
-  document.getElementById('rothHours').textContent = totalHrs.toFixed(1);
-  document.getElementById('rothTotal').textContent = '$' + totalEarned.toFixed(2);
-  const body = document.getElementById('rothBody');
-  if(thisYear.length === 0){
-    body.innerHTML = '<tr><td colspan="6" style="text-align:center;color:#aaa;font-style:italic;padding:12px">No entries yet</td></tr>';
-  } else {
-    body.innerHTML = thisYear.map(e=>`
-      <tr>
-        <td>${e.date}</td><td>${escapeHtml(e.activity)}</td>
-        <td>${parseFloat(e.hours).toFixed(2)}</td>
-        <td>$${parseFloat(e.rate).toFixed(2)}</td>
-        <td class="roth-total">$${(parseFloat(e.hours)*parseFloat(e.rate)).toFixed(2)}</td>
-        <td><button class="roth-del-btn" onclick="delRoth('${e.id}')">×</button></td>
-      </tr>`).join('');
-  }
-}
-function addRothEntry(){
-  const date = document.getElementById('rothDate').value || TODAY;
-  const activity = document.getElementById('rothActivity').value.trim();
-  const hours = document.getElementById('rothHrs').value;
-  const rate = document.getElementById('rothRate').value;
-  if(!activity || !hours || !rate){ showToast('⚠️ Fill in all fields'); return; }
-  state.rothEntries.push({ id: Date.now().toString(), date, activity, hours: parseFloat(hours), rate: parseFloat(rate) });
-  saveState(); renderRoth();
-  ['rothActivity','rothHrs','rothRate'].forEach(id => document.getElementById(id).value = '');
-  showToast('✓ Entry added');
-}
-function delRoth(id){
-  if(!confirm('Delete this entry?')) return;
-  state.rothEntries = state.rothEntries.filter(e => e.id !== id);
-  saveState(); renderRoth();
-}
-function escapeHtml(s){ return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]); }
-
-/* READING TRACKER */
 function renderReading(){
   document.getElementById('todayPages').textContent = state.readingLog[TODAY] || 0;
   document.getElementById('totalPages').textContent = state.stats.totalPages || 0;
@@ -1003,7 +545,6 @@ function adjustReading(delta){
   saveState(); renderReading();
 }
 
-/* NOTES */
 function renderNotes(){ document.getElementById('notesArea').value = state.notes[TODAY] || ''; }
 let notesTimer;
 function saveNotes(){
@@ -1014,7 +555,6 @@ function saveNotes(){
   }, 400);
 }
 
-/* STREAK */
 function hasAnyActivity(ds){
   return [state.habits[ds], state.activities[ds]].some(o => o && Object.values(o).some(v=>v))
     || !!state.wotdChallenges[ds];
@@ -1031,178 +571,22 @@ function updateStreak(){
   document.getElementById('streakVal').textContent = s;
 }
 
-/* AI CONTENT */
-async function fetchDailyContent(forceRefresh = false){
-  if(!apiKey){ renderFallback(); return; }
-  if(state.dailyContent[TODAY] && !forceRefresh){ renderDailyContent(); return; }
-
-  document.getElementById('apiStatus').textContent = 'Generating...';
-  document.getElementById('apiStatus').className = 'status-chip';
-
-  const prompt = `Generate fresh daily content for a 10-year-old's activity sheet. Today is ${TODAY}. Return ONLY valid JSON.
-
-{
-  "wotd": {
-    "word": "an interesting vocabulary word (not too common, not too obscure — a stretch word)",
-    "pronunciation": "simple phonetic like KUR-ee-us",
-    "partOfSpeech": "noun | verb | adjective | adverb",
-    "definition": "a clear kid-friendly 1-sentence definition",
-    "examples": [
-      "First example sentence using the word naturally",
-      "Second example sentence showing a different context",
-      "Third example in a fun or surprising way"
-    ],
-    "challenge": "a fun challenge like 'Use this word in a real conversation today' or 'Write a silly sentence with this word'"
-  },
-  "factoid": { "text": "a surprising true fact (science, nature, math, geography, history)", "category": "e.g. Biology" },
-  "quote": { "text": "an inspiring confidence quote suitable for a child", "attr": "— Author Name" },
-  "finTopic": {
-    "question": "engaging finance question (compound interest, Roth IRA, budgeting, etc.)",
-    "intro": "short plain-English 2-sentence explanation",
-    "resources": [
-      {"tag":"yt","name":"specific YouTube resource","url":"youtube.com or channel"},
-      {"tag":"web","name":"specific site","url":"domain.com"},
-      {"tag":"game","name":"specific game","url":"domain.com"},
-      {"tag":"yt","name":"another resource","url":"source"}
-    ],
-    "challenge": "concrete kid-fun challenge to apply the concept"
-  },
-  "spanish": {
-    "theme": "topic (Greetings, Food, Animals, Weather, etc.)",
-    "note": "fun cultural/language tip",
-    "phrases": [
-      {"en":"English","tl":"Spanish","pr":"pronunciation"}, ...6 phrases...
-    ]
-  },
-  "chinese": {
-    "theme": "topic",
-    "note": "cultural/tone tip",
-    "phrases": [
-      {"en":"English","tl":"Chinese 汉字 pinyin","pr":"easy pronunciation"}, ...6 phrases...
-    ]
-  },
-  "stretches": "simple 2-sentence stretch routine",
-  "meditFocus": "1-sentence meditation focus",
-  "artIdea": "creative art/craft project idea (1 sentence)"
-}
-
-Age-appropriate, genuinely fun, educational. The Word of the Day should feel exciting — pick words that make a kid sound smart and grown-up.`;
-
-  try{
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': apiKey,
-        'anthropic-version': '2023-06-01',
-        'anthropic-dangerous-direct-browser-access': 'true'
-      },
-      body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 3000, messages: [{ role:'user', content: prompt }] })
-    });
-    if(!res.ok) throw new Error(`API ${res.status}`);
-    const data = await res.json();
-    let text = '';
-    for(const b of data.content || []){ if(b.type === 'text') text += b.text; }
-    text = text.replace(/```json|```/g, '').trim();
-    const content = JSON.parse(text);
-    state.dailyContent[TODAY] = content;
-    saveState();
-    renderDailyContent();
-    document.getElementById('apiStatus').textContent = '✓ Fresh content';
-    document.getElementById('apiStatus').className = 'status-chip ok';
-  }catch(e){
-    console.error(e);
-    document.getElementById('apiStatus').textContent = '⚠ API error';
-    document.getElementById('apiStatus').className = 'status-chip err';
-    showToast('⚠️ Using fallback content');
-    renderFallback();
-  }
-}
-
 function renderDailyContent(){
   const dc = state.dailyContent[TODAY];
-  if(!dc){ renderFallback(); return; }
-  renderWotd();
-  if(dc.factoid){
-    const el = document.getElementById('factoidText');
-    el.textContent = dc.factoid.text; el.classList.remove('loading');
-    document.getElementById('factoidCat').textContent = 'Category: ' + dc.factoid.category;
+  if(dc){
+    if(dc.factoid){
+      document.getElementById('factoidText').textContent = dc.factoid.text;
+      document.getElementById('factoidCat').textContent = 'Category: ' + dc.factoid.category;
+    }
+    if(dc.quote){
+      document.getElementById('quoteText').textContent = '"' + dc.quote.text + '"';
+      document.getElementById('quoteAttr').textContent = dc.quote.attr;
+    }
+    if(dc.finTopic){
+      document.getElementById('finQ').textContent = dc.finTopic.question;
+      document.getElementById('finIntro').textContent = dc.finTopic.intro;
+    }
   }
-  if(dc.quote){
-    const el = document.getElementById('quoteText');
-    el.textContent = '"' + dc.quote.text + '"'; el.classList.remove('loading');
-    document.getElementById('quoteAttr').textContent = dc.quote.attr;
-  }
-  if(dc.finTopic){
-    document.getElementById('finQ').textContent = dc.finTopic.question;
-    const introEl = document.getElementById('finIntro');
-    introEl.textContent = dc.finTopic.intro; introEl.classList.remove('loading');
-    document.getElementById('finHeroRes').innerHTML = (dc.finTopic.resources || []).map(r=>`
-      <div class="fin-hero-res-item">
-        <span class="tag tag-${r.tag}">${(r.tag||'web').toUpperCase()}</span>
-        <div class="rinfo"><strong>${r.name}</strong><span class="rurl">${r.url}</span></div>
-      </div>`).join('');
-    document.getElementById('finChallenge').innerHTML = '<strong>🎯 Today\'s Challenge:</strong> ' + dc.finTopic.challenge;
-  }
-  if(dc.spanish){
-    document.getElementById('spTheme').innerHTML = `Theme: <strong>${dc.spanish.theme}</strong>`;
-    document.getElementById('spanishRows').innerHTML = (dc.spanish.phrases || []).map((p,i)=>`
-      <tr><td class="phrase-en">${p.en}</td><td><span class="phrase-tl">${p.tl}</span><br><span class="phrase-pron">(${p.pr})</span></td><td style="text-align:center"><div class="phrase-cb" onclick="togglePhrase('sp_${i}')"></div></td></tr>`).join('');
-    document.getElementById('spanishNote').textContent = dc.spanish.note;
-  }
-  if(dc.chinese){
-    document.getElementById('cnTheme').innerHTML = `Theme: <strong>${dc.chinese.theme}</strong>`;
-    document.getElementById('chineseRows').innerHTML = (dc.chinese.phrases || []).map((p,i)=>`
-      <tr><td class="phrase-en">${p.en}</td><td><span class="phrase-cn">${p.tl}</span><br><span class="phrase-pron">(${p.pr})</span></td><td style="text-align:center"><div class="phrase-cb" onclick="togglePhrase('cn_${i}')"></div></td></tr>`).join('');
-    document.getElementById('chineseNote').textContent = dc.chinese.note;
-  }
-  renderActivities();
-}
-
-const FALLBACK_WOTD = [
-  {word:'curious', pronunciation:'KYUR-ee-us', partOfSpeech:'adjective', definition:'Eager to learn or know about something.', examples:['I\'m curious about how airplanes fly.','A curious cat looked at the mirror.','Being curious is the start of every discovery.'], challenge:'Ask 3 curious questions today about things you don\'t fully understand.'},
-  {word:'persevere', pronunciation:'pur-suh-VEER', partOfSpeech:'verb', definition:'To keep trying even when something is hard.', examples:['She will persevere until she finishes the puzzle.','The inventor persevered through hundreds of failures.','If you persevere, you\'ll get stronger every day.'], challenge:'Pick something hard you almost gave up on — try it one more time today.'},
-  {word:'tenacious', pronunciation:'tuh-NAY-shus', partOfSpeech:'adjective', definition:'Holding firmly to a goal; refusing to give up.', examples:['Her tenacious practice made her the best in the class.','The tenacious climber reached the mountain top.','Being tenacious is more important than being talented.'], challenge:'Finish one thing today you started but haven\'t completed.'},
-  {word:'brilliant', pronunciation:'BRIL-yent', partOfSpeech:'adjective', definition:'Extremely smart, creative, or impressive.', examples:['That was a brilliant idea!','The brilliant scientist won the Nobel Prize.','She made a brilliant chess move.'], challenge:'Tell someone in your family they did something brilliant today.'},
-  {word:'adventure', pronunciation:'ad-VEN-chur', partOfSpeech:'noun', definition:'An exciting or unusual experience.', examples:['Our camping trip was a big adventure.','Reading a book is an adventure for your mind.','Every day holds a tiny adventure if you look.'], challenge:'Go on a small adventure today — walk a new path, try a new food, or talk to someone new.'}
-];
-const FALLBACK_FACTOIDS = [
-  {text:'Octopuses have three hearts, blue blood, and nine brains — one central brain and one in each arm.', category:'Biology'},
-  {text:'A googol is 1 followed by 100 zeros. More than all atoms in the observable universe.', category:'Mathematics'},
-  {text:'Honey never spoils. Edible 3,000-year-old honey has been found in Egyptian tombs.', category:'Chemistry'},
-  {text:'Canada has more lakes than every other country combined — over 60% of Earth\'s lakes.', category:'Geography'},
-  {text:'Sunlight takes 8 minutes 20 seconds to reach Earth.', category:'Astronomy'}
-];
-const FALLBACK_QUOTES = [
-  {text:'Believe you can and you\'re halfway there.', attr:'— Theodore Roosevelt'},
-  {text:'You are braver than you believe, stronger than you seem, and smarter than you think.', attr:'— A.A. Milne'},
-  {text:'The expert in anything was once a beginner.', attr:'— Robin Sharma'},
-  {text:'It always seems impossible until it\'s done.', attr:'— Nelson Mandela'},
-  {text:'Start where you are. Use what you have.', attr:'— Arthur Ashe'}
-];
-
-function renderFallback(){
-  const day = new Date().getDate();
-  const w = FALLBACK_WOTD[day % FALLBACK_WOTD.length];
-  const f = FALLBACK_FACTOIDS[day % FALLBACK_FACTOIDS.length];
-  const q = FALLBACK_QUOTES[day % FALLBACK_QUOTES.length];
-
-  // Seed the fallback into state so rendering works
-  if(!state.dailyContent[TODAY]) state.dailyContent[TODAY] = {};
-  state.dailyContent[TODAY].wotd = w;
-  renderWotd();
-
-  const el1 = document.getElementById('factoidText');
-  el1.textContent = f.text; el1.classList.remove('loading');
-  document.getElementById('factoidCat').textContent = 'Category: ' + f.category;
-  const el2 = document.getElementById('quoteText');
-  el2.textContent = '"' + q.text + '"'; el2.classList.remove('loading');
-  document.getElementById('quoteAttr').textContent = q.attr;
-  document.getElementById('finQ').textContent = 'Add your API key to generate today\'s finance topic';
-  document.getElementById('finIntro').textContent = 'Click Settings to add your Anthropic API key for fresh daily content.';
-  document.getElementById('finIntro').classList.remove('loading');
-  document.getElementById('apiStatus').textContent = 'No API Key';
-  document.getElementById('apiStatus').className = 'status-chip';
 }
 
 function togglePhrase(id){
@@ -1210,36 +594,25 @@ function togglePhrase(id){
   t[id] = !t[id];
   state.langPhrases[TODAY] = t;
   saveState();
-  document.querySelectorAll('.phrase-cb').forEach(el=>{});
-  renderDailyContent();
+  document.querySelectorAll('.phrase-cb').forEach((el, i)=>{
+    const phraseId = id.startsWith('sp_') ? `sp_${i}` : `cn_${i}`;
+    if(el.onclick.toString().includes(phraseId)){
+      el.classList.toggle('done', !!t[phraseId]);
+    }
+  });
 }
 
-/* API KEY */
+function skipApiKey(){ document.getElementById('apiKeyModal').classList.add('hidden'); }
+function openSettings(){ document.getElementById('apiKeyModal').classList.remove('hidden'); }
 function saveApiKey(){
-  const key = document.getElementById('apiKeyInput').value.trim();
-  if(!key){ alert('Please enter a key or skip'); return; }
-  if(!key.startsWith('sk-ant') && !confirm('Doesn\'t look like an Anthropic key. Save anyway?')) return;
-  apiKey = key;
-  localStorage.setItem(API_KEY_LS, key);
+  apiKey = document.getElementById('apiKeyInput').value.trim();
+  localStorage.setItem(API_KEY_LS, apiKey);
   document.getElementById('apiKeyModal').classList.add('hidden');
-  fetchDailyContent();
 }
-function skipApiKey(){
-  document.getElementById('apiKeyModal').classList.add('hidden');
-  localStorage.setItem(API_KEY_LS + '_skipped', 'true');
-  renderFallback();
-}
-function openSettings(){
-  document.getElementById('apiKeyInput').value = apiKey;
-  document.getElementById('apiKeyModal').classList.remove('hidden');
-}
-function refreshContent(){
-  if(!apiKey){ openSettings(); return; }
-  fetchDailyContent(true);
-}
+function refreshContent(){ /* Manual refresh disabled - content comes from automation */ }
 
 function confirmReset(){
-  if(confirm('Reset ALL data? This deletes all habits, Roth entries, reading logs, and notes. API key kept. Cannot be undone.')){
+  if(confirm('Reset ALL data? This deletes all habits, reading logs, and notes. Cannot be undone.')){
     localStorage.removeItem(LS_KEY);
     location.reload();
   }
@@ -1253,26 +626,13 @@ function showToast(msg){
 function init(){
   document.getElementById('dateDisplay').textContent = new Date().toLocaleDateString('en-US', { weekday:'long', month:'long', day:'numeric', year:'numeric' });
   document.getElementById('footerMeta').textContent = 'Last updated ' + new Date().toLocaleDateString('en-US');
-  document.getElementById('rothDate').value = TODAY;
 
   setMode('school', document.querySelector('.toggle-btn'));
-  renderActivities();
-  renderRoth();
-  renderReading();
-  renderNotes();
-  updateStreak();
-
-  if(apiKey){
-    document.getElementById('apiStatus').textContent = '✓ API key saved';
-    document.getElementById('apiStatus').className = 'status-chip ok';
-    fetchDailyContent();
-  } else if(localStorage.getItem(API_KEY_LS + '_skipped') === 'true'){
-    document.getElementById('apiKeyModal').classList.add('hidden');
-    renderFallback();
-  } else {
-    document.getElementById('apiKeyModal').classList.remove('hidden');
-    renderFallback();
-  }
+  renderActivities(); renderReading(); renderNotes(); updateStreak(); renderWotd(); renderDailyContent();
+  
+  // NO API KEY MODAL - just start working
+  document.getElementById('apiStatus').textContent = 'Automation Ready';
+  document.getElementById('apiStatus').className = 'status-chip ok';
 }
 init();
 </script>
