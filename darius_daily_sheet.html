@@ -115,6 +115,47 @@ body{font-family:'Inter',sans-serif;background:#f5f0e8;color:#1a1a1a;padding:1.5
 .book-field-btn{padding:3px 10px;border:1px solid #ddd;border-radius:4px;background:#fff;cursor:pointer;font-size:12px;color:#666}
 .book-field-btn:hover{background:#c9973a;color:#1a1a1a;border-color:#c9973a}
 
+.lang-table-container{margin-bottom:12px;background:#fff;border:1px solid #e0d8cc;border-radius:6px;overflow:hidden}
+.lang-table{width:100%;border-collapse:collapse;font-size:9.5px}
+.lang-table th{background:#f0ebe1;color:#1a1a1a;font-weight:600;padding:8px 10px;text-align:left;border-right:1px solid #e0d8cc;font-size:10px}
+.lang-table th:last-child{border-right:none}
+.lang-table td{padding:8px 10px;border-right:1px solid #ece5d8;border-bottom:1px solid #ece5d8;vertical-align:top;line-height:1.4}
+.lang-table td:last-child{border-right:none}
+.lang-table tr:last-child td{border-bottom:none}
+.lang-theme{font-size:8px;color:#888;margin-bottom:6px;font-style:italic}
+.lang-phrase{display:flex;align-items:flex-start;gap:6px;margin:3px 0;padding:2px 0;border-bottom:1px dashed #f0f0f0}
+.lang-phrase:last-child{border-bottom:none}
+.lang-phrase-cb{width:10px;height:10px;border:1px solid #bbb;border-radius:2px;flex-shrink:0;margin-top:2px;cursor:pointer;transition:all 0.15s}
+.lang-phrase-cb::after{content:"☐";font-size:8px}
+.lang-phrase-cb.done{background:#c9973a;border-color:#c9973a}
+.lang-phrase-cb.done::after{content:"✓";color:#1a1a1a;font-size:7px;font-weight:900}
+.lang-phrase.done .lang-phrase-en{color:#888;text-decoration:line-through}
+.lang-phrase.done .lang-phrase-tl{opacity:0.7;text-decoration:line-through}
+.lang-phrase-content{flex:1;font-size:9px;line-height:1.3}
+.lang-phrase-en{color:#1a1a1a;font-weight:500;display:block}
+.lang-phrase-tl{color:#1a5bbf;font-weight:600;display:block;margin-top:1px}
+.lang-phrase-tl.italian{color:#1a7a4a}
+.lang-phrase-tl.korean{color:#6b4f9e}
+.lang-phrase-tl.chinese{color:#b5451a}
+.lang-phrase-pron{color:#888;font-size:8px;font-style:italic;display:block}
+
+.vocab-card{background:linear-gradient(135deg,#f8f6f0 0%,#fff4e6 100%);border:2px solid #c9973a;border-radius:10px;padding:16px 20px;margin-bottom:14px;position:relative;overflow:hidden}
+.vocab-card::before{content:"📚";position:absolute;top:-8px;right:8px;font-size:60px;opacity:0.1;pointer-events:none}
+.vocab-header{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.vocab-icon{font-size:18px}
+.vocab-label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.16em;color:#8b5a0a}
+.vocab-word-row{display:flex;align-items:baseline;gap:12px;margin-bottom:6px;flex-wrap:wrap}
+.vocab-word{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:#5a3d0a;letter-spacing:-0.01em}
+.vocab-pronunciation{font-size:11px;color:#8b5a0a;font-style:italic}
+.vocab-pos{font-size:8px;color:#fff;background:#8b5a0a;padding:2px 6px;border-radius:8px;text-transform:uppercase;letter-spacing:.06em;font-weight:600}
+.vocab-definition{font-family:'Playfair Display',serif;font-size:12px;color:#3a2a0a;margin-bottom:10px;line-height:1.45;font-weight:500}
+.vocab-examples{background:rgba(255,255,255,0.7);border-radius:6px;padding:8px 12px;border-left:3px solid #c9973a}
+.vocab-ex-label{font-size:8px;text-transform:uppercase;letter-spacing:.12em;color:#8b5a0a;font-weight:700;margin-bottom:4px}
+.vocab-ex-list{list-style:none;padding:0;margin:0}
+.vocab-example{font-size:10px;color:#3a2a0a;line-height:1.5;padding:2px 0;display:flex;gap:6px;align-items:flex-start}
+.vocab-example::before{content:"•";color:#c9973a;flex-shrink:0;font-weight:700}
+.vocab-etymology{margin-top:8px;padding:6px 10px;background:#fff;border-radius:4px;border:1px solid #e6d7a3;font-size:9px;color:#5a3d0a;font-style:italic;line-height:1.4}
+
 .langs-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:8px;margin-bottom:12px}
 .lang-card{border:1px solid #e0d8cc;border-radius:6px;padding:9px 11px;background:#fff}
 .lang-header{display:flex;align-items:center;gap:6px;margin-bottom:4px}
@@ -335,17 +376,50 @@ body{font-family:'Inter',sans-serif;background:#f5f0e8;color:#1a1a1a;padding:1.5
 
   </div>
 
+  <div class="sec-title">📚 Daily Vocabulary — Advanced English<span class="sec-meta">⏱ 5 min</span></div>
+  <div class="vocab-card">
+    <div class="vocab-header">
+      <span class="vocab-icon">📖</span>
+      <span class="vocab-label">Professional Vocabulary Building</span>
+    </div>
+    <div class="vocab-word-row">
+      <span class="vocab-word" id="vocabWord">Loading...</span>
+      <span class="vocab-pronunciation" id="vocabPronunciation">Loading...</span>
+      <span class="vocab-pos" id="vocabPos">noun</span>
+    </div>
+    <div class="vocab-definition" id="vocabDefinition">Loading definition...</div>
+    <div class="vocab-examples">
+      <div class="vocab-ex-label">Professional Usage:</div>
+      <div class="vocab-ex-list">
+        <div class="vocab-example" id="vocabExample1">Loading example...</div>
+        <div class="vocab-example" id="vocabExample2">Loading example...</div>
+      </div>
+    </div>
+    <div class="vocab-etymology" id="vocabEtymology">Etymology: Loading...</div>
+  </div>
+
   <div class="sec-title">🌍 Language Practice — 2 phrases per language<span class="sec-meta">⏱ 10 min total</span></div>
-  <div class="langs-grid" id="langsGrid"></div>
+  <div class="lang-table-container">
+    <table class="lang-table">
+      <thead>
+        <tr>
+          <th>🇪🇸 Spanish</th>
+          <th>🇮🇹 Italian</th>
+          <th>🇰🇷 Korean</th>
+          <th>🇨🇳 Chinese</th>
+        </tr>
+      </thead>
+      <tbody id="langTableBody">
+        <tr>
+          <td colspan="4" style="text-align:center;color:#888;font-style:italic;">Loading language content...</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
   <hr class="divider">
 
   <div class="fq-grid">
-    <div class="fq-box">
-      <div class="fq-label">🔬 Today's Factoid</div>
-      <div class="fq-content" id="factoidText">The human brain contains about 86 billion neurons with ~100 trillion synapses — more connections than stars in the Milky Way.</div>
-      <div class="fq-attr" id="factoidCat">Category: Neuroscience</div>
-    </div>
     <div class="fq-box" style="border-color:#c9973a;background:#fffcf5">
       <div class="fq-label">✦ Today's Reflection</div>
       <div class="fq-content serif" id="quoteText">"Waste no more time arguing what a good man should be. Be one."</div>
@@ -373,7 +447,7 @@ const TODAY = new Date().toISOString().split('T')[0];
 
 const defaultState = {
   habits: {}, supplements: {}, activities: {}, principles: {}, langPhrases: {}, 
-  dailyContent: { "2026-04-25": {"factoid":{"text":"Your brain uses 20% of your body's energy despite being only 2% of your weight.","category":"Neuroscience"},"quote":{"text":"The obstacle is the way.","attr":"— Marcus Aurelius"},"meditFocus":"Focus on your breath for 5 counts in, 5 counts out.","writePrompt":"Write about one thing you learned yesterday that changed how you think about something.","lang_es":{"theme":"Daily Actions","phrases":[{"en":"I work","tl":"Trabajo","pr":"tra-BAH-ho"},{"en":"I study","tl":"Estudio","pr":"es-TOO-dee-oh"}]},"lang_it":{"theme":"Daily Actions","phrases":[{"en":"I work","tl":"Lavoro","pr":"la-VOH-roh"},{"en":"I study","tl":"Studio","pr":"STOO-dee-oh"}]},"lang_ko":{"theme":"Daily Actions","phrases":[{"en":"I work","tl":"일해요","pr":"il-hae-yo"},{"en":"I study","tl":"공부해요","pr":"gong-bu-hae-yo"}]},"lang_zh":{"theme":"Daily Actions","phrases":[{"en":"I work","tl":"我工作","pr":"wo gong-zuo"},{"en":"I study","tl":"我学习","pr":"wo xue-xi"}]}} },"quote":{"text":"This is a test quote","attr":"— Debug Author"},"meditFocus":"Test meditation focus","writePrompt":"Test writing prompt"} },
+  dailyContent: { "2026-04-23": {"factoid":{"text":"Test factoid for debugging","category":"Test"},"quote":{"text":"This is a test quote","attr":"— Debug Author"},"meditFocus":"Test meditation focus","writePrompt":"Test writing prompt"} },
   bookLog: {}, notes: {}, streak: 0, bookStreak: 0, stats: { totalWords: 0 }
 };
 
@@ -537,30 +611,53 @@ function renderLangs(){
     zh: { theme: 'Basic Greetings', phrases: [{en:'Hello',tl:'你好',pr:'nee-how'},{en:'Thank you',tl:'谢谢',pr:'sheh-sheh'}] }
   };
   
-  document.getElementById('langsGrid').innerHTML = LANGS.map(l=>{
-    const data = dc['lang_'+l.code] || defaultPhrases[l.code];
-    const phrases = (data.phrases || []).slice(0, 2);
-    const phraseHtml = phrases.map((p,i)=>{
-      const id = `${l.code}_${i}`;
-      const isDone = done[id];
-      return `<div class="phrase ${isDone?'done':''}" onclick="togglePhrase('${id}')">
-        <div class="phrase-cb"></div>
-        <div class="phrase-content">
-          <span class="phrase-en">${p.en}</span>
-          <span class="phrase-tl">${p.tl}</span>
-          <span class="phrase-pron">${p.pr||''}</span>
+  const languages = [
+    {code:'es', data: dc['lang_es'] || defaultPhrases.es, colorClass: ''},
+    {code:'it', data: dc['lang_it'] || defaultPhrases.it, colorClass: 'italian'},
+    {code:'ko', data: dc['lang_ko'] || defaultPhrases.ko, colorClass: 'korean'},
+    {code:'zh', data: dc['lang_zh'] || defaultPhrases.zh, colorClass: 'chinese'}
+  ];
+  
+  const tableBody = document.getElementById('langTableBody');
+  if (!tableBody) return;
+  
+  // Create theme row
+  const themeRow = document.createElement('tr');
+  themeRow.innerHTML = languages.map(lang => 
+    `<td><div class="lang-theme">Theme: ${lang.data.theme || '—'}</div></td>`
+  ).join('');
+  
+  // Create phrase rows (assuming max 2 phrases per language)
+  const maxPhrases = Math.max(...languages.map(lang => lang.data.phrases?.length || 0));
+  const phraseRows = [];
+  
+  for (let i = 0; i < maxPhrases; i++) {
+    const phraseRow = document.createElement('tr');
+    phraseRow.innerHTML = languages.map(lang => {
+      const phrase = lang.data.phrases?.[i];
+      if (!phrase) return '<td></td>';
+      
+      const phraseId = `${lang.code}_${i}`;
+      const isDone = done[phraseId];
+      
+      return `<td>
+        <div class="lang-phrase ${isDone?'done':''}" onclick="togglePhrase('${phraseId}')">
+          <div class="lang-phrase-cb ${isDone?'done':''}"></div>
+          <div class="lang-phrase-content">
+            <span class="lang-phrase-en">${phrase.en}</span>
+            <span class="lang-phrase-tl ${lang.colorClass}">${phrase.tl}</span>
+            <span class="lang-phrase-pron">${phrase.pr || ''}</span>
+          </div>
         </div>
-      </div>`;
+      </td>`;
     }).join('');
-    return `<div class="lang-card" data-code="${l.code}">
-      <div class="lang-header">
-        <span class="lang-flag">${l.flag}</span>
-        <span class="lang-title">${l.name}</span>
-      </div>
-      <div class="lang-theme">Theme: <strong>${data.theme || '—'}</strong></div>
-      ${phraseHtml}
-    </div>`;
-  }).join('');
+    phraseRows.push(phraseRow);
+  }
+  
+  // Clear and populate table
+  tableBody.innerHTML = '';
+  tableBody.appendChild(themeRow);
+  phraseRows.forEach(row => tableBody.appendChild(row));
 }
 function togglePhrase(id){
   const t = state.langPhrases[TODAY] || {};
@@ -595,13 +692,29 @@ function updateStreak(){
   document.getElementById('streakVal').textContent = s;
 }
 
+function renderVocab(){
+  const dc = state.dailyContent[TODAY] || {};
+  const vocab = dc.vocabulary || {
+    word: 'Perspicacious',
+    pronunciation: '/pər-spɪˈkeɪ-ʃəs/',
+    pos: 'adjective',
+    definition: 'Having keen insight, discernment, and understanding; acutely perceptive.',
+    examples: ['The perspicacious physician quickly identified the underlying cause.', 'Her perspicacious analysis revealed the flaws in the argument.'],
+    etymology: 'From Latin perspicax, from perspicere "to see clearly"'
+  };
+  
+  document.getElementById('vocabWord').textContent = vocab.word;
+  document.getElementById('vocabPronunciation').textContent = vocab.pronunciation;
+  document.getElementById('vocabPos').textContent = vocab.pos;
+  document.getElementById('vocabDefinition').textContent = vocab.definition;
+  document.getElementById('vocabExample1').textContent = vocab.examples[0] || '';
+  document.getElementById('vocabExample2').textContent = vocab.examples[1] || '';
+  document.getElementById('vocabEtymology').textContent = 'Etymology: ' + (vocab.etymology || '');
+}
+
 function renderDailyContent(){
   const dc = state.dailyContent[TODAY];
   if(dc){
-    if(dc.factoid){
-      document.getElementById('factoidText').textContent = dc.factoid.text;
-      document.getElementById('factoidCat').textContent = 'Category: ' + dc.factoid.category;
-    }
     if(dc.quote){
       document.getElementById('quoteText').textContent = '"' + dc.quote.text + '"';
       document.getElementById('quoteAttr').textContent = dc.quote.attr;
@@ -646,7 +759,7 @@ function init(){
   document.getElementById('footerMeta').textContent = 'Last updated ' + new Date().toLocaleDateString('en-US');
 
   renderMorning(); renderSupplements(); renderPrinciples(); renderActivities();
-  renderBook(); renderLangs(); renderNotes(); updateStreak(); renderDailyContent();
+  renderBook(); renderLangs(); renderNotes(); updateStreak(); renderDailyContent(); renderVocab();
   
   // NO API KEY MODAL - just start working
   document.getElementById('apiStatus').textContent = 'Automation Ready';
