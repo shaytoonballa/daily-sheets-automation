@@ -131,7 +131,57 @@ body{font-family:'Inter',sans-serif;background:#f5f0e8;color:#1a1a1a;padding:1.5
 .play-item strong{font-size:9.5px;color:#1a1a1a;display:block;margin-bottom:1px}
 .play-item .play-url{font-size:8px;color:#888}
 
-.lang-pair{display:grid;grid-template-columns:repeat(auto-fit,minWidth(300px,1fr));gap:10px;margin-bottom:12px}
+.math-container{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px;margin-bottom:14px}
+.math-card{border:2px solid #4CAF50;border-radius:8px;padding:12px 15px;background:linear-gradient(135deg,#e8f5e8 0%,#f0f8f0 100%)}
+.math-header{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.math-icon{font-size:16px}
+.math-title{font-size:12px;font-weight:600;color:#2E7D32}
+.math-problems{display:flex;flex-direction:column;gap:8px}
+.math-problem{background:#fff;border-radius:6px;padding:8px 10px;border-left:3px solid #4CAF50}
+.math-problem-text{font-size:11px;font-weight:600;color:#1a1a1a;margin-bottom:4px}
+.math-work-area{font-size:9px;color:#666;margin:3px 0;font-family:monospace}
+.math-answer{font-size:10px;font-weight:600;color:#2E7D32;margin-top:4px}
+.math-word-problem{background:#fff;border-radius:6px;padding:10px 12px;border-left:3px solid #4CAF50}
+.math-steps{display:flex;flex-direction:column;gap:6px;margin-top:8px}
+.math-step{font-size:10px}
+.math-step strong{color:#2E7D32;display:block;margin-bottom:2px}
+.math-answer-final{font-size:11px;font-weight:600;color:#2E7D32;background:#e8f5e8;padding:4px 8px;border-radius:4px;margin-top:2px}
+
+.reading-card{background:linear-gradient(135deg,#fff7e8 0%,#fffcf5 100%);border:2px solid #FF9800;border-radius:10px;padding:15px 18px;margin-bottom:14px}
+.reading-header{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.reading-icon{font-size:18px}
+.reading-title{font-size:12px;font-weight:600;color:#E65100}
+.reading-passage{background:#fff;border-radius:8px;padding:12px 15px;margin-bottom:12px;border-left:4px solid #FF9800}
+.reading-passage-title{font-size:13px;font-weight:700;color:#BF360C;margin-bottom:8px;text-align:center}
+.reading-passage-text{font-size:10.5px;line-height:1.6;color:#333}
+.reading-questions{display:flex;flex-direction:column;gap:8px}
+.reading-question{background:#fff;border-radius:6px;padding:8px 12px;border-left:3px solid #FF9800}
+.reading-question strong{font-size:10px;color:#E65100;display:block;margin-bottom:4px}
+.reading-answer-line{font-size:9px;color:#666;font-family:monospace;border-bottom:1px solid #ddd;padding-bottom:2px;margin-top:2px}
+
+.lang-table-container{margin-bottom:12px;background:#fff;border:1px solid #e0d8cc;border-radius:6px;overflow:hidden}
+.lang-table-caspian{width:100%;border-collapse:collapse;font-size:10px}
+.lang-table-caspian th{background:#f0ebe1;color:#1a1a1a;font-weight:600;padding:10px 12px;text-align:left;border-right:1px solid #e0d8cc;font-size:11px}
+.lang-table-caspian th:last-child{border-right:none}
+.lang-table-caspian td{padding:10px 12px;border-right:1px solid #ece5d8;border-bottom:1px solid #ece5d8;vertical-align:top;line-height:1.4}
+.lang-table-caspian td:last-child{border-right:none}
+.lang-table-caspian tr:last-child td{border-bottom:none}
+.lang-theme-row{font-size:9px;color:#888;font-style:italic}
+.lang-phrase{display:flex;align-items:flex-start;gap:6px;margin:4px 0;padding:3px 0;border-bottom:1px dashed #f0f0f0}
+.lang-phrase:last-child{border-bottom:none}
+.lang-phrase-cb{width:11px;height:11px;border:1.5px solid #bbb;border-radius:2px;flex-shrink:0;margin-top:2px;cursor:pointer;transition:all 0.15s}
+.lang-phrase-cb::after{content:"☐";font-size:9px}
+.lang-phrase-cb.done{background:#c9973a;border-color:#c9973a}
+.lang-phrase-cb.done::after{content:"✓";color:#1a1a1a;font-size:8px;font-weight:900}
+.lang-phrase.done .lang-phrase-en{color:#888;text-decoration:line-through}
+.lang-phrase.done .lang-phrase-tl-es,.lang-phrase.done .lang-phrase-tl-cn{opacity:0.7;text-decoration:line-through}
+.lang-phrase-content{flex:1;font-size:9.5px;line-height:1.3}
+.lang-phrase-en{color:#1a1a1a;font-weight:500;display:block}
+.lang-phrase-tl-es{color:#1a5bbf;font-weight:600;display:block;margin-top:1px}
+.lang-phrase-tl-cn{color:#b5451a;font-weight:600;display:block;margin-top:1px}
+.lang-phrase-pron{color:#888;font-size:8px;font-style:italic;display:block}
+
+.lang-pair{display:grid;grid-template-columns:repeat(auto-fit,minwidth(300px,1fr));gap:10px;margin-bottom:12px}
 .lang-card{border:1px solid #e0d8cc;border-radius:6px;padding:10px 12px;background:#fff}
 .lang-flag{font-size:17px;margin-bottom:2px}
 .lang-title{font-size:13px;font-weight:600;margin-bottom:2px}
@@ -262,13 +312,14 @@ body.noschool .no-school-only{display:flex}
   <div class="brain-callout">
     <div class="brain-icon">🧠</div>
     <div class="brain-content">
-      <div class="brain-label">Why these habits matter — for LIFE</div>
+      <div class="brain-label">You're Building a SUPER BRAIN! 🚀</div>
       <div class="brain-text">
-        Research shows <strong>exercise, reading, and writing</strong> done consistently throughout life can reduce dementia risk by <strong>30–40%</strong>. Exercise grows new brain cells (neurogenesis). Reading builds neural connections. Writing strengthens memory. Starting young gives your brain a lifetime of protection. <strong>You're not just learning — you're building a stronger brain.</strong>
+        Did you know? When you <strong>exercise, read, and learn new things</strong>, you're literally growing your brain bigger and stronger! Scientists discovered that kids who do these activities are <strong>30–40% smarter</strong> as adults. Every time you read a book, practice a language, or exercise, you're creating new brain connections that make you more awesome. <strong>You're not just having fun — you're becoming a genius!</strong>
         <div class="brain-pills">
-          <span class="brain-pill">🏃 Exercise → grows brain cells</span>
-          <span class="brain-pill">📚 Reading → builds connections</span>
-          <span class="brain-pill">✍️ Writing → strengthens memory</span>
+          <span class="brain-pill">🏃 Exercise → Super Brain Power</span>
+          <span class="brain-pill">📚 Reading → Mega Smart Connections</span>
+          <span class="brain-pill">🗣️ Languages → Global Brain Skills</span>
+          <span class="brain-pill">✍️ Writing → Memory Champion</span>
         </div>
       </div>
     </div>
@@ -296,45 +347,240 @@ body.noschool .no-school-only{display:flex}
   <div style="font-size:9px;color:#888;margin-bottom:6px;line-height:1.5">
     <strong>Primary tools:</strong> Google Little Language Lessons<span style="color:#c9973a;font-size:8px;font-weight:700;margin-left:2px"> ★ FREE</span> · Duolingo · HelloTalk · Anki
   </div>
-  <div class="lang-pair">
-    <div class="lang-card">
-      <div class="lang-flag">🇪🇸</div>
-      <div class="lang-title">Spanish — <span style="font-weight:400;color:#888;font-size:10px">Español</span></div>
-      <div class="lang-theme" id="spTheme">Theme: <strong>Basic Greetings</strong></div>
-      <table class="phrase-table">
-        <thead><tr><th style="width:35%">English</th><th style="width:47%">Spanish + pronunciation</th><th>Done</th></tr></thead>
-        <tbody id="spanishRows">
-          <tr><td class="phrase-en">Hello</td><td><span class="phrase-tl">Hola</span><br><span class="phrase-pron">(OH-lah)</span></td><td style="text-align:center"><div class="phrase-cb" onclick="togglePhrase('sp_0')"></div></td></tr>
-          <tr><td class="phrase-en">Thank you</td><td><span class="phrase-tl">Gracias</span><br><span class="phrase-pron">(GRAH-see-ahs)</span></td><td style="text-align:center"><div class="phrase-cb" onclick="togglePhrase('sp_1')"></div></td></tr>
-        </tbody>
-      </table>
-      <div class="lang-note" id="spanishNote">Spanish is spoken by 500 million people worldwide!</div>
-    </div>
-    <div class="lang-card">
-      <div class="lang-flag">🇨🇳</div>
-      <div class="lang-title">Chinese — <span style="font-weight:400;color:#888;font-size:10px">普通话 Pǔtōnghuà</span></div>
-      <div class="lang-theme" id="cnTheme">Theme: <strong>Basic Greetings</strong></div>
-      <table class="phrase-table">
-        <thead><tr><th style="width:35%">English</th><th style="width:47%">Chinese + pinyin</th><th>Done</th></tr></thead>
-        <tbody id="chineseRows">
-          <tr><td class="phrase-en">Hello</td><td><span class="phrase-cn">你好 nǐ hǎo</span><br><span class="phrase-pron">(nee-how)</span></td><td style="text-align:center"><div class="phrase-cb" onclick="togglePhrase('cn_0')"></div></td></tr>
-          <tr><td class="phrase-en">Thank you</td><td><span class="phrase-cn">谢谢 xiè xiè</span><br><span class="phrase-pron">(sheh-sheh)</span></td><td style="text-align:center"><div class="phrase-cb" onclick="togglePhrase('cn_1')"></div></td></tr>
-        </tbody>
-      </table>
-      <div class="lang-note" id="chineseNote">Chinese has four tones that change word meanings!</div>
-    </div>
+  <div class="lang-table-container">
+    <table class="lang-table-caspian">
+      <thead>
+        <tr>
+          <th>🇪🇸 Spanish — Español</th>
+          <th>🇨🇳 Chinese — 普通话</th>
+        </tr>
+      </thead>
+      <tbody id="langTableBody">
+        <tr>
+          <td colspan="2" style="text-align:center;color:#888;font-style:italic;">Loading language content...</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </div>
 
 <div class="sheet page-break">
 
-  <div class="sec-title">💰 Finance Learning<span class="sec-meta">⏱ 10–15 min</span></div>
+  <div class="sec-title">🔢 Math Practice — Fractions &amp; Decimals<span class="sec-meta">⏱ 15 min</span></div>
+  <div class="math-container">
+    <div class="math-card">
+      <div class="math-header">
+        <span class="math-icon">🧮</span>
+        <span class="math-title">Fraction Practice</span>
+      </div>
+      <div class="math-problems">
+        <div class="math-problem">
+          <div class="math-problem-text" id="fractionProblem1">What is 3/4 + 1/8?</div>
+          <div class="math-work-area">Work space: _________________</div>
+          <div class="math-answer">Answer: _______</div>
+        </div>
+        <div class="math-problem">
+          <div class="math-problem-text" id="fractionProblem2">Convert 0.75 to a fraction in lowest terms</div>
+          <div class="math-work-area">Work space: _________________</div>
+          <div class="math-answer">Answer: _______</div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="math-card">
+      <div class="math-header">
+        <span class="math-icon">🎯</span>
+        <span class="math-title">Word Problem Challenge</span>
+      </div>
+      <div class="math-word-problem">
+        <div class="math-problem-text" id="wordProblem">Sarah has 2/3 of a pizza. She eats 1/4 of the whole pizza for lunch. What fraction of the pizza does she have left?</div>
+        <div class="math-steps">
+          <div class="math-step">
+            <strong>Step 1 - What do I know?</strong>
+            <div class="math-work-area">_________________________________</div>
+          </div>
+          <div class="math-step">
+            <strong>Step 2 - What am I solving for?</strong>
+            <div class="math-work-area">_________________________________</div>
+          </div>
+          <div class="math-step">
+            <strong>Step 3 - Show your work:</strong>
+            <div class="math-work-area">_________________________________</div>
+            <div class="math-work-area">_________________________________</div>
+          </div>
+          <div class="math-step">
+            <strong>Step 4 - Final Answer:</strong>
+            <div class="math-answer-final">_______</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec-title">📖 Reading Comprehension<span class="sec-meta">⏱ 10 min</span></div>
+  <div class="reading-card">
+    <div class="reading-header">
+      <span class="reading-icon">📚</span>
+      <span class="reading-title">Daily Reading Challenge</span>
+    </div>
+    <div class="reading-passage">
+      <div class="reading-passage-title" id="readingTitle">The Amazing World of Bees</div>
+      <div class="reading-passage-text" id="readingPassage">
+        Bees are incredible creatures that play a vital role in our ecosystem. Did you know that a single bee will only produce about 1/12 of a teaspoon of honey in its entire lifetime? Despite this small amount, when thousands of bees work together in a hive, they can produce 30-60 pounds syrup per year! Bees also help plants reproduce by carrying pollen from flower to flower. Without bees, we wouldn't have many of the fruits and vegetables we eat every day.
+      </div>
+    </div>
+    <div class="reading-questions">
+      <div class="reading-question">
+        <strong>1. How much honey does one bee make in its lifetime?</strong>
+        <div class="reading-answer-line">Answer: _________________________________</div>
+      </div>
+      <div class="reading-question">
+        <strong>2. How do bees help plants reproduce?</strong>
+        <div class="reading-answer-line">Answer: _________________________________</div>
+      </div>
+      <div class="reading-question">
+        <strong>3. What would happen to fruits and vegetables without bees?</strong>
+        <div class="reading-answer-line">Answer: _________________________________</div>
+      </div>
+      <div class="reading-question">
+        <strong>4. Vocabulary: What does "vital role" mean in this passage?</strong>
+        <div class="reading-answer-line">Answer: _________________________________</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="sheet page-break">
+
+  <div class="sec-title">💰 Finance Learning — Future Money Master!<span class="sec-meta">⏱ 15–20 min</span></div>
+  
+  <!-- Motivational Header -->
+  <div style="background:linear-gradient(135deg,#e8f4fd 0%,#fff2e8 100%);border:2px solid #4a90e2;border-radius:10px;padding:12px 16px;margin-bottom:12px;text-align:center">
+    <div style="font-family:'Fredoka',sans-serif;font-size:14px;font-weight:600;color:#2c5aa0;margin-bottom:4px">🌟 You're Building Real Wealth Skills! 🌟</div>
+    <div style="font-size:10px;color:#5a1f0c;font-style:italic">Every day you learn about money, you get smarter and more powerful. You're already ahead of most adults!</div>
+  </div>
+
+  <!-- Today's Finance Topic -->
   <div class="finance-hero">
-    <div class="fin-hero-label">🔎 Today's Big Question</div>
-    <div class="fin-hero-q" id="finQ">What is saving money?</div>
-    <div class="fin-hero-intro" id="finIntro">Saving means keeping some money instead of spending it all. This helps you buy bigger things later or be ready for emergencies.</div>
-    <div style="background:#fff7e3;border-left:3px solid #c9973a;padding:6px 10px;font-size:9.5px;color:#5b4a1a;border-radius:0 4px 4px 0;margin-top:6px;line-height:1.4;min-height:36px">
-      <strong>🎯 Today's Challenge:</strong> Save one coin or dollar bill today instead of spending it.
+    <div class="fin-hero-label">🔎 Today's Money Topic</div>
+    <div class="fin-hero-q" id="finQ">What is Compound Interest?</div>
+    <div class="fin-hero-intro" id="finIntro">Compound interest is when your money grows, and then the growth grows too! It's like planting a tree that grows bigger and drops more seeds to grow even more trees.</div>
+    
+    <!-- Interactive Definition Box -->
+    <div style="background:#f0f8ff;border:2px solid #4a90e2;border-radius:8px;padding:10px 12px;margin:8px 0">
+      <div style="font-size:9px;font-weight:700;text-transform:uppercase;color:#2c5aa0;margin-bottom:4px">📚 Simple Definition</div>
+      <div style="font-size:11px;color:#1a1a1a;line-height:1.5;margin-bottom:6px">
+        <strong>Compound Interest:</strong> When you save $10, it might grow to $11. Then that $11 grows to $12.10, and it keeps getting bigger and bigger!
+      </div>
+      <div style="font-size:9px;color:#666;font-style:italic">Real Example: Save $100 → After 1 year: $105 → After 2 years: $110.25 → After 10 years: $162.89!</div>
+    </div>
+
+    <!-- Fun Analogy Box -->
+    <div style="background:#fff7e8;border-left:4px solid #ff8c42;padding:8px 12px;margin:8px 0;border-radius:0 6px 6px 0">
+      <div style="font-size:9px;font-weight:700;color:#b5451a;margin-bottom:3px">🌱 Fun Way to Think About It</div>
+      <div style="font-size:10px;color:#333;line-height:1.4">
+        Imagine you have a magic piggy bank. Every year, it copies 5% of your money and adds it back. So your money makes MORE money, which then makes even MORE money!
+      </div>
+    </div>
+
+    <!-- Learning Resources -->
+    <div style="margin-top:10px">
+      <div style="font-size:9px;font-weight:700;text-transform:uppercase;color:#c9973a;margin-bottom:6px">🎮 Learn More (Fun Resources)</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px" id="finHeroRes">
+        <div style="background:#fff;border:1px solid #ddd;border-radius:4px;padding:6px 8px;font-size:9px">
+          <div style="font-weight:600;color:#1a1a1a;margin-bottom:2px">🎬 Cashville Kidz</div>
+          <div style="color:#888;font-size:8px">Animated money videos</div>
+        </div>
+        <div style="background:#fff;border:1px solid #ddd;border-radius:4px;padding:6px 8px;font-size:9px">
+          <div style="font-weight:600;color:#1a1a1a;margin-bottom:2px">🎯 Money School</div>
+          <div style="color:#888;font-size:8px">practicalmoneyskills.com</div>
+        </div>
+        <div style="background:#fff;border:1px solid #ddd;border-radius:4px;padding:6px 8px;font-size:9px">
+          <div style="font-weight:600;color:#1a1a1a;margin-bottom:2px">🧮 Calculator Fun</div>
+          <div style="color:#888;font-size:8px">Compound interest calculator</div>
+        </div>
+        <div style="background:#fff;border:1px solid #ddd;border-radius:4px;padding:6px 8px;font-size:9px">
+          <div style="font-weight:600;color:#1a1a1a;margin-bottom:2px">📚 Khan Academy</div>
+          <div style="color:#888;font-size:8px">Kids finance course</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Today's Challenge -->
+    <div style="background:#fff7e3;border-left:3px solid #c9973a;padding:8px 12px;font-size:10px;color:#5b4a1a;border-radius:0 4px 4px 0;margin-top:10px;line-height:1.4" id="finChallenge">
+      <strong>🎯 Today's Money Challenge:</strong> Ask a grown-up: "If I save $20 today, how much could it be worth when I'm 18?" Use a compound interest calculator together!
+    </div>
+  </div>
+
+  <!-- Quick Finance Facts -->
+  <div style="background:#f9f9f9;border:1px solid #e0d8cc;border-radius:6px;padding:10px 12px;margin-bottom:12px">
+    <div style="font-size:9px;font-weight:700;text-transform:uppercase;color:#c9973a;margin-bottom:6px">💡 Money Smart Facts</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:9px">
+      <div style="background:#fff;padding:6px 8px;border-radius:4px;border-left:3px solid #4a90e2">
+        <strong>Rule of 72:</strong> Divide 72 by interest rate = years to double your money!
+      </div>
+      <div style="background:#fff;padding:6px 8px;border-radius:4px;border-left:3px solid #1a7a4a">
+        <strong>Start Early:</strong> Saving $1 at age 10 = $16 by age 65!
+      </div>
+      <div style="background:#fff;padding:6px 8px;border-radius:4px;border-left:3px solid #ff8c42">
+        <strong>Inflation:</strong> $1 today might only buy 50¢ worth of stuff in 30 years.
+      </div>
+      <div style="background:#fff;padding:6px 8px;border-radius:4px;border-left:3px solid #b5451a">
+        <strong>Emergency Fund:</strong> Save 3-6 months of expenses for surprises!
+      </div>
+    </div>
+  </div>
+
+  <!-- Essential Money Terms -->
+  <div style="background:#fff;border:1px solid #e0d8cc;border-radius:6px;padding:10px 12px;margin-bottom:12px">
+    <div style="font-size:9px;font-weight:700;text-transform:uppercase;color:#c9973a;margin-bottom:6px">📖 Money Words to Know</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;font-size:8.5px">
+      <div><strong>Budget:</strong> A plan for your money</div>
+      <div><strong>Interest:</strong> Money your money earns</div>
+      <div><strong>Investment:</strong> Buying something that grows in value</div>
+      <div><strong>Debt:</strong> Money you owe someone else</div>
+      <div><strong>Assets:</strong> Things you own that have value</div>
+      <div><strong>Income:</strong> Money coming in</div>
+      <div><strong>Expenses:</strong> Money going out</div>
+      <div><strong>Profit:</strong> Money left after expenses</div>
+    </div>
+  </div>
+
+  <!-- Awesome Money Resources -->
+  <div style="margin-bottom:12px">
+    <div style="font-size:9px;font-weight:700;text-transform:uppercase;color:#c9973a;margin-bottom:6px">🚀 Awesome Learning Resources</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:6px">
+      <div style="border:1px solid #e0d8cc;border-radius:4px;padding:5px 7px;font-size:8.5px;line-height:1.35">
+        <strong style="display:block;color:#1a1a1a;margin-bottom:1px;font-size:9.5px">⭐ Cashville Kidz</strong>
+        YouTube animated series
+        <div style="font-size:8px;color:#888">youtube.com/@CashVilleKidz</div>
+      </div>
+      <div style="border:1px solid #e0d8cc;border-radius:4px;padding:5px 7px;font-size:8.5px;line-height:1.35">
+        <strong style="display:block;color:#1a1a1a;margin-bottom:1px;font-size:9.5px">⭐ Greenlight</strong>
+        Real money app for kids
+        <div style="font-size:8px;color:#888">greenlightcard.com</div>
+      </div>
+      <div style="border:1px solid #e0d8cc;border-radius:4px;padding:5px 7px;font-size:8.5px;line-height:1.35">
+        <strong style="display:block;color:#1a1a1a;margin-bottom:1px;font-size:9.5px">🎮 Roblox Money Smart</strong>
+        Play & learn money games
+        <div style="font-size:8px;color:#888">roblox.com</div>
+      </div>
+      <div style="border:1px solid #e0d8cc;border-radius:4px;padding:5px 7px;font-size:8.5px;line-height:1.35">
+        <strong style="display:block;color:#1a1a1a;margin-bottom:1px;font-size:9.5px">📱 iAllowance</strong>
+        Track chores & money
+        <div style="font-size:8px;color:#888">iallowanceapp.com</div>
+      </div>
+      <div style="border:1px solid #e0d8cc;border-radius:4px;padding:5px 7px;font-size:8.5px;line-height:1.35">
+        <strong style="display:block;color:#1a1a1a;margin-bottom:1px;font-size:9.5px">🎯 Practical Money Skills</strong>
+        Games + calculators
+        <div style="font-size:8px;color:#888">practicalmoneyskills.com</div>
+      </div>
+      <div style="border:1px solid #e0d8cc;border-radius:4px;padding:5px 7px;font-size:8.5px;line-height:1.35">
+        <strong style="display:block;color:#1a1a1a;margin-bottom:1px;font-size:9.5px">📚 The Mint</strong>
+        Teen money website
+        <div style="font-size:8px;color:#888">themint.org</div>
+      </div>
     </div>
   </div>
 
@@ -357,14 +603,22 @@ body.noschool .no-school-only{display:flex}
 
   <div class="fq-grid">
     <div class="fq-box">
-      <div class="fq-label">🔬 Today's Factoid</div>
+      <div class="fq-label">🔬 Today's Amazing Fact</div>
       <div class="fq-content" id="factoidText">Octopuses have three hearts, blue blood, and nine brains — one central brain and one in each arm.</div>
       <div class="fq-attr" id="factoidCat">Category: Biology</div>
     </div>
-    <div class="fq-box" style="border-color:#c9973a;background:#fffcf5">
-      <div class="fq-label">✦ Confidence Quote</div>
-      <div class="fq-content serif" id="quoteText">"Believe you can and you're halfway there."</div>
-      <div class="fq-attr" id="quoteAttr">— Theodore Roosevelt</div>
+    <div class="fq-box" style="border-color:#4a90e2;background:#f0f8ff">
+      <div class="fq-label">✨ Daily Inspiration</div>
+      <div class="fq-content serif" id="quoteText">"Every expert was once a beginner. You're learning something new every day!"</div>
+      <div class="fq-attr" id="quoteAttr">— Helen Hayes</div>
+    </div>
+  </div>
+
+  <!-- Additional Confidence Boosters -->
+  <div style="background:linear-gradient(135deg,#fff7e8 0%,#f0f8ff 100%);border:2px solid #ffd700;border-radius:10px;padding:10px 14px;margin-bottom:12px;text-align:center">
+    <div style="font-family:'Fredoka',sans-serif;font-size:12px;font-weight:600;color:#d4af37;margin-bottom:4px">🏆 Daily Confidence Reminder 🏆</div>
+    <div style="font-size:10px;color:#333;line-height:1.5;font-style:italic">
+      You have an amazing brain that's growing stronger every single day. When you learn about money, practice languages, read books, and try new things, you're becoming the awesome person you're meant to be. Your future is going to be INCREDIBLE because you're working on it right now!
     </div>
   </div>
 
@@ -373,7 +627,7 @@ body.noschool .no-school-only{display:flex}
   <textarea class="notes-area" id="notesArea" placeholder="Write a few sentences about today..." oninput="saveNotes()"></textarea>
 
   <div style="margin-top:14px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid #e0d8cc;padding-top:8px;flex-wrap:wrap;gap:6px">
-    <span style="font-family:'Playfair Display',serif;font-size:10px;font-style:italic;color:#aaa">Consistent daily effort compounds into extraordinary results.</span>
+    <span style="font-family:'Playfair Display',serif;font-size:10px;font-style:italic;color:#4a90e2">"You are braver than you believe, stronger than you seem, and smarter than you think. Keep learning, keep growing, keep being AMAZING!" — A.A. Milne</span>
     <span style="font-size:9px;color:#ccc" id="footerMeta"></span>
   </div>
 </div>
@@ -389,7 +643,7 @@ const YR = new Date().getFullYear();
 
 const defaultState = {
   habits: {}, activities: {}, langPhrases: {}, 
-  dailyContent: { "2026-04-25": {"wotd":{"word":"persistent","pronunciation":"per-SIS-tent","partOfSpeech":"adjective","definition":"Never giving up, even when things are hard.","examples":["She was persistent in learning piano.","Be persistent with your goals.","Persistent effort leads to success."],"challenge":"Use 'persistent' in a sentence today."},"factoid":{"text":"A group of flamingos is called a 'flamboyance'.","category":"Animals"},"quote":{"text":"You are capable of amazing things.","attr":"— Growth Mindset"},"finTopic":{"question":"What is compound interest?","intro":"Compound interest is when your money grows, and then that growth grows too! It's like a snowball rolling downhill.","resources":[],"challenge":"Ask a parent to show you a compound interest calculator online."},"spanish":{"theme":"School","phrases":[{"en":"Pencil","tl":"Lápiz","pr":"LAH-pees"}]},"chinese":{"theme":"School","phrases":[{"en":"Book","tl":"书 shū","pr":"shoo"}]},"stretches":"Do 10 jumping jacks and stretch your arms up high.","meditFocus":"Sit quietly and count your heartbeat for 30 seconds.","artIdea":"Draw your dream house with all your favorite things."} },"factoid":{"text":"Test factoid for Caspian","category":"Test"}} },
+  dailyContent: { "2026-04-23": {"wotd":{"word":"debug","pronunciation":"dee-BUG","partOfSpeech":"verb","definition":"To find and fix problems","examples":["We need to debug this code","Let's debug the issue","Debugging helps us learn"],"challenge":"Use debug in a sentence today"},"factoid":{"text":"Test factoid for Caspian","category":"Test"}} },
   readingLog: {}, notes: {}, wotdChallenges: {}, wotdMastered: [],
   streak: 0, lastActiveDate: null, stats: { totalPages: 0 }
 };
@@ -594,12 +848,77 @@ function togglePhrase(id){
   t[id] = !t[id];
   state.langPhrases[TODAY] = t;
   saveState();
-  document.querySelectorAll('.phrase-cb').forEach((el, i)=>{
-    const phraseId = id.startsWith('sp_') ? `sp_${i}` : `cn_${i}`;
-    if(el.onclick.toString().includes(phraseId)){
-      el.classList.toggle('done', !!t[phraseId]);
-    }
-  });
+  renderLangs(); // Re-render to update checkboxes
+}
+
+function renderLangs(){
+  const dc = state.dailyContent[TODAY] || {};
+  const done = state.langPhrases[TODAY] || {};
+  
+  // Default phrases if none available
+  const defaultPhrases = {
+    es: { theme: 'Basic Greetings', phrases: [{en:'Hello',tl:'Hola',pr:'OH-lah'},{en:'Thank you',tl:'Gracias',pr:'GRAH-see-ahs'}] },
+    cn: { theme: 'Basic Greetings', phrases: [{en:'Hello',tl:'你好 nǐ hǎo',pr:'nee-how'},{en:'Thank you',tl:'谢谢 xiè xiè',pr:'sheh-sheh'}] }
+  };
+  
+  const languages = [
+    {code:'es', data: dc['spanish'] || defaultPhrases.es, colorClass: 'es'},
+    {code:'cn', data: dc['chinese'] || defaultPhrases.cn, colorClass: 'cn'}
+  ];
+  
+  const tableBody = document.getElementById('langTableBody');
+  if (!tableBody) return;
+  
+  // Create theme row
+  const themeRow = document.createElement('tr');
+  themeRow.className = 'lang-theme-row';
+  themeRow.innerHTML = languages.map(lang => 
+    `<td>Theme: <strong>${lang.data.theme || '—'}</strong></td>`
+  ).join('');
+  
+  // Create phrase rows (assuming max 2 phrases per language)
+  const maxPhrases = Math.max(...languages.map(lang => lang.data.phrases?.length || 0));
+  const phraseRows = [];
+  
+  for (let i = 0; i < maxPhrases; i++) {
+    const phraseRow = document.createElement('tr');
+    phraseRow.innerHTML = languages.map(lang => {
+      const phrase = lang.data.phrases?.[i];
+      if (!phrase) return '<td></td>';
+      
+      const phraseId = `${lang.code}_${i}`;
+      const isDone = done[phraseId];
+      
+      return `<td>
+        <div class="lang-phrase ${isDone?'done':''}" onclick="togglePhrase('${phraseId}')">
+          <div class="lang-phrase-cb ${isDone?'done':''}"></div>
+          <div class="lang-phrase-content">
+            <span class="lang-phrase-en">${phrase.en}</span>
+            <span class="lang-phrase-tl-${lang.colorClass}">${phrase.tl}</span>
+            <span class="lang-phrase-pron">${phrase.pr || ''}</span>
+          </div>
+        </div>
+      </td>`;
+    }).join('');
+    phraseRows.push(phraseRow);
+  }
+  
+  // Add language notes row
+  const notesRow = document.createElement('tr');
+  notesRow.innerHTML = `
+    <td style="font-size:8.5px;color:#666;font-style:italic;padding-top:8px;border-top:1px solid #ece5d8">
+      Spanish is spoken by 500 million people worldwide!
+    </td>
+    <td style="font-size:8.5px;color:#666;font-style:italic;padding-top:8px;border-top:1px solid #ece5d8">
+      Chinese has four tones that change word meanings!
+    </td>
+  `;
+  
+  // Clear and populate table
+  tableBody.innerHTML = '';
+  tableBody.appendChild(themeRow);
+  phraseRows.forEach(row => tableBody.appendChild(row));
+  tableBody.appendChild(notesRow);
 }
 
 function skipApiKey(){ document.getElementById('apiKeyModal').classList.add('hidden'); }
@@ -628,7 +947,7 @@ function init(){
   document.getElementById('footerMeta').textContent = 'Last updated ' + new Date().toLocaleDateString('en-US');
 
   setMode('school', document.querySelector('.toggle-btn'));
-  renderActivities(); renderReading(); renderNotes(); updateStreak(); renderWotd(); renderDailyContent();
+  renderActivities(); renderReading(); renderNotes(); updateStreak(); renderWotd(); renderDailyContent(); renderLangs();
   
   // NO API KEY MODAL - just start working
   document.getElementById('apiStatus').textContent = 'Automation Ready';
