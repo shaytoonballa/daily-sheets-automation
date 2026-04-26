@@ -422,8 +422,8 @@ body{font-family:'Inter',sans-serif;background:#f5f0e8;color:#1a1a1a;padding:1.5
   <div class="fq-grid">
     <div class="fq-box" style="border-color:#c9973a;background:#fffcf5">
       <div class="fq-label">✦ Today's Reflection</div>
-      <div class="fq-content serif" id="quoteText">"Waste no more time arguing what a good man should be. Be one."</div>
-      <div class="fq-attr" id="quoteAttr">— Marcus Aurelius</div>
+      <div class="fq-content serif" id="quoteText">"The groundwork for all happiness is good health."</div>
+      <div class="fq-attr" id="quoteAttr">— Leigh Hunt</div>
     </div>
   </div>
 
@@ -605,10 +605,10 @@ function renderLangs(){
   
   // Default phrases if none available
   const defaultPhrases = {
-    es: { theme: 'Basic Greetings', phrases: [{en:'Hello',tl:'Hola',pr:'OH-lah'},{en:'Thank you',tl:'Gracias',pr:'GRAH-see-ahs'}] },
-    it: { theme: 'Basic Greetings', phrases: [{en:'Hello',tl:'Ciao',pr:'chow'},{en:'Thank you',tl:'Grazie',pr:'GRAH-tsee-eh'}] },
-    ko: { theme: 'Basic Greetings', phrases: [{en:'Hello',tl:'안녕하세요',pr:'an-nyeong-ha-se-yo'},{en:'Thank you',tl:'감사합니다',pr:'gam-sa-ham-ni-da'}] },
-    zh: { theme: 'Basic Greetings', phrases: [{en:'Hello',tl:'你好',pr:'nee-how'},{en:'Thank you',tl:'谢谢',pr:'sheh-sheh'}] }
+    es: { theme: 'Health & Wellness', phrases: [{en:'I feel healthier',tl:'Me siento más saludable',pr:'meh see-EN-toh mahs sah-loo-DAH-bleh'},{en:'Taking care of wellness',tl:'Cuidando el bienestar',pr:'kwee-DAHN-doh el bee-ehn-ehs-TAHR'}] },
+    it: { theme: 'Health & Wellness', phrases: [{en:'Health is wealth',tl:'La salute è ricchezza',pr:'lah sah-LOO-teh eh ree-KEH-tsah'},{en:'Stay in shape',tl:'Mantenersi in forma',pr:'mahn-teh-NEHR-see een FOR-mah'}] },
+    ko: { theme: 'Health & Wellness', phrases: [{en:'Health is the best',tl:'건강이 최고야',pr:'geongang-i choego-ya'},{en:'Take care of your body',tl:'몸을 돌봐야 해',pr:'mom-eul dolbwaya hae'}] },
+    zh: { theme: 'Health & Wellness', phrases: [{en:'Health is most important',tl:'健康最重要',pr:'jiànkāng zuì zhòngyào'},{en:'Maintain physical health',tl:'保持身体健康',pr:'bǎochí shēntǐ jiànkāng'}] }
   };
   
   const languages = [
@@ -695,12 +695,12 @@ function updateStreak(){
 function renderVocab(){
   const dc = state.dailyContent[TODAY] || {};
   const vocab = dc.vocabulary || {
-    word: 'Perspicacious',
-    pronunciation: '/pər-spɪˈkeɪ-ʃəs/',
+    word: 'Salubrious',
+    pronunciation: '/sə-ˈlu-brē-əs/',
     pos: 'adjective',
-    definition: 'Having keen insight, discernment, and understanding; acutely perceptive.',
-    examples: ['The perspicacious physician quickly identified the underlying cause.', 'Her perspicacious analysis revealed the flaws in the argument.'],
-    etymology: 'From Latin perspicax, from perspicere "to see clearly"'
+    definition: 'Favorable to or promoting health and well-being; healthful.',
+    examples: ['The salubrious mountain air helped improve his respiratory condition.', 'She moved to a more salubrious neighborhood for her family\'s health.'],
+    etymology: 'From Latin salubris, from salus "health, welfare"'
   };
   
   document.getElementById('vocabWord').textContent = vocab.word;
